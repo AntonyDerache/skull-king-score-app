@@ -1,4 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:skull_king_score_app/components/button.dart';
+import 'package:skull_king_score_app/layout/background.dart';
 
 void main() {
   runApp(const MainApp());
@@ -9,11 +13,19 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
+        body: Stack(
+          children: [
+            const Background(),
+            Center(
+              child: Button(
+                label: 'Player',
+                onPressed: () => debugPrint('toto'),
+              ),
+            )
+          ],
         ),
       ),
     );
