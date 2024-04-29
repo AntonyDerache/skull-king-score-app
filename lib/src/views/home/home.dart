@@ -27,7 +27,7 @@ class Home extends StatelessWidget {
                         height: 175,
                         width: 175,
                         opacity: AlwaysStoppedAnimation<double>(0.5),
-                        image: AssetImage('assets/images/logo.png'),
+                        image: AssetImage('assets/images/logo_saturé.png'),
                       )),
                   Container(
                     height: 200,
