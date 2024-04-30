@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skull_king_score_app/src/components/sk_text_field.dart';
-import 'package:skull_king_score_app/src/player/player_cubit.dart';
-import 'package:skull_king_score_app/src/player/player_state.dart';
+import 'package:skull_king_score_app/src/cubits/player/player_cubit.dart';
+import 'package:skull_king_score_app/src/cubits/player/player_state.dart';
 
 class PlayersList extends StatelessWidget {
   const PlayersList({super.key, required this.players});
