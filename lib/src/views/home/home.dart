@@ -5,7 +5,6 @@ import 'package:skull_king_score_app/src/components/sk_text.dart';
 import 'package:skull_king_score_app/src/cubits/player/player_cubit.dart';
 import 'package:skull_king_score_app/src/cubits/player/player_state.dart';
 import 'package:skull_king_score_app/src/layout/Homebackground.dart';
-import 'package:skull_king_score_app/src/views/home/player_count_controller.dart';
 import 'package:skull_king_score_app/src/views/home/players_list.dart';
 
 class Home extends StatelessWidget {
@@ -50,13 +49,7 @@ class Home extends StatelessWidget {
                 Expanded(
                   child: BlocBuilder<PlayerCubit, List<PlayerState>>(
                     builder: (context, state) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          PlayerCountController(numberOfPlayers: state.length),
-                          PlayersList(players: state),
-                        ],
-                      );
+                      return PlayersList(players: state);
                     },
                   ),
                 ),
