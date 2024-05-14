@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skull_king_score_app/src/components/sk_text.dart';
 import 'package:skull_king_score_app/src/cubits/player/player_cubit.dart';
 
 class PlayerCountController extends StatelessWidget {
-  const PlayerCountController({
-    super.key,
-    this.numberOfPlayers = 0
-  });
+  const PlayerCountController({super.key, this.numberOfPlayers = 0});
 
   final int numberOfPlayers;
 
@@ -28,16 +26,15 @@ class PlayerCountController extends StatelessWidget {
             iconSize: 32,
             color: Colors.white,
             disabledColor: Colors.grey,
-            onPressed: numberOfPlayers <= 2 ? null : () => removePlayer(context)),
-        Text('$numberOfPlayers / 8 players',
-            style: const TextStyle(color: Colors.white)),
+            onPressed:
+                numberOfPlayers <= 2 ? null : () => removePlayer(context)),
+        SkText(text: '$numberOfPlayers / 8 players', color: Colors.white),
         IconButton(
-          icon: const Icon(Icons.add),
-          iconSize: 32,
-          color: Colors.white,
-          disabledColor: Colors.grey,
-          onPressed: numberOfPlayers >= 8 ? null : () => addPlayer(context)
-        ),
+            icon: const Icon(Icons.add),
+            iconSize: 32,
+            color: Colors.white,
+            disabledColor: Colors.grey,
+            onPressed: numberOfPlayers >= 8 ? null : () => addPlayer(context)),
       ],
     );
   }

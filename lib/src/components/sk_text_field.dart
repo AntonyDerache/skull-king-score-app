@@ -42,7 +42,7 @@ class _SKTextInput extends State<SKTextInput> {
   Widget build(BuildContext context) {
     final InputDecoration defaultDecoration = InputDecoration(
         filled: true,
-        fillColor: lightColor.withAlpha(89),
+        fillColor: lightColor.withAlpha(60),
         border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide.none),

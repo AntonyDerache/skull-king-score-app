@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:skull_king_score_app/src/constants/color.dart';
 
-class Background extends StatelessWidget {
-  const Background({super.key});
+class HomeBackground extends StatelessWidget {
+  const HomeBackground({super.key});
 
   @override
   Widget build(BuildContext context) {

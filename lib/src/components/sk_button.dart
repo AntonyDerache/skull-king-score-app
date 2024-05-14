@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:skull_king_score_app/src/components/sk_text.dart';
 import 'package:skull_king_score_app/src/constants/color.dart';
 import 'package:skull_king_score_app/src/constants/constants.dart';
 
@@ -29,7 +30,7 @@ class SKButton extends StatelessWidget {
 
   final ButtonStyle plainButtonStyle = TextButton.styleFrom(
     foregroundColor: Colors.white,
-    backgroundColor: lightColor.withAlpha(89),
+    backgroundColor: lightColor.withAlpha(60),
   );
 
   final ButtonStyle outlinedButtonStyle = TextButton.styleFrom(
@@ -62,10 +63,9 @@ class SKButton extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(label, style: const TextStyle(fontSize: 16)),
-                if (icon != null)
-                  const SizedBox(width: 20),
-                  Icon(icon)
+                SkText(text: label, fontSize: 16),
+                if (icon != null) const SizedBox(width: 20),
+                Icon(icon)
               ],
             )),
       ),
