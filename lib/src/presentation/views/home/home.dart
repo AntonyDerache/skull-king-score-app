@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:skull_king_score_app/src/components/sk_button.dart';
-import 'package:skull_king_score_app/src/components/sk_text.dart';
-import 'package:skull_king_score_app/src/cubits/player/player_cubit.dart';
-import 'package:skull_king_score_app/src/cubits/player/player_state.dart';
-import 'package:skull_king_score_app/src/layout/home_background.dart';
-import 'package:skull_king_score_app/src/views/home/players_list.dart';
+import 'package:skull_king_score_app/src/presentation/bloc/player/player_cubit.dart';
+import 'package:skull_king_score_app/src/presentation/bloc/player/player_state.dart';
+import 'package:skull_king_score_app/src/presentation/lib/sk_button.dart';
+import 'package:skull_king_score_app/src/presentation/views/home/home_background.dart';
+import 'package:skull_king_score_app/src/presentation/views/home/players_list.dart';
+import 'package:skull_king_score_app/src/presentation/widgets/sk_text.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});

@@ -1,8 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:skull_king_score_app/src/constants/color.dart';
-import 'package:skull_king_score_app/src/constants/constants.dart';
+import 'package:skull_king_score_app/src/presentation/utils/color.dart';
+import 'package:skull_king_score_app/src/presentation/utils/constants.dart';
 
 class SKTextInput extends StatefulWidget {
   const SKTextInput(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:skull_king_score_app/src/constants/color.dart';
+import 'package:skull_king_score_app/src/presentation/utils/color.dart';
 
 class HomeBackground extends StatelessWidget {
   const HomeBackground({super.key});

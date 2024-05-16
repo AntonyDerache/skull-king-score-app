@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:skull_king_score_app/src/components/sk_text.dart';
-import 'package:skull_king_score_app/src/constants/color.dart';
-import 'package:skull_king_score_app/src/constants/constants.dart';
-import 'package:skull_king_score_app/src/cubits/player/player_cubit.dart';
-import 'package:skull_king_score_app/src/cubits/player/player_state.dart';
-import 'package:skull_king_score_app/src/views/game/Scoreboard.dart';
+import 'package:skull_king_score_app/src/presentation/bloc/player/player_cubit.dart';
+import 'package:skull_king_score_app/src/presentation/bloc/player/player_state.dart';
+import 'package:skull_king_score_app/src/presentation/utils/color.dart';
+import 'package:skull_king_score_app/src/presentation/utils/constants.dart';
 
 class GameAppBar extends StatefulWidget {
   const GameAppBar({Key? key}) : super(key: key);

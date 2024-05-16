@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:skull_king_score_app/src/components/sk_text.dart';
 
 class PlayerCountController extends StatelessWidget {
   const PlayerCountController({
@@ -25,7 +24,6 @@ class PlayerCountController extends StatelessWidget {
             disabledColor: Colors.grey,
             onPressed:
                 numberOfPlayers <= 2 ? null : () => remove(context)),
-        SkText(text: '$numberOfPlayers / 8 players', color: Colors.white),
         IconButton(
             icon: const Icon(Icons.add),
             iconSize: 32,

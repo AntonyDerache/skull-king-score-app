@@ -2,9 +2,9 @@ import 'dart:ui';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:skull_king_score_app/src/components/sk_text.dart';
-import 'package:skull_king_score_app/src/constants/color.dart';
-import 'package:skull_king_score_app/src/constants/constants.dart';
+import 'package:skull_king_score_app/src/presentation/utils/color.dart';
+import 'package:skull_king_score_app/src/presentation/utils/constants.dart';
+import 'package:skull_king_score_app/src/presentation/widgets/sk_text.dart';
 
 enum ButtonVariant { plain, outlined }
 

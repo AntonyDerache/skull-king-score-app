@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:skull_king_score_app/src/components/sk_text.dart';
-import 'package:skull_king_score_app/src/cubits/player/player_state.dart';
+import 'package:skull_king_score_app/src/presentation/bloc/player/player_state.dart';
+import 'package:skull_king_score_app/src/presentation/widgets/sk_text.dart';
 
 class ScoreBoard extends StatelessWidget {
   const ScoreBoard(

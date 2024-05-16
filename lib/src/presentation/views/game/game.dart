@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:skull_king_score_app/src/components/sk_button.dart';
-import 'package:skull_king_score_app/src/components/sk_player_card.dart';
+import 'package:skull_king_score_app/src/application/lib/sk_button.dart';
+import 'package:skull_king_score_app/src/application/lib/sk_player_card.dart';
 import 'package:skull_king_score_app/src/cubits/player/player_cubit.dart';
-import 'package:skull_king_score_app/src/cubits/player/player_state.dart';
+import 'package:skull_king_score_app/src/domain/player_state.dart';
 import 'package:skull_king_score_app/src/layout/game_app_bar.dart';
 import 'package:skull_king_score_app/src/layout/game_background.dart';
 

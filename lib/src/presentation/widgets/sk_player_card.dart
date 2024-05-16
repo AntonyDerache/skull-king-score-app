@@ -1,9 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:skull_king_score_app/src/components/sk_icon_button.dart';
-import 'package:skull_king_score_app/src/components/sk_text.dart';
-import 'package:skull_king_score_app/src/constants/color.dart';
+import 'package:skull_king_score_app/src/presentation/utils/color.dart';
+import 'package:skull_king_score_app/src/presentation/widgets/sk_icon_button.dart';
+import 'package:skull_king_score_app/src/presentation/widgets/sk_text.dart';
 
 class PlayerCard extends StatelessWidget {
   const PlayerCard(
