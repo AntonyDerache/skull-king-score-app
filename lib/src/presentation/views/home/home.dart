@@ -41,7 +41,7 @@ class Home extends StatelessWidget {
                         alignment: Alignment.center,
                         child: const FittedBox(
                           fit: BoxFit.contain,
-                          child: SkText(
+                          child: SKText(
                               text: 'Skull King',
                               fontFamily: 'Allura',
                               fontSize: 82,

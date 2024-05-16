@@ -9,11 +9,8 @@ import 'package:skull_king_score_app/src/presentation/widgets/sk_player_title.da
 import 'package:skull_king_score_app/src/presentation/widgets/sk_text.dart';
 
 class GameAppBar extends StatefulWidget {
-  const GameAppBar({
-    super.key,
-    required this.leadPlayers,
-    required this.numberOfPlayer
-  });
+  const GameAppBar(
+      {super.key, required this.leadPlayers, required this.numberOfPlayer});
 
   final List<PlayerState> leadPlayers;
   final int numberOfPlayer;
@@ -32,7 +29,9 @@ class _GameAppBar extends State<GameAppBar> {
   void initState() {
     super.initState();
     int numberOfRow = (widget.numberOfPlayer / 2).ceil();
-    maxHeight = (numberOfRow * playerTitleHeight) + (numberOfRow * scoreboardRowSpacing) + 20;
+    maxHeight = (numberOfRow * playerTitleHeight) +
+        (numberOfRow * scoreboardRowSpacing) +
+        20;
   }
 
   @override
@@ -76,8 +75,9 @@ class _GameAppBar extends State<GameAppBar> {
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SkPlayerTitle(playerName: firstLeaderPlayer.name, isLeader: true),
-                        SkText(text: ': ${firstLeaderPlayer.score}'),
+                        SKPlayerTitle(
+                            playerName: firstLeaderPlayer.name, isLeader: true),
+                        SKText(text: ': ${firstLeaderPlayer.score}'),
                       ],
                     );
                   } else {

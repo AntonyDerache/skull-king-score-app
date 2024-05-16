@@ -26,7 +26,8 @@ class Game extends StatelessWidget {
         SafeArea(
           child: Column(
             children: [
-              GameAppBar(leadPlayers: leadPlayers, numberOfPlayer: numberOfPlayer),
+              GameAppBar(
+                  leadPlayers: leadPlayers, numberOfPlayer: numberOfPlayer),
               const SizedBox(height: 20),
               Expanded(
                 child: Padding(
@@ -44,10 +45,11 @@ class Game extends StatelessWidget {
 
                                   return Column(
                                     children: [
-                                      PlayerCard(
+                                      SKPlayerCard(
                                           playerName: player.name,
                                           isScoreLeader:
-                                              leadPlayers.contains(player)),
+                                              leadPlayers.contains(player),
+                                          round: 1),
                                       if (index < state.length - 1)
                                         const SizedBox(height: 15),
                                     ],

@@ -22,11 +22,11 @@ class ScoreBoard extends StatelessWidget {
           return Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SkPlayerTitle(
+              SKPlayerTitle(
                 playerName: players[index].name,
                 isLeader: leadPlayers.contains(players[index]),
               ),
-              SkText(text: ': ${players[index].score.toString()}'),
+              SKText(text: ': ${players[index].score.toString()}'),
             ],
           );
         });

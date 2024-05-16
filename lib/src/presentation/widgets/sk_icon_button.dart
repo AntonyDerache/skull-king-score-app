@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_text.dart';
 
-class SkIconButton extends StatelessWidget {
-  const SkIconButton({super.key, required this.icon});
+class SKIconButton extends StatelessWidget {
+  const SKIconButton({super.key, required this.icon});
 
   final Widget icon;
 
@@ -39,7 +39,7 @@ class SkIconButton extends StatelessWidget {
                     offset: const Offset(0, 0),
                   )
                 ]),
-            child: const SkText(
+            child: const SKText(
               text: '0',
               fontSize: 9,
               color: Colors.black,

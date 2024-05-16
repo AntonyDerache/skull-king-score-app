@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:skull_king_score_app/src/presentation/utils/constants.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_text.dart';
 
-class SkPlayerTitle extends StatelessWidget {
-  const SkPlayerTitle({
+class SKPlayerTitle extends StatelessWidget {
+  const SKPlayerTitle({
     super.key,
     required this.playerName,
     this.isLeader = false,
@@ -23,7 +23,7 @@ class SkPlayerTitle extends StatelessWidget {
                 height: playerTitleHeight,
                 width: playerTitleHeight,
                 image: AssetImage('assets/images/logo.png')),
-          SkText(text: playerName)
+          SKText(text: playerName)
         ]);
   }
 }

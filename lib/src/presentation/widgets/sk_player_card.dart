@@ -3,15 +3,21 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:skull_king_score_app/src/presentation/utils/color.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_icon_button.dart';
+import 'package:skull_king_score_app/src/presentation/widgets/sk_number_field.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_player_title.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_text.dart';
 
-class PlayerCard extends StatelessWidget {
-  const PlayerCard(
-      {super.key, this.isScoreLeader = false, this.playerName = ''});
+class SKPlayerCard extends StatelessWidget {
+  const SKPlayerCard({
+    super.key,
+    this.isScoreLeader = false,
+    this.playerName = '',
+    required this.round,
+  });
 
   final bool isScoreLeader;
   final String playerName;
+  final int round;
 
   @override
   Widget build(BuildContext context) {
@@ -32,55 +38,58 @@ class PlayerCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SkPlayerTitle(playerName: playerName, isLeader: isScoreLeader)
+                    SKPlayerTitle(
+                        playerName: playerName, isLeader: isScoreLeader)
                   ],
                 ),
                 const SizedBox(height: 15),
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      children: [
-                        SkText(text: 'Bids:'),
-                        SizedBox(width: 10),
-                        SkText(text: '0'),
-                      ],
+                    Expanded(
+                      child: Row(
+                        children: [
+                          const SKText(text: 'Bids:'),
+                          const SizedBox(width: 10),
+                          SizedBox(width: 20, child: SKNumberField(round: round)),
+                        ],
+                      ),
                     ),
                     Row(
                       children: [
-                        SkText(text: 'Tricks won:'),
-                        SizedBox(width: 10),
-                        SkText(text: '0'),
+                        const SKText(text: 'Tricks won:'),
+                        const SizedBox(width: 10),
+                        SizedBox(width: 20, child: SKNumberField(round: round)),
                       ],
                     ),
                   ],
                 ),
                 const SizedBox(height: 15),
-                const SkText(text: 'Bonus Points'),
+                const SKText(text: 'Bonus Points'),
                 const SizedBox(height: 5),
                 const Row(
                   children: [
-                    SkIconButton(
+                    SKIconButton(
                         icon: Image(
                             image: AssetImage('assets/icons/pirate.png'))),
                     SizedBox(width: 10),
-                    SkIconButton(
+                    SKIconButton(
                         icon: Image(
                             image: AssetImage('assets/icons/mermaid.png'))),
                     SizedBox(width: 10),
-                    SkIconButton(
+                    SKIconButton(
                         icon: Image(
                             image: AssetImage('assets/icons/skull_king.png'))),
                     SizedBox(width: 10),
-                    SkIconButton(
-                        icon: SkText(
+                    SKIconButton(
+                        icon: SKText(
                             text: '+10', color: Colors.black, fontSize: 11)),
                     SizedBox(width: 10),
-                    SkIconButton(
+                    SKIconButton(
                         icon:
                             Image(image: AssetImage('assets/icons/coins.png'))),
                     SizedBox(width: 10),
-                    SkIconButton(
+                    SKIconButton(
                         icon:
                             Image(image: AssetImage('assets/icons/pari.png'))),
                   ],
@@ -88,8 +97,8 @@ class PlayerCard extends StatelessWidget {
                 const SizedBox(height: 15),
                 const Row(
                   children: [
-                    SkText(text: 'Round score: '),
-                    SkText(text: '+10', color: Colors.green)
+                    SKText(text: 'Round score: '),
+                    SKText(text: '+10', color: Colors.green)
                   ],
                 )
               ],
