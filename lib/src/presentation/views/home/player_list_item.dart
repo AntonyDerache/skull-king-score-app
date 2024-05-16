@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:skull_king_score_app/src/application/lib/sk_text_field.dart';
+import 'package:skull_king_score_app/src/presentation/widgets/sk_text_field.dart';
 
 class PlayerListItem extends StatelessWidget {
   const PlayerListItem(

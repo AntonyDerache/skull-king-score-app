@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:skull_king_score_app/src/presentation/utils/color.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_icon_button.dart';
+import 'package:skull_king_score_app/src/presentation/widgets/sk_player_title.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_text.dart';
 
 class PlayerCard extends StatelessWidget {
@@ -31,14 +32,7 @@ class PlayerCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    if (isScoreLeader == true) ...[
-                      const Image(
-                          width: 32,
-                          height: 32,
-                          image: AssetImage('assets/images/logo.png')),
-                      const SizedBox(width: 10)
-                    ],
-                    SkText(text: playerName),
+                    SkPlayerTitle(playerName: playerName, isLeader: isScoreLeader)
                   ],
                 ),
                 const SizedBox(height: 15),

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:skull_king_score_app/src/application/lib/sk_button.dart';
-import 'package:skull_king_score_app/src/application/lib/sk_player_card.dart';
-import 'package:skull_king_score_app/src/cubits/player/player_cubit.dart';
-import 'package:skull_king_score_app/src/domain/player_state.dart';
-import 'package:skull_king_score_app/src/layout/game_app_bar.dart';
-import 'package:skull_king_score_app/src/layout/game_background.dart';
+import 'package:skull_king_score_app/src/presentation/bloc/player/player_cubit.dart';
+import 'package:skull_king_score_app/src/presentation/bloc/player/player_state.dart';
+import 'package:skull_king_score_app/src/presentation/views/game/game_app_bar.dart';
+import 'package:skull_king_score_app/src/presentation/views/game/game_background.dart';
+import 'package:skull_king_score_app/src/presentation/widgets/sk_button.dart';
+import 'package:skull_king_score_app/src/presentation/widgets/sk_player_card.dart';
 
 class Game extends StatelessWidget {
   const Game({super.key});
@@ -16,6 +16,9 @@ class Game extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final leadPlayers = context.read<PlayerCubit>().getLeadPlayers();
+    final numberOfPlayer = context.read<PlayerCubit>().getNumberOfPlayer();
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: Stack(children: [
@@ -23,7 +26,7 @@ class Game extends StatelessWidget {
         SafeArea(
           child: Column(
             children: [
-              const GameAppBar(),
+              GameAppBar(leadPlayers: leadPlayers, numberOfPlayer: numberOfPlayer),
               const SizedBox(height: 20),
               Expanded(
                 child: Padding(
@@ -37,11 +40,14 @@ class Game extends StatelessWidget {
                                 itemCount: state.length,
                                 shrinkWrap: true,
                                 itemBuilder: (BuildContext context, int index) {
+                                  final PlayerState player = state[index];
+
                                   return Column(
                                     children: [
-                                      const PlayerCard(
-                                          playerName: 'Player 1',
-                                          isScoreLeader: true),
+                                      PlayerCard(
+                                          playerName: player.name,
+                                          isScoreLeader:
+                                              leadPlayers.contains(player)),
                                       if (index < state.length - 1)
                                         const SizedBox(height: 15),
                                     ],
