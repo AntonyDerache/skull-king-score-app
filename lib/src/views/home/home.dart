@@ -39,11 +39,14 @@ class Home extends StatelessWidget {
                       Container(
                         height: 200,
                         alignment: Alignment.center,
-                        child: const SkText(
-                            text: 'Skull King',
-                            fontFamily: 'Allura',
-                            fontSize: 82,
-                            color: Colors.white),
+                        child: const FittedBox(
+                          fit: BoxFit.contain,
+                          child: SkText(
+                              text: 'Skull King',
+                              fontFamily: 'Allura',
+                              fontSize: 82,
+                              color: Colors.white),
+                        ),
                       ),
                     ],
                   ),

@@ -29,6 +29,20 @@ class PlayerCubit extends Cubit<List<PlayerState>> {
     emit([...state]);
   }
 
+  List<PlayerState> getLeadPlayers() {
+    int higherScore = state.reduce((currentPlayer, nextPlayer) =>
+        currentPlayer.score > nextPlayer.score ? currentPlayer : nextPlayer).score;
+
+    List<PlayerState> leadPlayers = List.empty(growable: true);
+
+    for (var element in state) {
+      if (element.score == higherScore) {
+        leadPlayers.add(element);
+      }
+    }
+    return leadPlayers;
+  }
+
   int getNumberOfPlayer() {
     return state.length;
   }

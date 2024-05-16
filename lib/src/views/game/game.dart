@@ -4,8 +4,8 @@ import 'package:skull_king_score_app/src/components/sk_button.dart';
 import 'package:skull_king_score_app/src/components/sk_player_card.dart';
 import 'package:skull_king_score_app/src/cubits/player/player_cubit.dart';
 import 'package:skull_king_score_app/src/cubits/player/player_state.dart';
+import 'package:skull_king_score_app/src/layout/game_app_bar.dart';
 import 'package:skull_king_score_app/src/layout/game_background.dart';
-import 'package:skull_king_score_app/src/views/game/scoreboard.dart';
 
 class Game extends StatelessWidget {
   const Game({super.key});
@@ -21,24 +21,18 @@ class Game extends StatelessWidget {
       body: Stack(children: [
         const GameBackground(),
         SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-            child: Column(
-              children: [
-                const ExpansionTile(
-                  title: Text("Toto"),
-                  backgroundColor: Colors.white,
-                  iconColor: Colors.red,
-                  textColor: Colors.red,
-                  children: [Text("data")],
-                ),
-                BlocBuilder<PlayerCubit, List<PlayerState>>(
-                  builder: (context, state) {
-                    return Expanded(
-                      child: Column(
-                        children: [
-                          ScoreBoard(players: state),
-                          Flexible(
+          child: Column(
+            children: [
+              const GameAppBar(),
+              const SizedBox(height: 20),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                  child: Column(
+                    children: [
+                      BlocBuilder<PlayerCubit, List<PlayerState>>(
+                        builder: (context, state) {
+                          return Expanded(
                             child: ListView.builder(
                                 itemCount: state.length,
                                 shrinkWrap: true,
@@ -53,23 +47,23 @@ class Game extends StatelessWidget {
                                     ],
                                   );
                                 }),
-                          )
-                        ],
+                          );
+                        },
                       ),
-                    );
-                  },
-                ),
-                Container(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                    child: SKButton(
-                      label: 'End Round 2',
-                    ),
+                      Container(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                          child: SKButton(
+                            label: 'End Round 2',
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ]),
