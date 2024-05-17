@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:skull_king_score_app/src/presentation/utils/color.dart';
-import 'package:skull_king_score_app/src/presentation/widgets/sk_icon_button.dart';
+import 'package:skull_king_score_app/src/presentation/widgets/sk_bonus_icon_button.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_number_field.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_player_title.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_text.dart';
@@ -51,7 +51,8 @@ class SKPlayerCard extends StatelessWidget {
                         children: [
                           const SKText(text: 'Bids:'),
                           const SizedBox(width: 10),
-                          SizedBox(width: 20, child: SKNumberField(round: round)),
+                          SizedBox(
+                              width: 20, child: SKNumberField(round: round)),
                         ],
                       ),
                     ),
@@ -67,29 +68,25 @@ class SKPlayerCard extends StatelessWidget {
                 const SizedBox(height: 15),
                 const SKText(text: 'Bonus Points'),
                 const SizedBox(height: 5),
-                const Row(
+                const Wrap(
+                  spacing: 10,
                   children: [
-                    SKIconButton(
+                    SKBonusIconButton(
                         icon: Image(
                             image: AssetImage('assets/icons/pirate.png'))),
-                    SizedBox(width: 10),
-                    SKIconButton(
+                    SKBonusIconButton(
                         icon: Image(
                             image: AssetImage('assets/icons/mermaid.png'))),
-                    SizedBox(width: 10),
-                    SKIconButton(
+                    SKBonusIconButton(
                         icon: Image(
                             image: AssetImage('assets/icons/skull_king.png'))),
-                    SizedBox(width: 10),
-                    SKIconButton(
+                    SKBonusIconButton(
                         icon: SKText(
                             text: '+10', color: Colors.black, fontSize: 11)),
-                    SizedBox(width: 10),
-                    SKIconButton(
+                    SKBonusIconButton(
                         icon:
                             Image(image: AssetImage('assets/icons/coins.png'))),
-                    SizedBox(width: 10),
-                    SKIconButton(
+                    SKBonusIconButton(
                         icon:
                             Image(image: AssetImage('assets/icons/pari.png'))),
                   ],

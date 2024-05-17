@@ -19,7 +19,6 @@ class PlayerListItem extends StatelessWidget {
     return SizeTransition(
       axis: Axis.vertical,
       sizeFactor: animation,
-      key: ValueKey(index),
       child: Column(
         children: [
           SKTextInput(

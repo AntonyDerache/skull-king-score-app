@@ -17,7 +17,6 @@ class PlayersList extends StatefulWidget {
   State<PlayersList> createState() => _PlayersList();
 }
 
-
 class _PlayersList extends State<PlayersList> {
   final listKey = GlobalKey<AnimatedListState>();
 
@@ -28,7 +27,8 @@ class _PlayersList extends State<PlayersList> {
   addPlayer(BuildContext context) {
     PlayerCubit cubit = context.read<PlayerCubit>();
     cubit.addPlayer();
-    listKey.currentState!.insertItem(cubit.state.length - 1, duration: const Duration(milliseconds: 200));
+    listKey.currentState!.insertItem(cubit.state.length - 1,
+        duration: const Duration(milliseconds: 200));
   }
 
   removePlayer(BuildContext context) {
@@ -37,7 +37,8 @@ class _PlayersList extends State<PlayersList> {
     listKey.currentState!.removeItem(
         cubit.state.length,
         (context, animation) =>
-            buildListItem(animation, cubit.state.length - 1, context), duration: const Duration(milliseconds: 150));
+            buildListItem(animation, cubit.state.length - 1, context),
+        duration: const Duration(milliseconds: 150));
   }
 
   Widget buildListItem(

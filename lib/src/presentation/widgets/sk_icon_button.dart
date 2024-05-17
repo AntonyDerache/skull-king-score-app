@@ -1,50 +1,36 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
-import 'package:skull_king_score_app/src/presentation/widgets/sk_text.dart';
+import 'package:skull_king_score_app/src/presentation/utils/color.dart';
+import 'package:skull_king_score_app/src/presentation/utils/constants.dart';
 
 class SKIconButton extends StatelessWidget {
-  const SKIconButton({super.key, required this.icon});
+  const SKIconButton({
+    super.key,
+    required this.icon,
+    this.onPressed,
+  });
 
-  final Widget icon;
+  final Icon icon;
+  final Function? onPressed;
 
   @override
   Widget build(BuildContext context) {
-    return Stack(clipBehavior: Clip.none, children: [
-      Container(
-        height: 36,
-        width: 36,
-        decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(10))),
-        alignment: Alignment.center,
+    return ClipRRect(
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
         child: IconButton(
-          icon: icon,
-          onPressed: null,
-        ),
+            style: IconButton.styleFrom(
+                backgroundColor: lightColor.withAlpha(60),
+                shape: const RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.all(Radius.circular(componentsRadius)))),
+            constraints: const BoxConstraints(
+                minHeight: formHeight, minWidth: formHeight),
+            icon: icon,
+            color: lightColor,
+            onPressed: () => onPressed?.call()),
       ),
-      Positioned(
-        right: -3,
-        bottom: -3,
-        child: Container(
-            height: 14,
-            width: 14,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: const BorderRadius.all(Radius.circular(100)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.5),
-                    spreadRadius: 0.25,
-                    blurRadius: 7,
-                    offset: const Offset(0, 0),
-                  )
-                ]),
-            child: const SKText(
-              text: '0',
-              fontSize: 9,
-              color: Colors.black,
-            )),
-      )
-    ]);
+    );
   }
 }
