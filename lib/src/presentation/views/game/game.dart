@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:skull_king_score_app/src/presentation/bloc/player/player_cubit.dart';
-import 'package:skull_king_score_app/src/presentation/bloc/player/player_state.dart';
+import 'package:skull_king_score_app/src/presentation/cubit/player/player_cubit.dart';
+import 'package:skull_king_score_app/src/presentation/cubit/player/player_state.dart';
 import 'package:skull_king_score_app/src/presentation/views/game/game_app_bar.dart';
 import 'package:skull_king_score_app/src/presentation/views/game/game_background.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_button.dart';
@@ -9,10 +9,18 @@ import 'package:skull_king_score_app/src/presentation/widgets/sk_icon_button.dar
 import 'package:skull_king_score_app/src/presentation/widgets/sk_player_card.dart';
 
 class Game extends StatelessWidget {
-  const Game({super.key});
+  const Game({super.key, required this.round});
+
+  final int round;
+  final String baseUrl = '/game';
+
 
   back(BuildContext context) {
-    Navigator.pushNamed(context, '/');
+    Navigator.pop(context);
+  }
+
+  nextRound(BuildContext context) {
+    Navigator.pushNamed(context, '$baseUrl/${round + 1}');
   }
 
   @override
@@ -67,7 +75,8 @@ class Game extends StatelessWidget {
                             const SizedBox(width: 5),
                             Flexible(
                               child: SKButton(
-                                label: 'End Round 2',
+                                label: 'End Round $round',
+                                onPressed: () => nextRound(context),
                               ),
                             ),
                             const SizedBox(width: 5),

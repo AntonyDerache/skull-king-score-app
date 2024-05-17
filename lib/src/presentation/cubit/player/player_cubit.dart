@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:skull_king_score_app/src/presentation/bloc/player/player_state.dart';
+import 'package:skull_king_score_app/src/presentation/cubit/player/player_state.dart';
 
 class PlayerCubit extends Cubit<List<PlayerState>> {
   PlayerCubit() : super(List<PlayerState>.generate(2, (_) => PlayerState()));
@@ -30,8 +30,10 @@ class PlayerCubit extends Cubit<List<PlayerState>> {
   }
 
   List<PlayerState> getLeadPlayers() {
-    int higherScore = state.reduce((currentPlayer, nextPlayer) =>
-        currentPlayer.score > nextPlayer.score ? currentPlayer : nextPlayer).score;
+    int higherScore = state
+        .reduce((currentPlayer, nextPlayer) =>
+            currentPlayer.score > nextPlayer.score ? currentPlayer : nextPlayer)
+        .score;
 
     List<PlayerState> leadPlayers = List.empty(growable: true);
 

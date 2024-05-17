@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:skull_king_score_app/src/presentation/bloc/player/player_cubit.dart';
-import 'package:skull_king_score_app/src/presentation/bloc/player/player_state.dart';
+import 'package:skull_king_score_app/src/presentation/cubit/player/player_cubit.dart';
+import 'package:skull_king_score_app/src/presentation/cubit/player/player_state.dart';
 import 'package:skull_king_score_app/src/presentation/views/home/home_background.dart';
 import 'package:skull_king_score_app/src/presentation/views/home/players_list.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_button.dart';
@@ -11,7 +11,7 @@ class Home extends StatelessWidget {
   const Home({super.key});
 
   play(BuildContext context) {
-    Navigator.pushNamed(context, '/game');
+    Navigator.pushNamed(context, '/game/1');
   }
 
   @override
