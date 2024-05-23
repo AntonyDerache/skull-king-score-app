@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skull_king_score_app/src/domain/entities/bonus.dart';
+import 'package:skull_king_score_app/src/domain/entities/round_score_player.dart';
+import 'package:skull_king_score_app/src/domain/usecases/calcul_round_score.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/player/player_state.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/round/round_cubit.dart';
-import 'package:skull_king_score_app/src/presentation/cubit/round/round_state.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_button.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_icon_button.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_player_card.dart';
@@ -88,9 +90,11 @@ class _GamePlayerCardList extends State<GamePlayerCardList> {
               shrinkWrap: true,
               itemBuilder: (BuildContext context, int index) {
                 final PlayerState player = widget.players[index];
-                int roundScore = roundScorePlayers
-                    .singleWhere((element) => element.playerId == player.id)
-                    .calculRoundScore(widget.round);
+                RoundScorePlayer roundScorePlayer = roundScorePlayers
+                    .singleWhere((elem) => elem.playerId == player.id);
+                int roundScore = CalculRoundScore.call(
+                    widget.round, roundScorePlayer);
+
                 return SKPlayerCard(
                     playerName: player.name,
                     isScoreLeader: widget.leadPlayers.contains(player),
