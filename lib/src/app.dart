@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/player/player_cubit.dart';
+import 'package:skull_king_score_app/src/presentation/cubit/round/round_cubit.dart';
 import 'package:skull_king_score_app/src/presentation/views/game/game.dart';
 import 'package:skull_king_score_app/src/presentation/views/home/home.dart';
 
@@ -14,8 +15,11 @@ class MainApp extends StatelessWidget {
         statusBarColor: Colors.transparent, // Status bar color
         statusBarIconBrightness: Brightness.light));
 
-    return BlocProvider(
-      create: (_) => PlayerCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<PlayerCubit>(create: (_) => PlayerCubit()),
+        BlocProvider<RoundCubit>(create: (_) => RoundCubit())
+      ],
       child: MaterialApp(
         title: 'Skull King Score Counter',
         initialRoute: '/',

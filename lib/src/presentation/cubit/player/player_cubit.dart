@@ -16,16 +16,12 @@ class PlayerCubit extends Cubit<List<PlayerState>> {
   }
 
   void updatePlayerName(UniqueKey playerId, String newName) {
-    final int playerIndex = state.indexWhere((player) => player.id == playerId);
-
-    if (playerIndex != -1) state[playerIndex].name = newName;
+    state.singleWhere((player) => player.id == playerId).name = newName;
     emit([...state]);
   }
 
   void updatePlayerScore(UniqueKey playerId, int newScore) {
-    final int playerIndex = state.indexWhere((player) => player.id == playerId);
-
-    if (playerIndex != -1) state[playerIndex].score = newScore;
+    state.singleWhere((player) => player.id == playerId).score = newScore;
     emit([...state]);
   }
 
@@ -45,7 +41,7 @@ class PlayerCubit extends Cubit<List<PlayerState>> {
     return leadPlayers;
   }
 
-  int getNumberOfPlayer() {
-    return state.length;
-  }
+  // int getNumberOfPlayer() {
+  //   return state.length;
+  // }
 }

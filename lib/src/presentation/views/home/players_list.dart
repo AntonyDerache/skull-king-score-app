@@ -62,6 +62,7 @@ class _PlayersList extends State<PlayersList> {
             remove: removePlayer),
         Flexible(
           child: AnimatedList(
+            physics: const ClampingScrollPhysics(),
             key: listKey,
             initialItemCount: widget.players.length,
             itemBuilder:

@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 
-class RoundObserver extends BlocObserver {
-  const RoundObserver();
+class CubitObserver extends BlocObserver {
+  const CubitObserver();
 
   @override
   void onChange(BlocBase<dynamic> bloc, Change<dynamic> change) {

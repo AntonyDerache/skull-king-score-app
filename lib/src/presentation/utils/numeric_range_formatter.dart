@@ -12,7 +12,7 @@ class NumericRangeFormatter extends TextInputFormatter {
     TextEditingValue newValue,
   ) {
     if (newValue.text.isEmpty) {
-      return newValue;
+      return const TextEditingValue(text: '0');
     }
 
     final newValueNumber = int.tryParse(newValue.text);

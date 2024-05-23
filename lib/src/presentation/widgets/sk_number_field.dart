@@ -6,12 +6,12 @@ import 'package:skull_king_score_app/src/presentation/utils/numeric_range_format
 class SKNumberField extends StatefulWidget {
   const SKNumberField({
     super.key,
-    required this.round,
+    required this.maxValue,
     this.onChange,
   });
 
   final Function(String)? onChange;
-  final int round;
+  final int maxValue;
 
   @override
   State<SKNumberField> createState() => _SKNumberField();
@@ -24,12 +24,17 @@ class _SKNumberField extends State<SKNumberField> {
   void initState() {
     super.initState();
     _controller = TextEditingController(text: '0');
+    _controller.addListener(onValueChange);
   }
 
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  onValueChange() {
+    widget.onChange?.call(_controller.text);
   }
 
   final TextStyle textStyle =
@@ -56,7 +61,7 @@ class _SKNumberField extends State<SKNumberField> {
         cursorColor: Colors.white,
         keyboardType: const TextInputType.numberWithOptions(decimal: false),
         inputFormatters: [
-          NumericRangeFormatter(min: 0, max: widget.round),
+          NumericRangeFormatter(min: 0, max: widget.maxValue),
         ],
       ),
     );
