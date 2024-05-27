@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skull_king_score_app/src/presentation/bloc/roundEvent/round_bloc.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/player/player_cubit.dart';
-import 'package:skull_king_score_app/src/presentation/cubit/round/round_cubit.dart';
+import 'package:skull_king_score_app/src/presentation/cubit/round/round_score_cubit.dart';
+import 'package:skull_king_score_app/src/presentation/utils/constants.dart';
 import 'package:skull_king_score_app/src/presentation/views/game/game.dart';
 import 'package:skull_king_score_app/src/presentation/views/home/home.dart';
 
@@ -18,7 +20,8 @@ class MainApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<PlayerCubit>(create: (_) => PlayerCubit()),
-        BlocProvider<RoundCubit>(create: (_) => RoundCubit())
+        BlocProvider<RoundCubit>(create: (_) => RoundCubit()),
+        BlocProvider<RoundBloc>(create: (_) => RoundBloc()),
       ],
       child: MaterialApp(
         title: 'Skull King Score Counter',
@@ -29,16 +32,9 @@ class MainApp extends StatelessWidget {
                     statusBarColor: Colors.transparent,
                     statusBarBrightness: Brightness.light,
                     statusBarIconBrightness: Brightness.light))),
-        onGenerateRoute: (settings) {
-          if (settings.name == '/') {
-            return MaterialPageRoute(builder: (context) => const Home());
-          }
-          var uri = Uri.parse(settings.name!);
-          if (uri.pathSegments.length == 2 && uri.pathSegments.first == 'game') {
-            int round = int.parse(uri.pathSegments[1]);
-            return MaterialPageRoute(builder: (context) => Game(round: round));
-          }
-          return MaterialPageRoute(builder: (context) => const Home());
+        routes: {
+          baseUrl: (context) => const Home(),
+          gameUrl: (contexnt) => const Game(),
         },
         debugShowCheckedModeBanner: false,
       ),

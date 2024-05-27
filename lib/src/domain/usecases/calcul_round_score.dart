@@ -12,7 +12,7 @@ class CalculRoundScore {
       if (bids == 0) {
         score = round * 10;
       } else {
-        tricksWon * 20;
+        score = tricksWon * 20;
       }
       bonusPoints.forEach((bonusKey, bonus) {
         if (bonus.amount > 0) {

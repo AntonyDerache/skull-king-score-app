@@ -40,8 +40,4 @@ class PlayerCubit extends Cubit<List<PlayerState>> {
     }
     return leadPlayers;
   }
-
-  // int getNumberOfPlayer() {
-  //   return state.length;
-  // }
 }

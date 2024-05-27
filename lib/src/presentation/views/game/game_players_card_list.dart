@@ -3,37 +3,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skull_king_score_app/src/domain/entities/bonus.dart';
 import 'package:skull_king_score_app/src/domain/entities/round_score_player.dart';
 import 'package:skull_king_score_app/src/domain/usecases/calcul_round_score.dart';
+import 'package:skull_king_score_app/src/presentation/bloc/roundEvent/round_bloc.dart';
+import 'package:skull_king_score_app/src/presentation/bloc/roundEvent/round_event.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/player/player_state.dart';
-import 'package:skull_king_score_app/src/presentation/cubit/round/round_cubit.dart';
+import 'package:skull_king_score_app/src/presentation/cubit/round/round_score_cubit.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_button.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_icon_button.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_player_card.dart';
 
 class GamePlayerCardList extends StatefulWidget {
-  const GamePlayerCardList({
-    super.key,
-    required this.players,
-    required this.leadPlayers,
-    required this.round,
-  });
+  const GamePlayerCardList(
+      {super.key,
+      required this.players,
+      required this.leadPlayers,
+      required this.round,
+      required this.nextRound});
 
   final List<PlayerState> leadPlayers;
   final List<PlayerState> players;
   final int round;
-
-  final String baseUrl = '/game';
-
-  back(BuildContext context) {
-    Navigator.pop(context);
-  }
-
-  nextRound(BuildContext context, List<RoundScorePlayer> roundScorePlayers) {
-    RoundCubit roundCubit = context.read<RoundCubit>();
-
-    roundCubit.endRound(roundScorePlayers, round);
-
-    Navigator.pushNamed(context, '$baseUrl/${round + 1}');
-  }
+  final Function(BuildContext) nextRound;
 
   @override
   State<GamePlayerCardList> createState() => _GamePlayerCardList();
@@ -41,6 +30,19 @@ class GamePlayerCardList extends StatefulWidget {
 
 class _GamePlayerCardList extends State<GamePlayerCardList> {
   List<RoundScorePlayer> roundScorePlayers = List.empty();
+
+  back(BuildContext context) {
+    context.read<RoundBloc>().add(PreviousRound());
+    Navigator.pop(context);
+  }
+
+  nextRound(BuildContext context, List<RoundScorePlayer> roundScorePlayers) {
+    RoundCubit roundCubit = context.read<RoundCubit>();
+
+    roundCubit.endRound(roundScorePlayers, widget.round);
+    context.read<RoundBloc>().add(NextRound());
+    widget.nextRound(context);
+  }
 
   @override
   void initState() {
@@ -92,8 +94,8 @@ class _GamePlayerCardList extends State<GamePlayerCardList> {
                 final PlayerState player = widget.players[index];
                 RoundScorePlayer roundScorePlayer = roundScorePlayers
                     .singleWhere((elem) => elem.playerId == player.id);
-                int roundScore = CalculRoundScore.call(
-                    widget.round, roundScorePlayer);
+                int roundScore =
+                    CalculRoundScore.call(widget.round, roundScorePlayer);
 
                 return SKPlayerCard(
                     playerName: player.name,
@@ -125,12 +127,12 @@ class _GamePlayerCardList extends State<GamePlayerCardList> {
             children: [
               SKIconButton(
                   icon: const Icon(Icons.arrow_back),
-                  onPressed: () => widget.back(context)),
+                  onPressed: () => back(context)),
               const SizedBox(width: 5),
               Flexible(
                 child: SKButton(
                   label: 'End Round ${widget.round}',
-                  onPressed: () => widget.nextRound(context, roundScorePlayers),
+                  onPressed: () => nextRound(context, roundScorePlayers),
                 ),
               ),
               const SizedBox(width: 5),

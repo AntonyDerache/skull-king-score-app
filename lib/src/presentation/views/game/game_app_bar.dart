@@ -4,7 +4,7 @@ import 'package:skull_king_score_app/src/presentation/cubit/player/player_cubit.
 import 'package:skull_king_score_app/src/presentation/cubit/player/player_state.dart';
 import 'package:skull_king_score_app/src/presentation/utils/color.dart';
 import 'package:skull_king_score_app/src/presentation/utils/constants.dart';
-import 'package:skull_king_score_app/src/presentation/views/game/scoreboard.dart';
+import 'package:skull_king_score_app/src/presentation/views/game/game_scoreboard.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_player_title.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_text.dart';
 

@@ -3,27 +3,30 @@ import 'package:flutter/material.dart';
 import 'package:skull_king_score_app/src/domain/entities/round_score_player.dart';
 import 'package:skull_king_score_app/src/domain/usecases/get_total_score.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/player/player_state.dart';
-import 'package:skull_king_score_app/src/presentation/cubit/round/round_state.dart';
+import 'package:skull_king_score_app/src/presentation/cubit/round/round_score_state.dart';
 
-class RoundCubit extends Cubit<List<RoundState>> {
-  RoundCubit() : super(List<RoundState>.empty(growable: true));
+class RoundCubit extends Cubit<List<RoundScoreState>> {
+  RoundCubit() : super(List<RoundScoreState>.empty(growable: true));
 
-  List<RoundScorePlayer> initNewRound(List<PlayerState> players, int round) {
+  void initNewRound(List<PlayerState> players, int round) {
     var roundScorePlayers = List<RoundScorePlayer>.empty(growable: true);
 
-    for (PlayerState player in players) {
-      if (round > 1) {
-        int currentPlayerScore = GetTotalScore.call(
-            round - 1, state[round - 2].playersMapScore[player.id]!);
-        roundScorePlayers.add(RoundScorePlayer(player.id, currentPlayerScore));
-      } else {
-        roundScorePlayers.add(RoundScorePlayer(player.id, 0));
+    if (round == state.length - 1) {
+      state.removeLast();
+    } else {
+      for (PlayerState player in players) {
+        if (round > 1) {
+          int currentPlayerScore = GetTotalScore.call(
+              round - 1, state[round - 2].playersMapScore[player.id]!);
+          roundScorePlayers
+              .add(RoundScorePlayer(player.id, currentPlayerScore));
+        } else {
+          roundScorePlayers.add(RoundScorePlayer(player.id, 0));
+        }
       }
+      state.add(RoundScoreState(roundScorePlayers));
     }
-
-    state.add(RoundState(roundScorePlayers));
     emit([...state]);
-    return roundScorePlayers;
   }
 
   void endRound(List<RoundScorePlayer> roundScorePlayers, int round) {

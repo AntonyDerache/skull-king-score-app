@@ -15,7 +15,9 @@ class ScoreBoard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, childAspectRatio: 10, mainAxisSpacing: scoreboardRowSpacing),
+            crossAxisCount: 2,
+            childAspectRatio: 10,
+            mainAxisSpacing: scoreboardRowSpacing),
         itemCount: players.length,
         shrinkWrap: true,
         itemBuilder: (BuildContext context, int index) {
