@@ -64,8 +64,7 @@ class SKButton extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SKText(text: label, fontSize: 16),
-                if (icon != null) const SizedBox(width: 20),
-                Icon(icon)
+                if (icon != null) ...[const SizedBox(width: 20), Icon(icon)]
               ],
             )),
       ),

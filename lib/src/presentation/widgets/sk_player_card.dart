@@ -135,7 +135,10 @@ class SKPlayerCard extends StatelessWidget {
                 Row(
                   children: [
                     const SKText(text: 'Round score: '),
-                    SKText(text: '+$currentRoundScore', color: Colors.green)
+                    currentRoundScore > 0
+                        ? SKText(
+                            text: '+$currentRoundScore', color: Colors.green)
+                        : SKText(text: '$currentRoundScore', color: Colors.red)
                   ],
                 )
               ],

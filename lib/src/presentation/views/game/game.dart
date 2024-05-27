@@ -17,8 +17,12 @@ class Game extends StatefulWidget {
 }
 
 class _Game extends State<StatefulWidget> {
-  nextRound(BuildContext context) {
-    Navigator.pushNamed(context, gameUrl).then((value) => setState(() {}));
+  nextRound(BuildContext context, int round) {
+    if (round < 10) {
+      Navigator.pushNamed(context, gameUrl).then((value) => setState(() {}));
+    } else {
+      Navigator.pushNamed(context, resultUrl).then((value) => setState(() {}));
+    }
   }
 
   @override
@@ -29,11 +33,11 @@ class _Game extends State<StatefulWidget> {
     final leadPlayers = context.read<PlayerCubit>().getLeadPlayers();
     final numberOfPlayer = players.length;
 
-    context.read<RoundCubit>().initNewRound(players, round);
+    context.read<RoundScoreCubit>().initNewRound(players, round);
 
     for (PlayerState player in players) {
       int playerScore = context
-          .read<RoundCubit>()
+          .read<RoundScoreCubit>()
           .getCurrentPlayerRoundScore(player.id, round);
       context.read<PlayerCubit>().updatePlayerScore(player.id, playerScore);
     }

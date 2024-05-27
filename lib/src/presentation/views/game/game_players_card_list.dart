@@ -22,7 +22,7 @@ class GamePlayerCardList extends StatefulWidget {
   final List<PlayerState> leadPlayers;
   final List<PlayerState> players;
   final int round;
-  final Function(BuildContext) nextRound;
+  final Function(BuildContext, int) nextRound;
 
   @override
   State<GamePlayerCardList> createState() => _GamePlayerCardList();
@@ -37,11 +37,13 @@ class _GamePlayerCardList extends State<GamePlayerCardList> {
   }
 
   nextRound(BuildContext context, List<RoundScorePlayer> roundScorePlayers) {
-    RoundCubit roundCubit = context.read<RoundCubit>();
+    RoundScoreCubit roundCubit = context.read<RoundScoreCubit>();
 
     roundCubit.endRound(roundScorePlayers, widget.round);
-    context.read<RoundBloc>().add(NextRound());
-    widget.nextRound(context);
+    if (widget.round < 10) {
+      context.read<RoundBloc>().add(NextRound());
+    }
+    widget.nextRound(context, widget.round);
   }
 
   @override

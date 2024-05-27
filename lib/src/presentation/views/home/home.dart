@@ -4,6 +4,7 @@ import 'package:skull_king_score_app/src/presentation/bloc/roundEvent/round_bloc
 import 'package:skull_king_score_app/src/presentation/bloc/roundEvent/round_event.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/player/player_cubit.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/player/player_state.dart';
+import 'package:skull_king_score_app/src/presentation/cubit/round/round_score_cubit.dart';
 import 'package:skull_king_score_app/src/presentation/utils/constants.dart';
 import 'package:skull_king_score_app/src/presentation/views/home/home_background.dart';
 import 'package:skull_king_score_app/src/presentation/views/home/players_list.dart';
@@ -15,6 +16,7 @@ class Home extends StatelessWidget {
 
   play(BuildContext context) async {
     context.read<RoundBloc>().add(StartRound());
+    context.read<RoundScoreCubit>().reset();
     Navigator.pushNamed(context, gameUrl);
   }
 

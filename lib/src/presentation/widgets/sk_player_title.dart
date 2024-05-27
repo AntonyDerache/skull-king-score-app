@@ -7,10 +7,14 @@ class SKPlayerTitle extends StatelessWidget {
     super.key,
     required this.playerName,
     this.isLeader = false,
+    this.fontSize = defaultFontSize,
+    this.height = playerTitleHeight,
   });
 
   final String playerName;
   final bool isLeader;
+  final double fontSize;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
@@ -19,11 +23,11 @@ class SKPlayerTitle extends StatelessWidget {
         crossAxisAlignment: WrapCrossAlignment.center,
         children: [
           if (isLeader)
-            const Image(
-                height: playerTitleHeight,
-                width: playerTitleHeight,
-                image: AssetImage('assets/images/logo.png')),
-          SKText(text: playerName)
+            Image(
+                height: height,
+                width: height,
+                image: const AssetImage('assets/images/logo.png')),
+          SKText(text: playerName, fontSize: fontSize)
         ]);
   }
 }

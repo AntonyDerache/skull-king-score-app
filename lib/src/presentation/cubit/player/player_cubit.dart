@@ -40,4 +40,11 @@ class PlayerCubit extends Cubit<List<PlayerState>> {
     }
     return leadPlayers;
   }
+
+  List<PlayerState> getResultList() {
+    List<PlayerState> resultList = List.from(state);
+
+    resultList.sort((a, b) => b.score.compareTo(a.score));
+    return resultList;
+  }
 }
