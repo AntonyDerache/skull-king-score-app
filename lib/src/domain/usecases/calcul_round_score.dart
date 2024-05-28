@@ -26,6 +26,10 @@ class CalculRoundScore {
         int difference = (bids - tricksWon).abs();
         score = -(difference * 10);
       }
+      int? rascalPoints = bonusPoints[BonusKey.rascalBet]?.amount;
+      if (rascalPoints != null && rascalPoints > 0) {
+        score -= rascalPoints * bonusPoints[BonusKey.rascalBet]!.value;
+      }
     }
     return score;
   }

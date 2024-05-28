@@ -1,4 +1,4 @@
-enum BonusKey { pirate, mermaid, skullKing, tenPoints, alliance, bet }
+enum BonusKey { pirate, mermaid, skullKing, tenPoints, alliance, rascalBet }
 
 class Bonus {
   int value;

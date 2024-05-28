@@ -116,7 +116,7 @@ class _GamePlayerCardList extends State<GamePlayerCardList> {
                     onAllyPressed: (amount) => onBonusPressed(
                         context, player.id, BonusKey.alliance, amount),
                     onBetPressed: (amount) => onBonusPressed(
-                        context, player.id, BonusKey.bet, amount),
+                        context, player.id, BonusKey.rascalBet, amount),
                     onBidsChanged: (value) =>
                         onBidsChanged(context, player.id, value),
                     onWonTricksChanged: (value) =>

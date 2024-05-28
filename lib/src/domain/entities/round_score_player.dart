@@ -7,11 +7,11 @@ class RoundScorePlayer {
   int tricksWon = 0;
   Map<BonusKey, Bonus> bonusPoints = Map.from({
     BonusKey.pirate: Bonus(30),
-    BonusKey.mermaid: Bonus(30),
-    BonusKey.skullKing: Bonus(30),
+    BonusKey.mermaid: Bonus(20),
+    BonusKey.skullKing: Bonus(40),
     BonusKey.tenPoints: Bonus(10),
-    BonusKey.alliance: Bonus(10),
-    BonusKey.bet: Bonus(10),
+    BonusKey.alliance: Bonus(20),
+    BonusKey.rascalBet: Bonus(10),
   });
   int currentScore = 0;
 
