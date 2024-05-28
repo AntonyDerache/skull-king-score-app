@@ -38,13 +38,12 @@ class _Game extends State<StatefulWidget> {
   Widget build(BuildContext context) {
     final int round = context.read<RoundBloc>().state.round;
     final List<PlayerState> players = context.read<PlayerCubit>().state;
+    context.read<RoundScoreCubit>().initNewRound(players, round);
+    updatePlayerScore(players, round);
     final List<PlayerState> leadPlayers =
         context.read<PlayerCubit>().getLeadPlayers();
     final int numberOfPlayer = players.length;
 
-    context.read<RoundScoreCubit>().initNewRound(players, round);
-
-    updatePlayerScore(players, round);
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
