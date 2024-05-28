@@ -1,7 +1,6 @@
+import 'package:cart_stepper/cart_stepper.dart';
 import 'package:flutter/material.dart';
 import 'package:skull_king_score_app/src/presentation/utils/color.dart';
-import 'package:skull_king_score_app/src/presentation/utils/constants.dart';
-import 'package:skull_king_score_app/src/presentation/utils/numeric_range_formatter.dart';
 
 class SKNumberField extends StatefulWidget {
   const SKNumberField({
@@ -18,52 +17,32 @@ class SKNumberField extends StatefulWidget {
 }
 
 class _SKNumberField extends State<SKNumberField> {
-  late TextEditingController _controller;
+  int counter = 0;
 
-  @override
-  void initState() {
-    super.initState();
-    _controller = TextEditingController(text: '0');
-    _controller.addListener(onValueChange);
+  void onValueChange(int newValue) {
+    if (newValue > widget.maxValue) return;
+    setState(() {
+      counter = newValue;
+    });
+    widget.onChange?.call(newValue.toString());
   }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  void onValueChange() {
-    widget.onChange?.call(_controller.text);
-  }
-
-  final TextStyle textStyle =
-      const TextStyle(color: lightColor, fontSize: defaultFontSize);
 
   @override
   Widget build(BuildContext context) {
-    const InputDecoration defaultDecoration = InputDecoration(
-      filled: false,
-      enabledBorder:
-          UnderlineInputBorder(borderSide: BorderSide(color: lightColor)),
-      focusedBorder: UnderlineInputBorder(
-        borderSide: BorderSide(color: lightColor),
-      ),
-    );
-
-    return SizedBox(
-      height: 30,
-      child: TextField(
-        controller: _controller,
-        style: textStyle,
-        decoration: defaultDecoration,
-        textAlign: TextAlign.center,
-        cursorColor: Colors.white,
-        keyboardType: const TextInputType.numberWithOptions(decimal: false),
-        inputFormatters: [
-          NumericRangeFormatter(min: 0, max: widget.maxValue),
-        ],
-      ),
+    return CartStepperInt(
+      axis: Axis.vertical,
+      alwaysExpanded: true,
+      style: const CartStepperStyle(
+          backgroundColor: Colors.transparent,
+          activeForegroundColor: lightColor,
+          foregroundColor: lightColor,
+          iconPlus: Icons.add,
+          iconMinus: Icons.remove,
+          activeBackgroundColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+          textStyle: TextStyle(color: lightColor)),
+      value: counter,
+      didChangeCount: (count) => onValueChange(count),
     );
   }
 }

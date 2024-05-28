@@ -69,25 +69,22 @@ class SKPlayerCard extends StatelessWidget {
                       children: [
                         const SKText(text: 'Bids:'),
                         const SizedBox(width: 10),
-                        SizedBox(
-                            width: 20,
-                            child: SKNumberField(
-                              maxValue: round,
-                              onChange: (value) => onBidsChanged?.call(value),
-                            )),
+                        SKNumberField(
+                          maxValue: round,
+                          onChange: (String value) =>
+                              onBidsChanged?.call(value),
+                        ),
                       ],
                     ),
                     Row(
                       children: [
                         const SKText(text: 'Tricks won:'),
                         const SizedBox(width: 10),
-                        SizedBox(
-                            width: 20,
-                            child: SKNumberField(
-                              maxValue: round,
-                              onChange: (value) =>
-                                  onWonTricksChanged?.call(value),
-                            )),
+                        SKNumberField(
+                          maxValue: round,
+                          onChange: (String value) =>
+                              onWonTricksChanged?.call(value),
+                        ),
                       ],
                     ),
                   ],
