@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:skull_king_score_app/src/presentation/bloc/roundEvent/round_bloc.dart';
+import 'package:skull_king_score_app/src/presentation/bloc/round/round_bloc.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/player/player_cubit.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/player/player_state.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/round/round_score_cubit.dart';
@@ -17,7 +17,7 @@ class Game extends StatefulWidget {
 }
 
 class _Game extends State<StatefulWidget> {
-  nextRound(BuildContext context, int round) {
+  void nextRound(BuildContext context, int round) {
     if (round < 10) {
       Navigator.pushNamed(context, gameUrl).then((value) => setState(() {}));
     } else {
@@ -25,22 +25,26 @@ class _Game extends State<StatefulWidget> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    int round = context.read<RoundBloc>().state.round;
-
-    final players = context.read<PlayerCubit>().state;
-    final leadPlayers = context.read<PlayerCubit>().getLeadPlayers();
-    final numberOfPlayer = players.length;
-
-    context.read<RoundScoreCubit>().initNewRound(players, round);
-
+  void updatePlayerScore(List<PlayerState> players, int round) {
     for (PlayerState player in players) {
       int playerScore = context
           .read<RoundScoreCubit>()
           .getCurrentPlayerRoundScore(player.id, round);
       context.read<PlayerCubit>().updatePlayerScore(player.id, playerScore);
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final int round = context.read<RoundBloc>().state.round;
+    final List<PlayerState> players = context.read<PlayerCubit>().state;
+    final List<PlayerState> leadPlayers =
+        context.read<PlayerCubit>().getLeadPlayers();
+    final int numberOfPlayer = players.length;
+
+    context.read<RoundScoreCubit>().initNewRound(players, round);
+
+    updatePlayerScore(players, round);
 
     return Scaffold(
       resizeToAvoidBottomInset: true,

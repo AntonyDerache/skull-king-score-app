@@ -33,7 +33,7 @@ class _SKNumberField extends State<SKNumberField> {
     super.dispose();
   }
 
-  onValueChange() {
+  void onValueChange() {
     widget.onChange?.call(_controller.text);
   }
 

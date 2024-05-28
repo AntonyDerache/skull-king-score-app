@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:skull_king_score_app/src/presentation/bloc/roundEvent/round_event.dart';
-import 'package:skull_king_score_app/src/presentation/bloc/roundEvent/round_state.dart';
+import 'package:skull_king_score_app/src/presentation/bloc/round/round_event.dart';
+import 'package:skull_king_score_app/src/presentation/bloc/round/round_state.dart';
 
 class RoundBloc extends Bloc<RoundEvent, RoundState> {
   RoundBloc() : super(RoundState(0)) {

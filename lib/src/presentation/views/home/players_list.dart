@@ -20,18 +20,19 @@ class PlayersList extends StatefulWidget {
 class _PlayersList extends State<PlayersList> {
   final listKey = GlobalKey<AnimatedListState>();
 
-  onPlayerNameChange(BuildContext context, UniqueKey playerId, String name) {
+  void onPlayerNameChange(
+      BuildContext context, UniqueKey playerId, String name) {
     context.read<PlayerCubit>().updatePlayerName(playerId, name);
   }
 
-  addPlayer(BuildContext context) {
+  void addPlayer(BuildContext context) {
     PlayerCubit cubit = context.read<PlayerCubit>();
     cubit.addPlayer();
     listKey.currentState!.insertItem(cubit.state.length - 1,
         duration: const Duration(milliseconds: 200));
   }
 
-  removePlayer(BuildContext context) {
+  void removePlayer(BuildContext context) {
     context.read<PlayerCubit>().removePlayer();
     final cubit = context.read<PlayerCubit>();
     listKey.currentState!.removeItem(

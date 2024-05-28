@@ -20,7 +20,7 @@ class SKBonusIconButton extends StatefulWidget {
 class _SKBonusIconButton extends State<SKBonusIconButton> {
   int amount = 0;
 
-  handleIconClick() {
+  void handleIconClick() {
     setState(() {
       amount + 1 > widget.maxAmount ? amount = 0 : amount++;
     });

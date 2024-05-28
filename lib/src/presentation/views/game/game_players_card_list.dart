@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skull_king_score_app/src/domain/entities/bonus.dart';
 import 'package:skull_king_score_app/src/domain/entities/round_score_player.dart';
 import 'package:skull_king_score_app/src/domain/usecases/calcul_round_score.dart';
-import 'package:skull_king_score_app/src/presentation/bloc/roundEvent/round_bloc.dart';
-import 'package:skull_king_score_app/src/presentation/bloc/roundEvent/round_event.dart';
+import 'package:skull_king_score_app/src/presentation/bloc/round/round_bloc.dart';
+import 'package:skull_king_score_app/src/presentation/bloc/round/round_event.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/player/player_state.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/round/round_score_cubit.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_button.dart';
@@ -31,12 +31,13 @@ class GamePlayerCardList extends StatefulWidget {
 class _GamePlayerCardList extends State<GamePlayerCardList> {
   List<RoundScorePlayer> roundScorePlayers = List.empty();
 
-  back(BuildContext context) {
+  void back(BuildContext context) {
     context.read<RoundBloc>().add(PreviousRound());
     Navigator.pop(context);
   }
 
-  nextRound(BuildContext context, List<RoundScorePlayer> roundScorePlayers) {
+  void nextRound(
+      BuildContext context, List<RoundScorePlayer> roundScorePlayers) {
     RoundScoreCubit roundCubit = context.read<RoundScoreCubit>();
 
     roundCubit.endRound(roundScorePlayers, widget.round);

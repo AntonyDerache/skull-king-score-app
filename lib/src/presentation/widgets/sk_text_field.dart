@@ -6,10 +6,10 @@ import 'package:skull_king_score_app/src/presentation/utils/constants.dart';
 
 class SKTextInput extends StatefulWidget {
   const SKTextInput(
-    {super.key,
-    this.placeholder = "Enter...",
-    this.text = "",
-    this.onChange});
+      {super.key,
+      this.placeholder = "Enter...",
+      this.text = "",
+      this.onChange});
 
   final String placeholder;
   final String text;
@@ -48,8 +48,7 @@ class _SKTextInput extends State<SKTextInput> {
             borderSide: BorderSide.none),
         hintText: widget.placeholder,
         hintStyle: TextStyle(color: Colors.white.withOpacity(0.5)),
-        contentPadding: const EdgeInsets.only(left: 20, right: 20)
-        );
+        contentPadding: const EdgeInsets.only(left: 20, right: 20));
 
     return SizedBox(
       height: formHeight,
@@ -62,9 +61,7 @@ class _SKTextInput extends State<SKTextInput> {
             decoration: defaultDecoration,
             cursorColor: Colors.white,
             onChanged: (value) => {
-              if (widget.onChange != null) {
-                widget.onChange!(value)
-              }
+              if (widget.onChange != null) {widget.onChange!(value)}
             },
           ),
         ),
