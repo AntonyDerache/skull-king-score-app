@@ -31,14 +31,24 @@ class GamePlayerCardList extends StatefulWidget {
 class _GamePlayerCardList extends State<GamePlayerCardList> {
   List<RoundScorePlayer> roundScorePlayers = List.empty();
 
-  void back(BuildContext context) {
+  void previousRound() {
     context.read<RoundBloc>().add(PreviousRound());
-    Navigator.pop(context);
   }
 
   void nextRound(
       BuildContext context, List<RoundScorePlayer> roundScorePlayers) {
     RoundScoreCubit roundCubit = context.read<RoundScoreCubit>();
+
+    int totalTricksWon = roundCubit.getTotalTicksWon(roundScorePlayers);
+    // ask if kraken has been played or add a UI indicator of kraken played
+    if (totalTricksWon > widget.round || totalTricksWon < widget.round - 2) {
+      var snackbar = const SnackBar(
+        content: Text(
+            'Invalid input. Total tricks won have to match current round.'),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      return;
+    }
 
     roundCubit.endRound(roundScorePlayers, widget.round);
     if (widget.round < 10) {
@@ -84,66 +94,74 @@ class _GamePlayerCardList extends State<GamePlayerCardList> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          child: ListView.separated(
-              separatorBuilder: (context, index) => const SizedBox(height: 15),
-              itemCount: widget.players.length,
-              physics: const ClampingScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (BuildContext context, int index) {
-                final PlayerState player = widget.players[index];
-                RoundScorePlayer roundScorePlayer = roundScorePlayers
-                    .singleWhere((elem) => elem.playerId == player.id);
-                int roundScore =
-                    CalculRoundScore.call(widget.round, roundScorePlayer);
+    return PopScope(
+      onPopInvoked: (bool invoked) {
+        if (invoked) {
+          previousRound();
+        }
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: ListView.separated(
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 15),
+                itemCount: widget.players.length,
+                physics: const ClampingScrollPhysics(),
+                shrinkWrap: true,
+                itemBuilder: (BuildContext context, int index) {
+                  final PlayerState player = widget.players[index];
+                  RoundScorePlayer roundScorePlayer = roundScorePlayers
+                      .singleWhere((elem) => elem.playerId == player.id);
+                  int roundScore =
+                      CalculRoundScore.call(widget.round, roundScorePlayer);
 
-                return SKPlayerCard(
-                    playerName: player.name,
-                    isScoreLeader: widget.leadPlayers.contains(player),
-                    round: widget.round,
-                    currentRoundScore: roundScore,
-                    onPiratePressed: (amount) => onBonusPressed(
-                        context, player.id, BonusKey.alliance, amount),
-                    onMermaidPressed: (amount) => onBonusPressed(
-                        context, player.id, BonusKey.mermaid, amount),
-                    onSkullKingPressed: (amount) => onBonusPressed(
-                        context, player.id, BonusKey.skullKing, amount),
-                    onTenPressed: (amount) => onBonusPressed(
-                        context, player.id, BonusKey.tenPoints, amount),
-                    onAllyPressed: (amount) => onBonusPressed(
-                        context, player.id, BonusKey.alliance, amount),
-                    onBetPressed: (amount) => onBonusPressed(
-                        context, player.id, BonusKey.rascalBet, amount),
-                    onBidsChanged: (value) =>
-                        onBidsChanged(context, player.id, value),
-                    onWonTricksChanged: (value) =>
-                        onWonTricksChanged(context, player.id, value));
-              }),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SKIconButton(
-                  icon: const Icon(Icons.arrow_back),
-                  onPressed: () => back(context)),
-              const SizedBox(width: 5),
-              Flexible(
-                child: SKButton(
-                  label: 'End Round ${widget.round}',
-                  onPressed: () => nextRound(context, roundScorePlayers),
-                ),
-              ),
-              const SizedBox(width: 5),
-              const SKIconButton(icon: Icon(Icons.menu)),
-            ],
+                  return SKPlayerCard(
+                      playerName: player.name,
+                      isScoreLeader: widget.leadPlayers.contains(player),
+                      round: widget.round,
+                      currentRoundScore: roundScore,
+                      onPiratePressed: (amount) => onBonusPressed(
+                          context, player.id, BonusKey.alliance, amount),
+                      onMermaidPressed: (amount) => onBonusPressed(
+                          context, player.id, BonusKey.mermaid, amount),
+                      onSkullKingPressed: (amount) => onBonusPressed(
+                          context, player.id, BonusKey.skullKing, amount),
+                      onTenPressed: (amount) => onBonusPressed(
+                          context, player.id, BonusKey.tenPoints, amount),
+                      onAllyPressed: (amount) => onBonusPressed(
+                          context, player.id, BonusKey.alliance, amount),
+                      onBetPressed: (amount) => onBonusPressed(
+                          context, player.id, BonusKey.rascalBet, amount),
+                      onBidsChanged: (value) =>
+                          onBidsChanged(context, player.id, value),
+                      onWonTricksChanged: (value) =>
+                          onWonTricksChanged(context, player.id, value));
+                }),
           ),
-        ),
-      ],
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SKIconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    onPressed: () => Navigator.pop(context)),
+                const SizedBox(width: 5),
+                Flexible(
+                  child: SKButton(
+                    label: 'End Round ${widget.round}',
+                    onPressed: () => nextRound(context, roundScorePlayers),
+                  ),
+                ),
+                const SizedBox(width: 5),
+                const SKIconButton(icon: Icon(Icons.menu)),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -16,7 +16,7 @@ class Result extends StatelessWidget {
   }
 
   void goHome(BuildContext context) {
-    Navigator.restorablePushNamed(context, baseUrl);
+    Navigator.pushNamedAndRemoveUntil(context, baseUrl, (_) => false);
   }
 
   @override

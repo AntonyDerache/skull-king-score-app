@@ -29,7 +29,7 @@ class Home extends StatelessWidget {
           const HomeBackground(),
           SafeArea(
             child: Padding(
-              padding: const EdgeInsets.all(30),
+              padding: const EdgeInsets.all(20),
               child: Column(
                 children: [
                   Stack(
@@ -37,13 +37,13 @@ class Home extends StatelessWidget {
                       Container(
                           alignment: Alignment.topCenter,
                           child: const Image(
-                            height: 175,
-                            width: 175,
+                            height: 150,
+                            width: 150,
                             opacity: AlwaysStoppedAnimation<double>(0.4),
                             image: AssetImage('assets/images/logo_saturé.png'),
                           )),
                       Container(
-                        height: 200,
+                        height: 175,
                         alignment: Alignment.center,
                         child: const FittedBox(
                           fit: BoxFit.contain,

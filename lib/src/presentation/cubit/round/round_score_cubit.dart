@@ -42,6 +42,14 @@ class RoundScoreCubit extends Cubit<List<RoundScoreState>> {
     return state[round - 1].calculPlayerRoundScore(playerId, round);
   }
 
+  int getTotalTicksWon(List<RoundScorePlayer> roundScorePlayers) {
+    int totalWin = 0;
+    for (var score in roundScorePlayers) {
+      totalWin += score.tricksWon;
+    }
+    return totalWin;
+  }
+
   void reset() {
     emit(List<RoundScoreState>.empty(growable: true));
   }
