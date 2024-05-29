@@ -23,7 +23,7 @@ class GamePlayerCardList extends StatefulWidget {
   final List<PlayerState> leadPlayers;
   final List<PlayerState> players;
   final int round;
-  final Function(BuildContext, int) nextRound;
+  final Function(int) nextRound;
 
   @override
   State<GamePlayerCardList> createState() => _GamePlayerCardList();
@@ -31,6 +31,15 @@ class GamePlayerCardList extends StatefulWidget {
 
 class _GamePlayerCardList extends State<GamePlayerCardList> {
   List<RoundScorePlayer> roundScorePlayers = List.empty();
+
+  @override
+  void initState() {
+    super.initState();
+    roundScorePlayers = List.generate(
+        widget.players.length,
+        (index) => RoundScorePlayer(
+            widget.players[index].id, widget.players[index].score));
+  }
 
   void previousRound() {
     context.read<RoundBloc>().add(PreviousRound());
@@ -54,16 +63,7 @@ class _GamePlayerCardList extends State<GamePlayerCardList> {
     if (widget.round < 10) {
       context.read<RoundBloc>().add(NextRound());
     }
-    widget.nextRound(context, widget.round);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    roundScorePlayers = List.generate(
-        widget.players.length,
-        (index) => RoundScorePlayer(
-            widget.players[index].id, widget.players[index].score));
+    widget.nextRound(widget.round);
   }
 
   void onBonusPressed(

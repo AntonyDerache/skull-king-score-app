@@ -17,12 +17,20 @@ class Game extends StatefulWidget {
 }
 
 class _Game extends State<StatefulWidget> {
-  void nextRound(BuildContext context, int round) {
-    if (round < 10) {
-      Navigator.pushNamed(context, gameUrl).then((value) => setState(() {}));
-    } else {
-      Navigator.pushNamed(context, resultUrl).then((value) => setState(() {}));
-    }
+  int round = 0;
+  List<PlayerState> players = List.empty();
+  List<PlayerState> leadPlayers = List.empty();
+  int numberOfPlayer = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    PlayerCubit playerCubit = context.read<PlayerCubit>();
+
+    players = playerCubit.state;
+    leadPlayers = playerCubit.getLeadPlayers();
+    numberOfPlayer = players.length;
+    round = context.read<RoundBloc>().state.round;
   }
 
   void updatePlayerScore(List<PlayerState> players, int round) {
@@ -34,18 +42,23 @@ class _Game extends State<StatefulWidget> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final int round = context.read<RoundBloc>().state.round;
-    final List<PlayerState> players = context.read<PlayerCubit>().state;
+  void nextRound(int round) {
+    if (round < 10) {
+      Navigator.pushNamed(context, gameUrl).then((value) => setState(() {}));
+    } else {
+      initRound(players, round + 1);
+      Navigator.pushNamed(context, resultUrl).then((value) => setState(() {}));
+    }
+  }
 
-    // verifiy why last round score is not updated
+  void initRound(List<PlayerState> players, int round) {
     context.read<RoundScoreCubit>().initNewRound(players, round);
     updatePlayerScore(players, round);
+  }
 
-    final List<PlayerState> leadPlayers =
-        context.read<PlayerCubit>().getLeadPlayers();
-    final int numberOfPlayer = players.length;
+  @override
+  Widget build(BuildContext context) {
+    initRound(players, round);
 
     return Scaffold(
       resizeToAvoidBottomInset: true,

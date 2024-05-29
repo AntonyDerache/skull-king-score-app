@@ -9,24 +9,30 @@ class RoundScoreCubit extends Cubit<List<RoundScoreState>> {
   RoundScoreCubit() : super(List<RoundScoreState>.empty(growable: true));
 
   void initNewRound(List<PlayerState> players, int round) {
-    var roundScorePlayers = List<RoundScorePlayer>.empty(growable: true);
-
     if (round == state.length - 1) {
       state.removeLast();
     } else {
-      for (PlayerState player in players) {
-        if (round > 1) {
-          int currentPlayerScore = GetTotalScore.call(
-              round - 1, state[round - 2].playersMapScore[player.id]!);
-          roundScorePlayers
-              .add(RoundScorePlayer(player.id, currentPlayerScore));
-        } else {
-          roundScorePlayers.add(RoundScorePlayer(player.id, 0));
-        }
-      }
+      List<RoundScorePlayer> roundScorePlayers =
+          List.from(setNewScoreToPlayers(players, round));
       state.add(RoundScoreState(roundScorePlayers));
     }
     emit([...state]);
+  }
+
+  List<RoundScorePlayer> setNewScoreToPlayers(
+      List<PlayerState> players, int round) {
+    var roundScorePlayers = List<RoundScorePlayer>.empty(growable: true);
+
+    for (PlayerState player in players) {
+      if (round > 1) {
+        int currentPlayerScore = GetTotalScore.call(
+            round - 1, state[round - 2].playersMapScore[player.id]!);
+        roundScorePlayers.add(RoundScorePlayer(player.id, currentPlayerScore));
+      } else {
+        roundScorePlayers.add(RoundScorePlayer(player.id, 0));
+      }
+    }
+    return roundScorePlayers;
   }
 
   void endRound(List<RoundScorePlayer> roundScorePlayers, int round) {

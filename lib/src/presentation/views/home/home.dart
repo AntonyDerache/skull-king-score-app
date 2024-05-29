@@ -80,19 +80,20 @@ class Home extends StatelessWidget {
                     width: 32,
                     height: 32,
                     child: BlocBuilder<LanguageCubit, LanguageState>(
-                      builder: (context, state) {
-                        String flagPath = state.code == 'fr'
-                            ? 'assets/icons/french_flag.png'
-                            : 'assets/icons/english_flag.png';
-                        String languageCode = state.code == 'fr' ? 'en' : 'fr';
-                        return IconButton(
-                            icon: Image(image: AssetImage(flagPath)),
-                            onPressed: () {
-                                context.read<LanguageCubit>().toggleNewLanguage(languageCode);
-                            },
-                        );
-                      }
-                    ),
+                        builder: (context, state) {
+                      String flagPath = state.code == 'fr'
+                          ? 'assets/icons/french_flag.png'
+                          : 'assets/icons/english_flag.png';
+                      String languageCode = state.code == 'fr' ? 'en' : 'fr';
+                      return IconButton(
+                        icon: Image(image: AssetImage(flagPath)),
+                        onPressed: () {
+                          context
+                              .read<LanguageCubit>()
+                              .toggleNewLanguage(languageCode);
+                        },
+                      );
+                    }),
                   ),
                 ],
               ),
