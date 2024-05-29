@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skull_king_score_app/src/presentation/bloc/round/round_bloc.dart';
 import 'package:skull_king_score_app/src/presentation/bloc/round/round_event.dart';
+import 'package:skull_king_score_app/src/presentation/cubit/language/language_cubit.dart';
+import 'package:skull_king_score_app/src/presentation/cubit/language/language_state.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/player/player_cubit.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/player/player_state.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/round/round_score_cubit.dart';
@@ -10,6 +12,7 @@ import 'package:skull_king_score_app/src/presentation/views/home/home_background
 import 'package:skull_king_score_app/src/presentation/views/home/players_list.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_button.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_text.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -68,9 +71,27 @@ class Home extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                       child: SKButton(
-                        label: 'Start',
+                        label: AppLocalizations.of(context)!.start,
                         onPressed: () => play(context),
                       ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 32,
+                    height: 32,
+                    child: BlocBuilder<LanguageCubit, LanguageState>(
+                      builder: (context, state) {
+                        String flagPath = state.code == 'fr'
+                            ? 'assets/icons/french_flag.png'
+                            : 'assets/icons/english_flag.png';
+                        String languageCode = state.code == 'fr' ? 'en' : 'fr';
+                        return IconButton(
+                            icon: Image(image: AssetImage(flagPath)),
+                            onPressed: () {
+                                context.read<LanguageCubit>().toggleNewLanguage(languageCode);
+                            },
+                        );
+                      }
                     ),
                   ),
                 ],

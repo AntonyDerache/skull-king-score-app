@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_text.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PlayerCountController extends StatelessWidget {
   const PlayerCountController(
@@ -23,7 +24,10 @@ class PlayerCountController extends StatelessWidget {
             color: Colors.white,
             disabledColor: Colors.grey,
             onPressed: numberOfPlayers <= 2 ? null : () => remove(context)),
-        SKText(text: '$numberOfPlayers / 8 players', color: Colors.white),
+        SKText(
+            text:
+                '$numberOfPlayers / 8 ${AppLocalizations.of(context)!.players}',
+            color: Colors.white),
         IconButton(
             icon: const Icon(Icons.add),
             iconSize: 32,

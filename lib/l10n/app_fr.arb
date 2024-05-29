@@ -1,0 +1,20 @@
+{
+  "appTitle": "Skull King Score Calculateur",
+
+  "start": "Jouer",
+  "players": "joueurs",
+
+  "bids": "Mise :",
+  "tricks": "Plis gagné :",
+  "bonusPoints": "Points bonus :",
+  "roundScore": "Score de la manche :",
+  "endRound": "Fin de manche",
+  "invalidInput": "Données invalide. Le nombre de plis gagnés total doit être égale à la manche en cours",
+
+  "result": "Resultats !",
+  "home": "Home",
+
+  "playersDefaultPlaceholder": "Nom du joueur",
+  "inputDefaultPlaceholder": "Entrer...",
+  "textDefaultPlaceholder": "Texte"
+}

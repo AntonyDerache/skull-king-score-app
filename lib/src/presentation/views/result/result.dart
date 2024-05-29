@@ -7,6 +7,7 @@ import 'package:skull_king_score_app/src/presentation/widgets/sk_button.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_icon_button.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_player_title.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_text.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Result extends StatelessWidget {
   const Result({super.key});
@@ -36,10 +37,10 @@ class Result extends StatelessWidget {
                 children: [
                   Container(
                     alignment: Alignment.center,
-                    child: const FittedBox(
+                    child: FittedBox(
                         fit: BoxFit.contain,
                         child: SKText(
-                            text: 'Game Result !',
+                            text: AppLocalizations.of(context)!.result,
                             fontFamily: 'Allura',
                             fontSize: 50)),
                   ),
@@ -87,7 +88,7 @@ class Result extends StatelessWidget {
                           const SizedBox(width: 10),
                           Flexible(
                             child: SKButton(
-                                label: 'Home',
+                                label: AppLocalizations.of(context)!.home,
                                 onPressed: () => goHome(context)),
                           ),
                         ],

@@ -6,6 +6,7 @@ import 'package:skull_king_score_app/src/presentation/widgets/sk_bonus_icon_butt
 import 'package:skull_king_score_app/src/presentation/widgets/sk_number_field.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_player_title.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_text.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SKPlayerCard extends StatelessWidget {
   const SKPlayerCard({
@@ -67,7 +68,7 @@ class SKPlayerCard extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        const SKText(text: 'Bids:'),
+                        SKText(text: AppLocalizations.of(context)!.bids),
                         const SizedBox(width: 10),
                         SKNumberField(
                           maxValue: round,
@@ -78,7 +79,7 @@ class SKPlayerCard extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        const SKText(text: 'Tricks won:'),
+                        SKText(text: AppLocalizations.of(context)!.tricks),
                         const SizedBox(width: 10),
                         SKNumberField(
                           maxValue: round,
@@ -90,7 +91,7 @@ class SKPlayerCard extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 15),
-                const SKText(text: 'Bonus Points'),
+                SKText(text: AppLocalizations.of(context)!.bonusPoints),
                 const SizedBox(height: 5),
                 Wrap(
                   spacing: 10,
@@ -131,11 +132,11 @@ class SKPlayerCard extends StatelessWidget {
                 const SizedBox(height: 15),
                 Row(
                   children: [
-                    const SKText(text: 'Round score: '),
+                    SKText(text: AppLocalizations.of(context)!.roundScore),
                     currentRoundScore > 0
                         ? SKText(
-                            text: '+$currentRoundScore', color: Colors.green)
-                        : SKText(text: '$currentRoundScore', color: Colors.red)
+                            text: ' +$currentRoundScore', color: Colors.green)
+                        : SKText(text: ' $currentRoundScore', color: Colors.red)
                   ],
                 )
               ],

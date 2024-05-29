@@ -1,0 +1,20 @@
+{
+  "appTitle": "Skull King Score Counter",
+
+  "start": "Start",
+  "players": "players",
+
+  "bids": "Bids:",
+  "tricks": "Tricks won:",
+  "bonusPoints": "Bonus points:",
+  "roundScore": "Round score:",
+  "endRound": "End round",
+  "invalidInput": "Invalid input. Total tricks won have to match current round.",
+
+  "result": "Game Result!",
+  "home": "Home",
+
+  "playersDefaultPlaceholder": "Enter player's name",
+  "inputDefaultPlaceholder": "Enter...",
+  "textDefaultPlaceholder": "Text"
+}

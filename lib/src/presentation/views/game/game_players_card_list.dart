@@ -10,6 +10,7 @@ import 'package:skull_king_score_app/src/presentation/cubit/round/round_score_cu
 import 'package:skull_king_score_app/src/presentation/widgets/sk_button.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_icon_button.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_player_card.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class GamePlayerCardList extends StatefulWidget {
   const GamePlayerCardList(
@@ -42,9 +43,8 @@ class _GamePlayerCardList extends State<GamePlayerCardList> {
     int totalTricksWon = roundCubit.getTotalTicksWon(roundScorePlayers);
     // ask if kraken has been played or add a UI indicator of kraken played
     if (totalTricksWon > widget.round || totalTricksWon < widget.round - 2) {
-      var snackbar = const SnackBar(
-        content: Text(
-            'Invalid input. Total tricks won have to match current round.'),
+      var snackbar = SnackBar(
+        content: Text(AppLocalizations.of(context)!.invalidInput),
       );
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
       return;
@@ -151,7 +151,8 @@ class _GamePlayerCardList extends State<GamePlayerCardList> {
                 const SizedBox(width: 5),
                 Flexible(
                   child: SKButton(
-                    label: 'End Round ${widget.round}',
+                    label:
+                        '${AppLocalizations.of(context)!.endRound} ${widget.round}',
                     onPressed: () => nextRound(context, roundScorePlayers),
                   ),
                 ),

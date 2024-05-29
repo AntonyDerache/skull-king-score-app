@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_text_field.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PlayerListItem extends StatelessWidget {
   const PlayerListItem(
@@ -23,7 +24,8 @@ class PlayerListItem extends StatelessWidget {
         children: [
           SKTextInput(
             text: text,
-            placeholder: "Enter player's name",
+            placeholder:
+                AppLocalizations.of(context)!.playersDefaultPlaceholder,
             onChange: (value) => onChange(value),
           ),
           const SizedBox(height: 10)
