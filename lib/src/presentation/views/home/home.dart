@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skull_king_score_app/src/presentation/bloc/round/round_bloc.dart';
 import 'package:skull_king_score_app/src/presentation/bloc/round/round_event.dart';
-import 'package:skull_king_score_app/src/presentation/cubit/language/language_cubit.dart';
-import 'package:skull_king_score_app/src/presentation/cubit/language/language_state.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/player/player_cubit.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/player/player_state.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/round/round_score_cubit.dart';
@@ -11,11 +9,14 @@ import 'package:skull_king_score_app/src/presentation/utils/constants.dart';
 import 'package:skull_king_score_app/src/presentation/views/home/home_background.dart';
 import 'package:skull_king_score_app/src/presentation/views/home/players_list.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_button.dart';
+import 'package:skull_king_score_app/src/presentation/widgets/sk_drawer.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_text.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Home extends StatelessWidget {
-  const Home({super.key});
+  Home({super.key});
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   void play(BuildContext context) async {
     context.read<RoundBloc>().add(StartRound());
@@ -23,14 +24,16 @@ class Home extends StatelessWidget {
     Navigator.pushNamed(context, gameUrl);
   }
 
-  void changeLanguage(BuildContext context, LanguageState state) async {
-    await context.read<LanguageCubit>().toggleNewLanguage(state);
+  void openDrawer() {
+    _scaffoldKey.currentState?.openDrawer();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       resizeToAvoidBottomInset: true,
+      drawer: const SKDrawer(),
       body: Stack(
         children: [
           const HomeBackground(),
@@ -64,30 +67,13 @@ class Home extends StatelessWidget {
                       Container(
                         height: 38,
                         alignment: Alignment.topRight,
-                        child: const IconButton(
-                          icon: Image(
+                        child: IconButton(
+                          icon: const Image(
                               color: Colors.white,
                               image: AssetImage("assets/icons/settings.png")),
-                          onPressed: null,
+                          onPressed: () => openDrawer(),
                         ),
                       ),
-                      // Container(
-                      //   height: 48,
-                      //   alignment: Alignment.topRight,
-                      //   child: BlocBuilder<LanguageCubit, LanguageState>(
-                      //       builder: (context, state) {
-                      //     String flagPath = state is FrenchLanguageState
-                      //         ? 'assets/icons/french_flag.png'
-                      //         : 'assets/icons/english_flag.png';
-                      //     LanguageState newState = state is FrenchLanguageState
-                      //         ? EnglishLanguageState()
-                      //         : FrenchLanguageState();
-                      //     return IconButton(
-                      //       icon: Image(image: AssetImage(flagPath)),
-                      //       onPressed: () => changeLanguage(context, newState),
-                      //     );
-                      //   }),
-                      // ),
                     ],
                   ),
                   Expanded(

@@ -1,5 +1,5 @@
 {
-  "appTitle": "Skull King Score Calculateur",
+  "appTitle": "Skull King Score",
 
   "start": "Jouer",
   "players": "joueurs",
@@ -13,6 +13,10 @@
 
   "result": "Resultats !",
   "home": "Home",
+
+  "rules": "Règles",
+  "stats": "Statistiques",
+  "goHome": "Retour au menu",
 
   "playersDefaultPlaceholder": "Nom du joueur",
   "inputDefaultPlaceholder": "Entrer...",

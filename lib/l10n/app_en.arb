@@ -1,5 +1,5 @@
 {
-  "appTitle": "Skull King Score Counter",
+  "appTitle": "Skull King Score",
 
   "start": "Start",
   "players": "players",
@@ -13,6 +13,10 @@
 
   "result": "Game Result!",
   "home": "Home",
+
+  "rules": "Rules",
+  "stats": "Statistics",
+  "goHome": "Return to title",
 
   "playersDefaultPlaceholder": "Enter player's name",
   "inputDefaultPlaceholder": "Enter...",

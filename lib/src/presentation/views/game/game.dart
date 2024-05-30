@@ -8,6 +8,7 @@ import 'package:skull_king_score_app/src/presentation/utils/constants.dart';
 import 'package:skull_king_score_app/src/presentation/views/game/game_app_bar.dart';
 import 'package:skull_king_score_app/src/presentation/views/game/game_background.dart';
 import 'package:skull_king_score_app/src/presentation/views/game/game_players_card_list.dart';
+import 'package:skull_king_score_app/src/presentation/widgets/sk_drawer.dart';
 
 class Game extends StatefulWidget {
   const Game({super.key});
@@ -17,6 +18,7 @@ class Game extends StatefulWidget {
 }
 
 class _Game extends State<StatefulWidget> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int round = 0;
   List<PlayerState> players = List.empty();
   List<PlayerState> leadPlayers = List.empty();
@@ -56,12 +58,18 @@ class _Game extends State<StatefulWidget> {
     updatePlayerScore(players, round);
   }
 
+  void openDrawer() {
+    _scaffoldKey.currentState?.openDrawer();
+  }
+
   @override
   Widget build(BuildContext context) {
     initRound(players, round);
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
+      key: _scaffoldKey,
+      drawer: const SKDrawer(),
       body: Stack(children: [
         const GameBackground(),
         SafeArea(
@@ -78,6 +86,7 @@ class _Game extends State<StatefulWidget> {
                     leadPlayers: leadPlayers,
                     round: round,
                     nextRound: nextRound,
+                    openDrawer: openDrawer,
                   ),
                 ),
               ),

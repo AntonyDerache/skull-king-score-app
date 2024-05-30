@@ -87,7 +87,7 @@ class _MainApp extends State<MainApp> {
                               statusBarBrightness: Brightness.light,
                               statusBarIconBrightness: Brightness.light))),
                   routes: {
-                    baseUrl: (context) => const Home(),
+                    baseUrl: (context) => Home(),
                     gameUrl: (contexnt) => const Game(),
                     resultUrl: (contexnt) => const Result(),
                   },

@@ -18,12 +18,14 @@ class GamePlayerCardList extends StatefulWidget {
       required this.players,
       required this.leadPlayers,
       required this.round,
-      required this.nextRound});
+      required this.nextRound,
+      required this.openDrawer});
 
   final List<PlayerState> leadPlayers;
   final List<PlayerState> players;
   final int round;
   final Function(int) nextRound;
+  final Function() openDrawer;
 
   @override
   State<GamePlayerCardList> createState() => _GamePlayerCardList();
@@ -157,7 +159,10 @@ class _GamePlayerCardList extends State<GamePlayerCardList> {
                   ),
                 ),
                 const SizedBox(width: 5),
-                const SKIconButton(icon: Icon(Icons.menu)),
+                SKIconButton(
+                  icon: const Icon(Icons.menu),
+                  onPressed: () => widget.openDrawer(),
+                ),
               ],
             ),
           ),
