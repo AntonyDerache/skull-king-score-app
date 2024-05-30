@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:skull_king_score_app/src/presentation/utils/color.dart';
 import 'package:skull_king_score_app/src/presentation/utils/constants.dart';
 
 class SKTextInput extends StatefulWidget {
@@ -42,7 +41,7 @@ class _SKTextInput extends State<SKTextInput> {
   Widget build(BuildContext context) {
     final InputDecoration defaultDecoration = InputDecoration(
         filled: true,
-        fillColor: lightColor.withAlpha(60),
+        fillColor: Colors.white.withAlpha(70),
         border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide.none),

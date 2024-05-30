@@ -9,17 +9,20 @@ import 'package:skull_king_score_app/src/presentation/widgets/sk_text.dart';
 enum ButtonVariant { plain, outlined }
 
 class SKButton extends StatelessWidget {
-  SKButton(
-      {super.key,
-      this.label = 'label',
-      this.onPressed,
-      this.variant = ButtonVariant.plain,
-      this.icon});
+  SKButton({
+    super.key,
+    this.label = 'label',
+    this.onPressed,
+    this.variant = ButtonVariant.plain,
+    this.icon,
+    this.textWeight = FontWeight.normal,
+  });
 
   final String label;
   final Function? onPressed;
   final ButtonVariant? variant;
   final IconData? icon;
+  final FontWeight textWeight;
 
   final ButtonStyle defaultStyle = TextButton.styleFrom(
     shape: const RoundedRectangleBorder(
@@ -63,7 +66,7 @@ class SKButton extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SKText(text: label, fontSize: 16),
+                SKText(text: label, fontSize: 16, fontWeight: textWeight),
                 if (icon != null) ...[const SizedBox(width: 20), Icon(icon)]
               ],
             )),

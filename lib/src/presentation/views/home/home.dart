@@ -61,6 +61,33 @@ class Home extends StatelessWidget {
                               color: Colors.white),
                         ),
                       ),
+                      Container(
+                        height: 38,
+                        alignment: Alignment.topRight,
+                        child: const IconButton(
+                          icon: Image(
+                              color: Colors.white,
+                              image: AssetImage("assets/icons/settings.png")),
+                          onPressed: null,
+                        ),
+                      ),
+                      // Container(
+                      //   height: 48,
+                      //   alignment: Alignment.topRight,
+                      //   child: BlocBuilder<LanguageCubit, LanguageState>(
+                      //       builder: (context, state) {
+                      //     String flagPath = state is FrenchLanguageState
+                      //         ? 'assets/icons/french_flag.png'
+                      //         : 'assets/icons/english_flag.png';
+                      //     LanguageState newState = state is FrenchLanguageState
+                      //         ? EnglishLanguageState()
+                      //         : FrenchLanguageState();
+                      //     return IconButton(
+                      //       icon: Image(image: AssetImage(flagPath)),
+                      //       onPressed: () => changeLanguage(context, newState),
+                      //     );
+                      //   }),
+                      // ),
                     ],
                   ),
                   Expanded(
@@ -76,26 +103,12 @@ class Home extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                       child: SKButton(
                         label: AppLocalizations.of(context)!.start,
+                        textWeight: FontWeight.bold,
                         onPressed: () => play(context),
                       ),
                     ),
                   ),
-                  SizedBox(
-                    width: 32,
-                    height: 32,
-                    child: BlocBuilder<LanguageCubit, LanguageState>(
-                      builder: (context, state) {
-                        String flagPath = state is FrenchLanguageState
-                            ? 'assets/icons/french_flag.png'
-                            : 'assets/icons/english_flag.png';
-                        LanguageState newState = state is FrenchLanguageState ? EnglishLanguageState() : FrenchLanguageState();
-                        return IconButton(
-                            icon: Image(image: AssetImage(flagPath)),
-                            onPressed: () => changeLanguage(context, newState),
-                        );
-                      }
-                    ),
-                  ),
+                  const SKText(text: '@copyright Antony', fontSize: 9),
                 ],
               ),
             ),
