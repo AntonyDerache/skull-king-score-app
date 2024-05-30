@@ -4,8 +4,8 @@
   "start": "Jouer",
   "players": "joueurs",
 
-  "bids": "Mise :",
-  "tricks": "Plis gagné :",
+  "bids": "Mises :",
+  "tricks": "Plis gagnés :",
   "bonusPoints": "Points bonus :",
   "roundScore": "Score de la manche :",
   "endRound": "Fin de manche",

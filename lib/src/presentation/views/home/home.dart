@@ -23,6 +23,10 @@ class Home extends StatelessWidget {
     Navigator.pushNamed(context, gameUrl);
   }
 
+  void changeLanguage(BuildContext context, LanguageState state) async {
+    await context.read<LanguageCubit>().toggleNewLanguage(state);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,20 +84,17 @@ class Home extends StatelessWidget {
                     width: 32,
                     height: 32,
                     child: BlocBuilder<LanguageCubit, LanguageState>(
-                        builder: (context, state) {
-                      String flagPath = state.code == 'fr'
-                          ? 'assets/icons/french_flag.png'
-                          : 'assets/icons/english_flag.png';
-                      String languageCode = state.code == 'fr' ? 'en' : 'fr';
-                      return IconButton(
-                        icon: Image(image: AssetImage(flagPath)),
-                        onPressed: () {
-                          context
-                              .read<LanguageCubit>()
-                              .toggleNewLanguage(languageCode);
-                        },
-                      );
-                    }),
+                      builder: (context, state) {
+                        String flagPath = state is FrenchLanguageState
+                            ? 'assets/icons/french_flag.png'
+                            : 'assets/icons/english_flag.png';
+                        LanguageState newState = state is FrenchLanguageState ? EnglishLanguageState() : FrenchLanguageState();
+                        return IconButton(
+                            icon: Image(image: AssetImage(flagPath)),
+                            onPressed: () => changeLanguage(context, newState),
+                        );
+                      }
+                    ),
                   ),
                 ],
               ),
