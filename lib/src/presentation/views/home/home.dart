@@ -65,12 +65,10 @@ class Home extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        height: 38,
                         alignment: Alignment.topRight,
                         child: IconButton(
-                          icon: const Image(
-                              color: Colors.white,
-                              image: AssetImage("assets/icons/settings.png")),
+                          iconSize: 28,
+                          icon: const Icon(Icons.settings, color: Colors.white),
                           onPressed: () => openDrawer(),
                         ),
                       ),

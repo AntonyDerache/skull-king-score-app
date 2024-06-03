@@ -160,7 +160,7 @@ class _GamePlayerCardList extends State<GamePlayerCardList> {
                 ),
                 const SizedBox(width: 5),
                 SKIconButton(
-                  icon: const Icon(Icons.menu),
+                  icon: const Icon(Icons.settings),
                   onPressed: () => widget.openDrawer(),
                 ),
               ],

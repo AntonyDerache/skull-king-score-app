@@ -6,6 +6,7 @@ import 'package:skull_king_score_app/src/presentation/cubit/language/language_cu
 import 'package:skull_king_score_app/src/presentation/cubit/language/language_state.dart';
 import 'package:skull_king_score_app/src/presentation/utils/color.dart';
 import 'package:skull_king_score_app/src/presentation/utils/constants.dart';
+import 'package:skull_king_score_app/src/presentation/views/rules_modal_view.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_text.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -33,9 +34,6 @@ class SKDrawer extends StatelessWidget {
                 Expanded(
                   child: ListView(padding: EdgeInsets.zero, children: [
                     DrawerHeader(
-                      decoration: BoxDecoration(
-                        color: darkColor.withAlpha(100),
-                      ),
                       padding: const EdgeInsets.all(30),
                       child: FittedBox(
                         fit: BoxFit.contain,
@@ -47,17 +45,29 @@ class SKDrawer extends StatelessWidget {
                     ),
                     ListTile(
                       title: SKText(
-                          text: AppLocalizations.of(context)!.rules, fontSize: 18),
+                          text: AppLocalizations.of(context)!.rules,
+                          fontSize: 18),
+                      onTap: () {
+                        showModalBottomSheet(
+                            useSafeArea: true,
+                            isScrollControlled: true,
+                            backgroundColor: darkColor,
+                            context: context,
+                            builder: (BuildContext context) {
+                              return const RulesModalView();
+                            });
+                      },
+                    ),
+                    ListTile(
+                      title: SKText(
+                          text: AppLocalizations.of(context)!.stats,
+                          fontSize: 18),
                       onTap: null,
                     ),
                     ListTile(
                       title: SKText(
-                          text: AppLocalizations.of(context)!.stats, fontSize: 18),
-                      onTap: null,
-                    ),
-                    ListTile(
-                      title: SKText(
-                          text: AppLocalizations.of(context)!.goHome, fontSize: 18),
+                          text: AppLocalizations.of(context)!.goHome,
+                          fontSize: 18),
                       onTap: () => goToHome(context),
                     ),
                   ]),
