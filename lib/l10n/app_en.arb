@@ -14,7 +14,20 @@
   "result": "Game Result!",
   "home": "Home",
 
-  "rules": "Rules",
+  "help": "Help",
+  "mermaid": "Mermaid",
+  "mermaid_description": "Add a Mermaid if player has beaten one using a Pirate",
+  "pirate": "Pirate",
+  "pirate_descrption": "Add a Pirate if player has beaten one using a Skull King",
+  "skull_king": "Skull King",
+  "skull_king_description": "Add a Skull King if player has beaten one using a Mermaid",
+  "ten_point": "+10",
+  "ten_point_description": " Add Ten points for any 14 cards the current bids' winner gained",
+  "alliance": "Alliance",
+  "alliance_description": "Add an Alliance for players who both won their respective bids",
+  "rascal_bet": "Rascal Bet",
+  "rascal_bet_description": "Add Rascal Bet when a player win a bid using the Pirate Rascal and bet on his win",
+
   "stats": "Statistics",
   "goHome": "Return to title",
 

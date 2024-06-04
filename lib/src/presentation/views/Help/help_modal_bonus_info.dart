@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_bonus_icon_button.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_text.dart';
 
-class RulesModalBonusInfo extends StatelessWidget {
-  const RulesModalBonusInfo(
+class HelpModalBonusInfo extends StatelessWidget {
+  const HelpModalBonusInfo(
       {super.key,
       required this.title,
       required this.description,

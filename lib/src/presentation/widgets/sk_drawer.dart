@@ -6,7 +6,7 @@ import 'package:skull_king_score_app/src/presentation/cubit/language/language_cu
 import 'package:skull_king_score_app/src/presentation/cubit/language/language_state.dart';
 import 'package:skull_king_score_app/src/presentation/utils/color.dart';
 import 'package:skull_king_score_app/src/presentation/utils/constants.dart';
-import 'package:skull_king_score_app/src/presentation/views/rules_modal_view.dart';
+import 'package:skull_king_score_app/src/presentation/views/Help/help_modal_view.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_text.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -45,7 +45,7 @@ class SKDrawer extends StatelessWidget {
                     ),
                     ListTile(
                       title: SKText(
-                          text: AppLocalizations.of(context)!.rules,
+                          text: AppLocalizations.of(context)!.help,
                           fontSize: 18),
                       onTap: () {
                         showModalBottomSheet(
@@ -54,7 +54,7 @@ class SKDrawer extends StatelessWidget {
                             backgroundColor: darkColor,
                             context: context,
                             builder: (BuildContext context) {
-                              return const RulesModalView();
+                              return const HelpModalView();
                             });
                       },
                     ),

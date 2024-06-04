@@ -14,7 +14,20 @@
   "result": "Resultats !",
   "home": "Home",
 
-  "rules": "Règles",
+  "help": "Aide",
+  "mermaid": "Sirène",
+  "mermaid_description": "Ajouter une sirène si un joueur en bat une en jouant un pirate",
+  "pirate": "Pirate",
+  "pirate_descrption": "Ajouter une pirate si un joueur en bat un en jouant un Skull King",
+  "skull_king": "Skull King",
+  "skull_king_description": "Ajouter un Skull King si un joueur le bat en jouant une sirène",
+  "ten_point": "+10",
+  "ten_point_description": "Ajouter 10 points pour chaque carte numéro 14 gagné par le gagnant du pli",
+  "alliance": "Alliance",
+  "alliance_description": "Ajouter une alliance pour les joueurs en alliance et que chacun ont réussi leurs offres",
+  "rascal_bet": "Pari Rascal",
+  "rascal_bet_description": "Ajouter un pari quand un joueur gagne un pli en jouant le pirate Rascal",
+
   "stats": "Statistiques",
   "goHome": "Retour au menu",
 
