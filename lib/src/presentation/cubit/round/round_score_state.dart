@@ -22,7 +22,7 @@ final class RoundScoreState {
     return playersMapScore.firstWhere((element) => element.playerId == id);
   }
 
-  int calculPlayerRoundScore(UniqueKey playerId, int round) {
+  int calculPlayerRoundScore(UniqueKey playerId) {
     RoundScorePlayer player =
         playersMapScore.firstWhere((element) => element.playerId == playerId);
 

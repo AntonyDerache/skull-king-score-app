@@ -13,7 +13,7 @@ class SKPlayerCard extends StatelessWidget {
     this.isScoreLeader = false,
     this.playerName = '',
     required this.currentRoundScore,
-    required this.round,
+    required this.maxValue,
     this.onPiratePressed,
     this.onMermaidPressed,
     this.onSkullKingPressed,
@@ -26,7 +26,7 @@ class SKPlayerCard extends StatelessWidget {
 
   final bool isScoreLeader;
   final String playerName;
-  final int round;
+  final int maxValue;
   final int currentRoundScore;
 
   final Function(int)? onPiratePressed;
@@ -70,7 +70,7 @@ class SKPlayerCard extends StatelessWidget {
                       SKText(text: AppLocalizations.of(context)!.bids),
                       const SizedBox(width: 10),
                       SKNumberField(
-                        maxValue: round,
+                        maxValue: maxValue,
                         onChange: (String value) => onBidsChanged?.call(value),
                       ),
                     ],
@@ -80,7 +80,7 @@ class SKPlayerCard extends StatelessWidget {
                       SKText(text: AppLocalizations.of(context)!.tricks),
                       const SizedBox(width: 10),
                       SKNumberField(
-                        maxValue: round,
+                        maxValue: maxValue,
                         onChange: (String value) =>
                             onWonTricksChanged?.call(value),
                       ),

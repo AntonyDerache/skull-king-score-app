@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skull_king_score_app/src/domain/entities/bonus.dart';
+import 'package:skull_king_score_app/src/domain/entities/round.dart';
 import 'package:skull_king_score_app/src/domain/entities/round_score_player.dart';
 import 'package:skull_king_score_app/src/domain/usecases/calcul_round_score.dart';
 import 'package:skull_king_score_app/src/domain/usecases/is_end_round_data_correct.dart';
@@ -27,8 +28,8 @@ class GamePlayerCardList extends StatefulWidget {
 
   final List<PlayerState> leadPlayers;
   final List<PlayerState> players;
-  final int round;
-  final Function(int) nextRound;
+  final Round round;
+  final Function(Round) nextRound;
   final Function() openDrawer;
 
   @override
@@ -68,7 +69,7 @@ class _GamePlayerCardList extends State<GamePlayerCardList> {
 
   Future<bool> isDataMissing(int roundTricksWon) async {
     if (IsEndRoundDataCorrect.call(roundTricksWon, widget.round)) {
-      if (widget.round - roundTricksWon == 1) {
+      if (widget.round.getValue() - roundTricksWon == 1) {
         return await isKakrenBeenPlayed();
       }
       return true;
@@ -78,7 +79,7 @@ class _GamePlayerCardList extends State<GamePlayerCardList> {
 
   void endRound(BuildContext context) {
     context.read<RoundScoreCubit>().endRound(roundScorePlayers, widget.round);
-    if (widget.round < 10) {
+    if (widget.round.getValue() < 10) {
       context.read<RoundBloc>().add(NextRound());
     }
     widget.nextRound(widget.round);
@@ -156,7 +157,7 @@ class _GamePlayerCardList extends State<GamePlayerCardList> {
                   return SKPlayerCard(
                       playerName: player.name,
                       isScoreLeader: widget.leadPlayers.contains(player),
-                      round: widget.round,
+                      maxValue: widget.round.getValue(),
                       currentRoundScore: roundScore,
                       onPiratePressed: (amount) => onBonusPressed(
                           context, player.id, BonusKey.alliance, amount),
@@ -188,7 +189,7 @@ class _GamePlayerCardList extends State<GamePlayerCardList> {
                 Flexible(
                   child: SKButton(
                     label:
-                        '${AppLocalizations.of(context)!.endRound} ${widget.round}',
+                        '${AppLocalizations.of(context)!.endRound} ${widget.round.getValue()}',
                     onPressed: () => nextRound(context, roundScorePlayers),
                   ),
                 ),

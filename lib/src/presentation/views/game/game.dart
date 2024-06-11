@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skull_king_score_app/src/domain/entities/round.dart';
 import 'package:skull_king_score_app/src/presentation/bloc/round/round_bloc.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/player/player_cubit.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/player/player_state.dart';
@@ -19,7 +20,7 @@ class Game extends StatefulWidget {
 
 class _Game extends State<StatefulWidget> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  int round = 0;
+  Round round = Round(0);
   List<PlayerState> players = List.empty();
   List<PlayerState> leadPlayers = List.empty();
   int numberOfPlayer = 0;
@@ -35,7 +36,7 @@ class _Game extends State<StatefulWidget> {
     round = context.read<RoundBloc>().state.round;
   }
 
-  void updatePlayerScore(List<PlayerState> players, int round) {
+  void updatePlayerScore(List<PlayerState> players, Round round) {
     for (PlayerState player in players) {
       int playerScore = context
           .read<RoundScoreCubit>()
@@ -44,16 +45,16 @@ class _Game extends State<StatefulWidget> {
     }
   }
 
-  void nextRound(int round) {
-    if (round < 10) {
+  void nextRound(Round round) {
+    if (round.getValue() < 10) {
       Navigator.pushNamed(context, gameUrl).then((value) => setState(() {}));
     } else {
-      initRound(players, round + 1);
+      initRound(players, Round(round.getValue() + 1));
       Navigator.pushNamed(context, resultUrl).then((value) => setState(() {}));
     }
   }
 
-  void initRound(List<PlayerState> players, int round) {
+  void initRound(List<PlayerState> players, Round round) {
     context.read<RoundScoreCubit>().initNewRound(players, round);
     updatePlayerScore(players, round);
   }

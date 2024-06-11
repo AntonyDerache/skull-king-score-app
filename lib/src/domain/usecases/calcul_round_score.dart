@@ -1,8 +1,9 @@
 import 'package:skull_king_score_app/src/domain/entities/bonus.dart';
+import 'package:skull_king_score_app/src/domain/entities/round.dart';
 import 'package:skull_king_score_app/src/domain/entities/round_score_player.dart';
 
 class CalculRoundScore {
-  static int call(int round, RoundScorePlayer roundScorePlayer) {
+  static int call(Round round, RoundScorePlayer roundScorePlayer) {
     int score = 0;
     int bids = roundScorePlayer.bids;
     int tricksWon = roundScorePlayer.tricksWon;
@@ -10,7 +11,7 @@ class CalculRoundScore {
 
     if (bids == tricksWon) {
       if (bids == 0) {
-        score = round * 10;
+        score = round.getValue() * 10;
       } else {
         score = tricksWon * 20;
       }
@@ -21,7 +22,7 @@ class CalculRoundScore {
       });
     } else {
       if (bids == 0) {
-        score = -(round * 10);
+        score = -(round.getValue() * 10);
       } else {
         int difference = (bids - tricksWon).abs();
         score = -(difference * 10);
