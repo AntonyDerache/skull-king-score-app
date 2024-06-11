@@ -8,7 +8,7 @@ import 'package:skull_king_score_app/src/presentation/utils/constants.dart';
 import 'package:skull_king_score_app/src/presentation/views/game/game_app_bar.dart';
 import 'package:skull_king_score_app/src/presentation/views/game/game_background.dart';
 import 'package:skull_king_score_app/src/presentation/views/game/game_players_card_list.dart';
-import 'package:skull_king_score_app/src/presentation/widgets/sk_drawer.dart';
+import 'package:skull_king_score_app/src/presentation/widgets/sk_drawer/sk_drawer.dart';
 
 class Game extends StatefulWidget {
   const Game({super.key});

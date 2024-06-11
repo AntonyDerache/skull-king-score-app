@@ -1,0 +1,4 @@
+enum DialogAcceptTerm {
+  reject,
+  approve,
+}

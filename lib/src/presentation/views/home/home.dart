@@ -9,7 +9,7 @@ import 'package:skull_king_score_app/src/presentation/utils/constants.dart';
 import 'package:skull_king_score_app/src/presentation/views/home/home_background.dart';
 import 'package:skull_king_score_app/src/presentation/views/home/players_list.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_button.dart';
-import 'package:skull_king_score_app/src/presentation/widgets/sk_drawer.dart';
+import 'package:skull_king_score_app/src/presentation/widgets/sk_drawer/sk_drawer.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_text.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

@@ -1,9 +1,8 @@
-import 'dart:ui';
-
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:skull_king_score_app/src/presentation/utils/color.dart';
 import 'package:skull_king_score_app/src/presentation/utils/constants.dart';
+import 'package:skull_king_score_app/src/presentation/widgets/sk_backdrop_filter.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_text.dart';
 
 enum ButtonVariant { plain, outlined }
@@ -53,24 +52,22 @@ class SKButton extends StatelessWidget {
         buttonStyle = buttonStyle.merge(plainButtonStyle);
     }
 
-    ImageFilter filterBlur = variant == ButtonVariant.plain
-        ? ImageFilter.blur(sigmaX: 8, sigmaY: 8)
-        : ImageFilter.blur(sigmaX: 0, sigmaY: 0);
+    double blurValue = variant == ButtonVariant.plain ? 8.0 : 0;
 
-    final child = ClipRRect(
-      child: BackdropFilter(
-        filter: filterBlur,
-        child: TextButton(
-            style: buttonStyle,
-            onPressed: () => onPressed?.call(),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SKText(text: label, fontSize: 16, fontWeight: textWeight),
-                if (icon != null) ...[const SizedBox(width: 20), Icon(icon)]
-              ],
-            )),
-      ),
+    final child = SKBackdropFilter(
+      hasClipRect: true,
+      sigmaX: blurValue,
+      sigmaY: blurValue,
+      child: TextButton(
+          style: buttonStyle,
+          onPressed: () => onPressed?.call(),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SKText(text: label, fontSize: 16, fontWeight: textWeight),
+              if (icon != null) ...[const SizedBox(width: 20), Icon(icon)]
+            ],
+          )),
     );
 
     return variant == ButtonVariant.plain

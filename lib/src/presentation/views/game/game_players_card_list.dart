@@ -3,14 +3,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skull_king_score_app/src/domain/entities/bonus.dart';
 import 'package:skull_king_score_app/src/domain/entities/round_score_player.dart';
 import 'package:skull_king_score_app/src/domain/usecases/calcul_round_score.dart';
+import 'package:skull_king_score_app/src/domain/usecases/is_end_round_data_correct.dart';
 import 'package:skull_king_score_app/src/presentation/bloc/round/round_bloc.dart';
 import 'package:skull_king_score_app/src/presentation/bloc/round/round_event.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/player/player_state.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/round/round_score_cubit.dart';
+import 'package:skull_king_score_app/src/presentation/utils/dialog_accept_term.dart';
+import 'package:skull_king_score_app/src/presentation/widgets/sk_alert_dialog.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_button.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_icon_button.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_player_card.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:skull_king_score_app/src/presentation/widgets/sk_text.dart';
 
 class GamePlayerCardList extends StatefulWidget {
   const GamePlayerCardList(
@@ -47,25 +51,55 @@ class _GamePlayerCardList extends State<GamePlayerCardList> {
     context.read<RoundBloc>().add(PreviousRound());
   }
 
-  void nextRound(
-      BuildContext context, List<RoundScorePlayer> roundScorePlayers) {
-    RoundScoreCubit roundCubit = context.read<RoundScoreCubit>();
+  Future<bool> isKakrenBeenPlayed() async {
+    DialogAcceptTerm? result = await showDialog(
+        context: context,
+        builder: (_) => const SKAlertDialog(
+            title: 'Missing round',
+            content: SKText(
+                text:
+                    "One round is missing does the kraken has been played during this round?")),
+        barrierDismissible: true);
+    if (result != DialogAcceptTerm.approve) {
+      return true;
+    }
+    return false;
+  }
 
-    int totalTricksWon = roundCubit.getTotalTicksWon(roundScorePlayers);
-    // ask if kraken has been played or add a UI indicator of kraken played
-    if (totalTricksWon > widget.round || totalTricksWon < widget.round - 2) {
-      var snackbar = SnackBar(
+  Future<bool> isDataMissing(int roundTricksWon) async {
+    if (IsEndRoundDataCorrect.call(roundTricksWon, widget.round)) {
+      if (widget.round - roundTricksWon == 1) {
+        return await isKakrenBeenPlayed();
+      }
+      return true;
+    }
+    return false;
+  }
+
+  void endRound(BuildContext context) {
+    context.read<RoundScoreCubit>().endRound(roundScorePlayers, widget.round);
+    if (widget.round < 10) {
+      context.read<RoundBloc>().add(NextRound());
+    }
+    widget.nextRound(widget.round);
+  }
+
+  void nextRound(
+      BuildContext context, List<RoundScorePlayer> roundScorePlayers) async {
+    RoundScoreCubit roundCubit = context.read<RoundScoreCubit>();
+    int roundTricksWon = roundCubit.getRoundTicksWon(roundScorePlayers);
+
+    if (await isDataMissing(roundTricksWon)) {
+      if (!context.mounted) return;
+      SnackBar snackbar = SnackBar(
+        showCloseIcon: true,
         content: Text(AppLocalizations.of(context)!.invalidInput),
       );
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
       return;
     }
-
-    roundCubit.endRound(roundScorePlayers, widget.round);
-    if (widget.round < 10) {
-      context.read<RoundBloc>().add(NextRound());
-    }
-    widget.nextRound(widget.round);
+    if (!context.mounted) return;
+    endRound(context);
   }
 
   void onBonusPressed(

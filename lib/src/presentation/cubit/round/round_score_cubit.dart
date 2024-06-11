@@ -26,7 +26,7 @@ class RoundScoreCubit extends Cubit<List<RoundScoreState>> {
     for (PlayerState player in players) {
       if (round > 1) {
         int currentPlayerScore = GetTotalScore.call(
-            round - 1, state[round - 2].playersMapScore[player.id]!);
+            round - 1, state[round - 2].getRoundScorePlayer(player.id));
         roundScorePlayers.add(RoundScorePlayer(player.id, currentPlayerScore));
       } else {
         roundScorePlayers.add(RoundScorePlayer(player.id, 0));
@@ -38,8 +38,7 @@ class RoundScoreCubit extends Cubit<List<RoundScoreState>> {
   void endRound(List<RoundScorePlayer> roundScorePlayers, int round) {
     for (RoundScorePlayer playerRoundScore in roundScorePlayers) {
       state[round - 1]
-          .playersMapScore
-          .update(playerRoundScore.playerId, (value) => playerRoundScore);
+          .replaceWhere(playerRoundScore.playerId, playerRoundScore);
     }
     emit([...state]);
   }
@@ -48,7 +47,7 @@ class RoundScoreCubit extends Cubit<List<RoundScoreState>> {
     return state[round - 1].calculPlayerRoundScore(playerId, round);
   }
 
-  int getTotalTicksWon(List<RoundScorePlayer> roundScorePlayers) {
+  int getRoundTicksWon(List<RoundScorePlayer> roundScorePlayers) {
     int totalWin = 0;
     for (var score in roundScorePlayers) {
       totalWin += score.tricksWon;

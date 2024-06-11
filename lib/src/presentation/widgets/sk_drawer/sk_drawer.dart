@@ -1,12 +1,11 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/language/language_cubit.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/language/language_state.dart';
 import 'package:skull_king_score_app/src/presentation/utils/color.dart';
 import 'package:skull_king_score_app/src/presentation/utils/constants.dart';
-import 'package:skull_king_score_app/src/presentation/views/Help/help_modal_view.dart';
+import 'package:skull_king_score_app/src/presentation/widgets/sk_backdrop_filter.dart';
+import 'package:skull_king_score_app/src/presentation/widgets/sk_drawer/help_modal/help_modal.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_text.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -23,8 +22,9 @@ class SKDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+    return SKBackdropFilter(
+        sigmaX: 10,
+        sigmaY: 10,
         child: Drawer(
           backgroundColor: secondaryColor.withAlpha(150),
           child: Padding(
