@@ -22,6 +22,8 @@ class SKDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isAtRoot = ModalRoute.of(context)?.settings.name == baseUrl;
+
     return SKBackdropFilter(
         sigmaX: 10,
         sigmaY: 10,
@@ -64,12 +66,13 @@ class SKDrawer extends StatelessWidget {
                           fontSize: 18),
                       onTap: null,
                     ),
-                    ListTile(
-                      title: SKText(
-                          text: AppLocalizations.of(context)!.goHome,
-                          fontSize: 18),
-                      onTap: () => goToHome(context),
-                    ),
+                    if (!isAtRoot)
+                      ListTile(
+                        title: SKText(
+                            text: AppLocalizations.of(context)!.goHome,
+                            fontSize: 18),
+                        onTap: () => goToHome(context),
+                      ),
                   ]),
                 ),
                 Container(

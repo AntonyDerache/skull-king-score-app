@@ -3,6 +3,7 @@ import 'package:skull_king_score_app/src/presentation/utils/color.dart';
 import 'package:skull_king_score_app/src/presentation/utils/dialog_accept_term.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_backdrop_filter.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_text.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SKAlertDialog extends StatelessWidget {
   const SKAlertDialog({
@@ -30,10 +31,10 @@ class SKAlertDialog extends StatelessWidget {
         actions: [
           TextButton(
               onPressed: () => dismissDialog(context, DialogAcceptTerm.reject),
-              child: const SKText(text: "No")),
+              child: SKText(text: AppLocalizations.of(context)!.no)),
           TextButton(
               onPressed: () => dismissDialog(context, DialogAcceptTerm.approve),
-              child: SKText(text: "Yes", color: Colors.blue.shade400)),
+              child: SKText(text: AppLocalizations.of(context)!.yes, color: Colors.blue.shade400)),
         ],
       ),
     );

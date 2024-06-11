@@ -27,9 +27,16 @@
   "alliance_description": "Ajouter une alliance pour les joueurs en alliance et que chacun ont réussi leurs offres",
   "rascal_bet": "Pari Rascal",
   "rascal_bet_description": "Ajouter un pari quand un joueur gagne un pli en jouant le pirate Rascal",
+  "global": "Global",
+  "global_how_to_use": "Dans le cas ou vous avez appuyez 1 fois de trop ou + sur un bonus, vous pouvez les réinitialiser à 0 en depassant leur valeur maximale (La valeur maximale du bonus +10 est de 10)",
+  "ally_how_to_use": "Si une alliance vient à se briser lors qu'un des 2 joueurs ne repecte plus son offre initiale, alors il vous faut remettre l'icone alliance à 0 (ou 1 dans le cas ou un joueur est en double alliance)",
+  "pari_rascal_how_to_use": "Si un joueur perd son offre initiale, les points du pari Rascal se transformeront en malus automatiquement",
 
   "stats": "Statistiques",
   "goHome": "Retour au menu",
+
+  "no": "Non",
+  "yes": "Oui",
 
   "playersDefaultPlaceholder": "Nom du joueur",
   "inputDefaultPlaceholder": "Entrer...",

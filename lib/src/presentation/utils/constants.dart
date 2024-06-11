@@ -5,5 +5,5 @@ const double playerTitleHeight = 20.0;
 const double scoreboardRowSpacing = 15.0;
 
 const String baseUrl = '/';
-const String gameUrl = '$baseUrl/game';
-const String resultUrl = '$baseUrl/result';
+const String gameUrl = '${baseUrl}game';
+const String resultUrl = '${baseUrl}result';

@@ -99,38 +99,39 @@ class HelpModalView extends StatelessWidget {
                         Container(
                             alignment: Alignment.centerLeft,
                             padding: const EdgeInsets.symmetric(vertical: 20.0),
-                            child: const SKText(
-                              text: "Global",
+                            child: SKText(
+                              text: AppLocalizations.of(context)!.global,
                               fontWeight: FontWeight.bold,
                             )),
-                        const Padding(
-                          padding: EdgeInsets.only(left: 10.0),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10.0),
                           child: SKText(
-                              text:
-                                  "Dans le cas ou vous avez appuyez 1 fois de trop ou + sur un bonus, vous pouvez les réinitialiser à 0 en depassant leur valeur maximale (La veleure maximale du bonus +10 est de 10)"),
+                              text: AppLocalizations.of(context)!
+                                  .global_how_to_use),
                         ),
                         Container(
                             alignment: Alignment.centerLeft,
                             padding: const EdgeInsets.symmetric(vertical: 20.0),
-                            child: const SKText(
-                                text: "Alliance", fontWeight: FontWeight.bold)),
-                        const Padding(
-                          padding: EdgeInsets.only(left: 10.0),
-                          child: SKText(
-                              text:
-                                  "Si une alliance vient à se briser lors qu'un des 2 joueurs ne repecte plus son offre initiale, alors il vous faut remettre l'icone alliance à 0 (ou 1 dans le cas ou un joueur est en double alliance)"),
-                        ),
-                        Container(
-                            alignment: Alignment.centerLeft,
-                            padding: const EdgeInsets.symmetric(vertical: 20.0),
-                            child: const SKText(
-                                text: "Pari rascal",
+                            child: SKText(
+                                text: AppLocalizations.of(context)!.alliance,
                                 fontWeight: FontWeight.bold)),
-                        const Padding(
-                          padding: EdgeInsets.only(left: 10.0),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10.0),
                           child: SKText(
-                              text:
-                                  "Si un joueur perd son offre initiale, les points du pari Rascal se transformeront en malus automatiquement"),
+                              text: AppLocalizations.of(context)!
+                                  .ally_how_to_use),
+                        ),
+                        Container(
+                            alignment: Alignment.centerLeft,
+                            padding: const EdgeInsets.symmetric(vertical: 20.0),
+                            child: SKText(
+                                text: AppLocalizations.of(context)!.rascal_bet,
+                                fontWeight: FontWeight.bold)),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10.0),
+                          child: SKText(
+                              text: AppLocalizations.of(context)!
+                                  .pari_rascal_how_to_use),
                         )
                       ]),
                     )
