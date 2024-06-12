@@ -19,6 +19,7 @@ class HelpModalBonusInfo extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SKText(text: title, fontWeight: FontWeight.bold),
+        const SizedBox(height: 5),
         Row(children: [
           SKBonusIconButton(
               icon: Image(image: AssetImage(iconPath)),
