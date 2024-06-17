@@ -10,6 +10,7 @@ import 'package:skull_king_score_app/src/presentation/cubit/language/language_st
 import 'package:skull_king_score_app/src/presentation/cubit/player/player_cubit.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/round/round_score_cubit.dart';
 import 'package:skull_king_score_app/src/presentation/utils/constants.dart';
+import 'package:skull_king_score_app/src/presentation/utils/supported_locales.dart';
 import 'package:skull_king_score_app/src/presentation/views/game/game.dart';
 import 'package:skull_king_score_app/src/presentation/views/home/home.dart';
 import 'package:skull_king_score_app/src/presentation/views/result/result.dart';
@@ -22,7 +23,7 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainApp extends State<MainApp> {
-  LanguageState languageCode = EnglishLanguageState();
+  LanguageState languageCode = const EnglishLanguageState();
 
   Future<Locale?> _fetchLocale() async {
     var prefs = await SharedPreferences.getInstance();
@@ -55,8 +56,9 @@ class _MainApp extends State<MainApp> {
               case ConnectionState.done:
                 if (snapshot.data != null &&
                     snapshot.data!.languageCode == 'fr') {
-                  languageCode = FrenchLanguageState();
-                  context.read<LanguageCubit>().toggleNewLanguage(languageCode);
+                  context
+                      .read<LanguageCubit>()
+                      .toggleNewLanguage(snapshot.data!.languageCode);
                 }
                 break;
               default:
@@ -67,19 +69,15 @@ class _MainApp extends State<MainApp> {
                 return MaterialApp(
                   title: 'Skull King Score Counter',
                   initialRoute: '/',
-                  locale: Locale.fromSubtags(
-                      languageCode: state.languageCode,
-                      countryCode: state.countryCode),
+                  locale: state.locale,
                   localizationsDelegates: const [
                     AppLocalizations.delegate,
                     GlobalMaterialLocalizations.delegate,
                     GlobalWidgetsLocalizations.delegate,
                     GlobalCupertinoLocalizations.delegate,
                   ],
-                  supportedLocales: const [
-                    Locale('en', 'US'),
-                    Locale('fr', 'FR'),
-                  ],
+                  supportedLocales:
+                      supportedLocales.map((language) => language.locale),
                   theme: ThemeData(
                       appBarTheme: const AppBarTheme(
                           systemOverlayStyle: SystemUiOverlayStyle(
@@ -87,7 +85,7 @@ class _MainApp extends State<MainApp> {
                               statusBarBrightness: Brightness.light,
                               statusBarIconBrightness: Brightness.light))),
                   routes: {
-                    baseUrl: (context) => Home(),
+                    baseUrl: (context) => const Home(),
                     gameUrl: (contexnt) => const Game(),
                     resultUrl: (contexnt) => const Result(),
                   },

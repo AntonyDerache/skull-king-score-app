@@ -13,9 +13,14 @@ import 'package:skull_king_score_app/src/presentation/widgets/sk_drawer/sk_drawe
 import 'package:skull_king_score_app/src/presentation/widgets/sk_text.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class Home extends StatelessWidget {
-  Home({super.key});
+class Home extends StatefulWidget {
+  const Home({super.key});
 
+  @override
+  State<StatefulWidget> createState() => _Home();
+}
+
+class _Home extends State<Home> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   void play(BuildContext context) async {

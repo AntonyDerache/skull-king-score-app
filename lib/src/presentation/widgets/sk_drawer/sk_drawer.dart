@@ -4,11 +4,11 @@ import 'package:skull_king_score_app/src/presentation/cubit/language/language_cu
 import 'package:skull_king_score_app/src/presentation/cubit/language/language_state.dart';
 import 'package:skull_king_score_app/src/presentation/utils/color.dart';
 import 'package:skull_king_score_app/src/presentation/utils/constants.dart';
+import 'package:skull_king_score_app/src/presentation/utils/supported_locales.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_backdrop_filter.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_drawer/help_modal/help_modal.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_text.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class SKDrawer extends StatelessWidget {
   const SKDrawer({super.key});
@@ -17,23 +17,13 @@ class SKDrawer extends StatelessWidget {
     Navigator.pushNamedAndRemoveUntil(context, baseUrl, (_) => false);
   }
 
-  void changeLanguage(BuildContext context, LanguageState state) async {
-    await context.read<LanguageCubit>().toggleNewLanguage(state);
+  void changeLanguage(BuildContext context, String? value) async {
+    if (value == null) return;
+    await context.read<LanguageCubit>().toggleNewLanguage(value);
   }
 
-  void openRules(BuildContext context) async {
-    if (context.read<LanguageCubit>().state is FrenchLanguageState) {
-      final Uri url = Uri.parse('https://cdn.shopify.com/s/files/1/0565/3230/4053/files/SK_FR_Rulebook_Optimized.pdf?v=1663014102');
-      if (!await launchUrl(url)) {
-       throw Exception('Could not launch $url');
-      }
-    } else {
-      final Uri url = Uri.parse('https://cdn.shopify.com/s/files/1/0565/3230/4053/files/sk_rulebook_optimized.pdf?v=1652992950');
-      if (!await launchUrl(url)) {
-        throw Exception('Could not launch $url');
-      }
-    }
-   }
+  void openRules(BuildContext context) async =>
+      await context.read<LanguageCubit>().openRules();
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +35,9 @@ class SKDrawer extends StatelessWidget {
         child: Drawer(
           backgroundColor: secondaryColor.withAlpha(150),
           child: Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(15.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
                   child: ListView(padding: EdgeInsets.zero, children: [
@@ -66,13 +57,14 @@ class SKDrawer extends StatelessWidget {
                           fontSize: 18),
                       onTap: () {
                         showModalBottomSheet(
-                            useSafeArea: true,
-                            isScrollControlled: true,
-                            backgroundColor: darkColor,
-                            context: context,
-                            builder: (BuildContext context) {
-                              return const HelpModalView();
-                            });
+                          useSafeArea: true,
+                          isScrollControlled: true,
+                          backgroundColor: darkColor,
+                          context: context,
+                          builder: (BuildContext context) {
+                            return const HelpModalView();
+                          },
+                        );
                       },
                     ),
                     ListTile(
@@ -83,7 +75,8 @@ class SKDrawer extends StatelessWidget {
                               text: AppLocalizations.of(context)!.rules,
                               fontSize: 18),
                           const SizedBox(width: 10),
-                          const Icon(Icons.open_in_browser, color: lightColor, size: 20),
+                          const Icon(Icons.open_in_browser,
+                              color: lightColor, size: 20),
                         ],
                       ),
                       onTap: () => openRules(context),
@@ -104,21 +97,52 @@ class SKDrawer extends StatelessWidget {
                   ]),
                 ),
                 Container(
-                  height: 42,
-                  alignment: Alignment.centerLeft,
+                  height: 48,
+                  width: 48,
+                  color: Colors.transparent,
                   child: BlocBuilder<LanguageCubit, LanguageState>(
-                      builder: (context, state) {
-                    String flagPath = state is FrenchLanguageState
-                        ? 'assets/icons/french_flag.png'
-                        : 'assets/icons/english_flag.png';
-                    LanguageState newState = state is FrenchLanguageState
-                        ? EnglishLanguageState()
-                        : FrenchLanguageState();
-                    return IconButton(
-                      icon: Image(image: AssetImage(flagPath)),
-                      onPressed: () => changeLanguage(context, newState),
-                    );
-                  }),
+                    builder: (context, state) {
+                      const iconSize = 24.0;
+
+                      return DropdownButtonFormField(
+                          dropdownColor: secondaryColor,
+                          elevation: 0,
+                          iconSize: 0.0,
+                          decoration: const InputDecoration(
+                              enabledBorder: InputBorder.none,
+                              border: InputBorder.none),
+                          selectedItemBuilder: (context) {
+                            return supportedLocales.map(
+                              (LanguageState language) {
+                                return Image(
+                                  width: iconSize,
+                                  height: iconSize,
+                                  image: AssetImage(language.flagPath ?? ''),
+                                );
+                              },
+                            ).toList();
+                          },
+                          items: supportedLocales.map(
+                            (LanguageState language) {
+                              return DropdownMenuItem<String>(
+                                value: language.locale.languageCode,
+                                alignment: Alignment.center,
+                                child: IconButton(
+                                    icon: Image(
+                                      width: iconSize,
+                                      height: iconSize,
+                                      image:
+                                          AssetImage(language.flagPath ?? ''),
+                                    ),
+                                    onPressed: null),
+                              );
+                            },
+                          ).toList(),
+                          onChanged: (String? value) =>
+                              changeLanguage(context, value),
+                          value: state.locale.languageCode);
+                    },
+                  ),
                 ),
               ],
             ),

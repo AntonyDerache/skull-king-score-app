@@ -53,8 +53,8 @@ class HelpModalView extends StatelessWidget {
                         const SizedBox(height: 15),
                         HelpModalBonusInfo(
                             title: AppLocalizations.of(context)!.pirate,
-                            description: AppLocalizations.of(context)!
-                                .pirate_descrption,
+                            description:
+                                AppLocalizations.of(context)!.pirate_descrption,
                             iconPath: 'assets/icons/pirate.png'),
                         const SizedBox(height: 15),
                         HelpModalBonusInfo(
@@ -82,12 +82,10 @@ class HelpModalView extends StatelessWidget {
                             iconPath: 'assets/icons/pari.png'),
                       ]),
                     ),
-                    // const SizedBox(height: 40),
                     Container(
                       alignment: Alignment.centerLeft,
                       padding: const EdgeInsets.symmetric(vertical: 25),
                       child: SKText(
-                        
                         text: AppLocalizations.of(context)!.help,
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -106,8 +104,8 @@ class HelpModalView extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(left: 10.0),
                           child: SKText(
-                              text: AppLocalizations.of(context)!
-                                  .globalHowToUse),
+                              text:
+                                  AppLocalizations.of(context)!.globalHowToUse),
                         ),
                         Container(
                             alignment: Alignment.centerLeft,
@@ -118,8 +116,7 @@ class HelpModalView extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(left: 10.0),
                           child: SKText(
-                              text: AppLocalizations.of(context)!
-                                  .allyHowToUse),
+                              text: AppLocalizations.of(context)!.allyHowToUse),
                         ),
                         Container(
                             alignment: Alignment.centerLeft,
