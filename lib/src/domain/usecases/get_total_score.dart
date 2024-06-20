@@ -3,8 +3,8 @@ import 'package:skull_king_score_app/src/domain/entities/round_score_player.dart
 import 'package:skull_king_score_app/src/domain/usecases/calcul_round_score.dart';
 
 class GetTotalScore {
-  static int call(Round round, RoundScorePlayer roundScorePlayer) {
+  static int execute(Round round, RoundScorePlayer roundScorePlayer) {
     return roundScorePlayer.currentScore +
-        CalculRoundScore.call(round, roundScorePlayer);
+        CalculRoundScore.execute(round, roundScorePlayer);
   }
 }

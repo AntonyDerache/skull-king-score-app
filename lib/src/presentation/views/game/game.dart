@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skull_king_score_app/src/domain/entities/round.dart';
+import 'package:skull_king_score_app/src/domain/usecases/get_lead_players.dart';
 import 'package:skull_king_score_app/src/presentation/bloc/round/round_bloc.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/player/player_cubit.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/player/player_state.dart';
@@ -31,7 +32,7 @@ class _Game extends State<StatefulWidget> {
     PlayerCubit playerCubit = context.read<PlayerCubit>();
 
     players = playerCubit.state;
-    leadPlayers = playerCubit.getLeadPlayers();
+    leadPlayers = GetLeadPlayers.execute(players);
     numberOfPlayer = players.length;
     round = context.read<RoundBloc>().state.round;
   }

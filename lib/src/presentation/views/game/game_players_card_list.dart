@@ -68,7 +68,7 @@ class _GamePlayerCardList extends State<GamePlayerCardList> {
   }
 
   Future<bool> isDataMissing(int roundTricksWon) async {
-    if (IsEndRoundDataCorrect.call(roundTricksWon, widget.round)) {
+    if (IsEndRoundDataCorrect.execute(roundTricksWon, widget.round)) {
       if (widget.round.getValue() - roundTricksWon == 1) {
         return await isKakrenBeenPlayed();
       }
@@ -152,7 +152,7 @@ class _GamePlayerCardList extends State<GamePlayerCardList> {
                   RoundScorePlayer roundScorePlayer = roundScorePlayers
                       .singleWhere((elem) => elem.playerId == player.id);
                   int roundScore =
-                      CalculRoundScore.call(widget.round, roundScorePlayer);
+                      CalculRoundScore.execute(widget.round, roundScorePlayer);
 
                   return SKPlayerCard(
                       playerName: player.name,

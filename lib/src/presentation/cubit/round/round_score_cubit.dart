@@ -26,7 +26,7 @@ class RoundScoreCubit extends Cubit<List<RoundScoreState>> {
 
     for (PlayerState player in players) {
       if (round.getValue() > 1) {
-        int currentPlayerScore = GetTotalScore.call(Round(round.getValue() - 1),
+        int currentPlayerScore = GetTotalScore.execute(Round(round.getValue() - 1),
             state[round.getValue() - 2].getRoundScorePlayer(player.id));
         roundScorePlayers.add(RoundScorePlayer(player.id, currentPlayerScore));
       } else {

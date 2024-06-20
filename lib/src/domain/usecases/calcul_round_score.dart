@@ -3,7 +3,7 @@ import 'package:skull_king_score_app/src/domain/entities/round.dart';
 import 'package:skull_king_score_app/src/domain/entities/round_score_player.dart';
 
 class CalculRoundScore {
-  static int call(Round round, RoundScorePlayer roundScorePlayer) {
+  static int execute(Round round, RoundScorePlayer roundScorePlayer) {
     int score = 0;
     int bids = roundScorePlayer.bids;
     int tricksWon = roundScorePlayer.tricksWon;
