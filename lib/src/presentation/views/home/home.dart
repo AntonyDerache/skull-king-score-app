@@ -21,7 +21,7 @@ class Home extends StatefulWidget {
 }
 
 class _Home extends State<Home> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   void play(BuildContext context) async {
     context.read<RoundBloc>().add(StartRound());
@@ -30,13 +30,13 @@ class _Home extends State<Home> {
   }
 
   void openDrawer() {
-    _scaffoldKey.currentState?.openDrawer();
+    scaffoldKey.currentState?.openDrawer();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
+      key: scaffoldKey,
       resizeToAvoidBottomInset: true,
       drawer: const SKDrawer(),
       body: Stack(
@@ -91,6 +91,7 @@ class _Home extends State<Home> {
                     child: Padding(
                       padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                       child: SKButton(
+                        key: const ValueKey('test'),
                         label: AppLocalizations.of(context)!.start,
                         textWeight: FontWeight.bold,
                         onPressed: () => play(context),

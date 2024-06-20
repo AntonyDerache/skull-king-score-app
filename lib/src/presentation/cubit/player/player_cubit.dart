@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/player/player_state.dart';
 
 class PlayerCubit extends Cubit<List<PlayerState>> {
-  PlayerCubit() : super(List<PlayerState>.generate(2, (_) => PlayerState()));
+  PlayerCubit() : super(List<PlayerState>.generate(2, (_) => PlayerState(UniqueKey())));
 
   void addPlayer() {
-    state.add(PlayerState());
+    state.add(PlayerState(UniqueKey()));
     emit([...state]);
   }
 
@@ -16,12 +16,16 @@ class PlayerCubit extends Cubit<List<PlayerState>> {
   }
 
   void updatePlayerName(UniqueKey playerId, String newName) {
-    state.singleWhere((player) => player.id == playerId).name = newName;
+    final int index = state.indexWhere((player) => player.id == playerId);
+    if (index == -1) return;
+    state[index] = state[index].copyWith(name: newName);
     emit([...state]);
   }
 
   void updatePlayerScore(UniqueKey playerId, int newScore) {
-    state.singleWhere((player) => player.id == playerId).score = newScore;
+    final int index = state.indexWhere((player) => player.id == playerId);
+    if (index == -1) return;
+    state[index] = state[index].copyWith(score: newScore);
     emit([...state]);
   }
 
