@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:skull_king_score_app/src/domain/entities/bonus.dart';
 
 class PlayerRoundScore {
@@ -49,6 +49,15 @@ class PlayerRoundScore {
   }
 
   @override
+  bool operator ==(Object other) =>
+      other is PlayerRoundScore &&
+      other.playerId == playerId &&
+      other.bids == bids &&
+      other.tricksWon == tricksWon &&
+      other.currentScore == currentScore &&
+      mapEquals(other.bonusPoints, bonusPoints);
+
+  @override
   String toString() {
     return """
   player $playerId as $currentScore score
@@ -62,4 +71,13 @@ class PlayerRoundScore {
   bonus ${bonusPoints[BonusKey.rascalBet]} of ${BonusKey.rascalBet}
     """;
   }
+
+  @override
+  int get hashCode => Object.hash(
+        playerId,
+        bids,
+        tricksWon,
+        bonusPoints,
+        currentScore,
+      );
 }

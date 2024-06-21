@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:skull_king_score_app/src/domain/entities/player.dart';
 import 'package:skull_king_score_app/src/domain/entities/round.dart';
 import 'package:skull_king_score_app/src/domain/entities/round_score_player.dart';
@@ -36,21 +37,24 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     roundHistory[state.round.getValue() - 1] = event.playersScores;
     for (var i = 0; i < event.playersScores.length; i++) {
       PlayerRoundScore scorePlayer = event.playersScores[i];
-
       int totalComputedRoundScore =
           GetTotalScore.execute(state.round, scorePlayer);
-      nextRoundScoresPlayers
-          .add(PlayerRoundScore(scorePlayer.playerId, totalComputedRoundScore));
 
-      int playerIdx = playersInGame.indexWhere(
-        (player) => player.id == scorePlayer.playerId,
-      );
-      playersInGame[playerIdx] = playersInGame[playerIdx].copyWith(
-        score: totalComputedRoundScore,
-      );
+      nextRoundScoresPlayers.add(PlayerRoundScore(
+        scorePlayer.playerId,
+        totalComputedRoundScore,
+      ));
+      _updatePlayerScore(
+          totalComputedRoundScore, playersInGame, scorePlayer.playerId);
     }
     if (state.round.getValue() == roundHistory.length) {
       roundHistory.add(nextRoundScoresPlayers);
+    } else if (state.round.getValue() < roundHistory.length &&
+        _isNextRoundScoresAreEqual(
+          event.playersScores,
+          state.roundHistory[state.round.getValue() - 1],
+        )) {
+      // _updatePlayerScore();
     }
     emit(
       state.copyWith(
@@ -70,19 +74,36 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     for (var i = 0; i < scoresFromPreviousRound.length; i++) {
       PlayerRoundScore scorePlayer = scoresFromPreviousRound[i];
 
-      int playerIdx = playersInGame.indexWhere(
-        (player) => player.id == scorePlayer.playerId,
-      );
-      playersInGame[playerIdx] = playersInGame[playerIdx].copyWith(
-        score: scorePlayer.currentScore,
-      );
+      _updatePlayerScore(
+          scorePlayer.currentScore, playersInGame, scorePlayer.playerId);
     }
-
     emit(
       state.copyWith(
         round: Round(state.round.getValue() - 1),
         playersInGame: playersInGame,
       ),
     );
+  }
+
+  void _updatePlayerScore(
+    int score,
+    List<Player> playersInGame,
+    UniqueKey playerId,
+  ) {
+    int playerIdx = playersInGame.indexWhere(
+      (player) => player.id == playerId,
+    );
+    playersInGame[playerIdx] = playersInGame[playerIdx].copyWith(
+      score: score,
+    );
+  }
+
+  bool _isNextRoundScoresAreEqual(
+    List<PlayerRoundScore> nextRoundScores,
+    List<PlayerRoundScore> existingNextRoundScores,
+  ) {
+    print("$nextRoundScores -- $existingNextRoundScores");
+    print(listEquals(nextRoundScores, existingNextRoundScores));
+    return true;
   }
 }

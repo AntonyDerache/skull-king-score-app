@@ -9,6 +9,7 @@ import 'package:skull_king_score_app/src/domain/usecases/is_end_round_data_corre
 import 'package:skull_king_score_app/src/presentation/bloc/game/game_bloc.dart';
 import 'package:skull_king_score_app/src/presentation/bloc/game/game_event.dart';
 import 'package:skull_king_score_app/src/presentation/bloc/game/game_state.dart';
+import 'package:skull_king_score_app/src/presentation/cubit/round_scores/round_scores_cubit.dart';
 import 'package:skull_king_score_app/src/presentation/utils/constants.dart';
 import 'package:skull_king_score_app/src/presentation/utils/dialog_accept_term.dart';
 import 'package:skull_king_score_app/src/presentation/views/game/game_app_bar.dart';
@@ -30,11 +31,6 @@ class Game extends StatefulWidget {
 
 class _Game extends State<StatefulWidget> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   Future<DialogAcceptTerm?> showKrakenDialog() async {
     return await showDialog(
@@ -64,8 +60,9 @@ class _Game extends State<StatefulWidget> {
     return true;
   }
 
-  void endRound(BuildContext context, Round round,
-      List<PlayerRoundScore> playersRoundScores) async {
+  void endRound(BuildContext context, Round round) async {
+    List<PlayerRoundScore> playersRoundScores =
+        context.read<RoundScoreCubit>().state;
     int tricksWonInRound = GetTotalTricksWon.execute(playersRoundScores);
     if (IsEndRoundDataIncorrect.execute(tricksWonInRound, round)) {
       if (await isKakrenNotBeenPlayed(context, round, tricksWonInRound)) {
@@ -76,7 +73,7 @@ class _Game extends State<StatefulWidget> {
     if (!context.mounted) return;
     context.read<GameBloc>().add(GameEndRound(playersRoundScores));
     round.getValue() < 10
-        ? Navigator.pushNamed(context, gameUrl)
+        ? Navigator.pushNamed(context, gameUrl).then((_) => setState(() => {}))
         : Navigator.pushNamed(context, resultUrl);
   }
 
@@ -112,58 +109,58 @@ class _Game extends State<StatefulWidget> {
         child: Stack(children: [
           const GameBackground(),
           SafeArea(
-            child: BlocBuilder<GameBloc, GameState>(
-              builder: (context, state) {
-                List<Player> leadPlayers =
-                    GetLeadPlayers.execute(List.from(state.playersInGame));
-                List<PlayerRoundScore> playersScores =
-                    getPlayerRoundScore(state.round, state.roundHistory);
+            child: Padding(
+              padding:
+                  const EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
+              child: BlocBuilder<GameBloc, GameState>(
+                builder: (context, state) {
+                  List<Player> leadPlayers = GetLeadPlayers.execute(
+                    List.from(state.playersInGame),
+                  );
+                  context.read<RoundScoreCubit>().init(
+                        getPlayerRoundScore(state.round, state.roundHistory),
+                      );
 
-                return Column(
-                  children: [
-                    GameAppBar(
-                        leadPlayers: leadPlayers, players: state.playersInGame),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 10.0, right: 10.0, top: 10.0),
+                  return Column(
+                    children: [
+                      GameAppBar(
+                          leadPlayers: leadPlayers,
+                          players: state.playersInGame),
+                      Expanded(
                         child: GamePlayerCardList(
                           players: state.playersInGame,
-                          playersRoundScores: playersScores,
                           leadPlayers: leadPlayers,
                           round: state.round,
-                          openDrawer: openDrawer,
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SKIconButton(
-                              icon: const Icon(Icons.arrow_back),
-                              onPressed: () => Navigator.pop(context)),
-                          const SizedBox(width: 5),
-                          Flexible(
-                            child: SKButton(
-                              label:
-                                  '${AppLocalizations.of(context)!.endRound} ${state.round.getValue()}',
-                              onPressed: () =>
-                                  endRound(context, state.round, playersScores),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SKIconButton(
+                                icon: const Icon(Icons.arrow_back),
+                                onPressed: () => Navigator.pop(context)),
+                            const SizedBox(width: 5),
+                            Flexible(
+                              child: SKButton(
+                                label:
+                                    '${AppLocalizations.of(context)!.endRound} ${state.round.getValue()}',
+                                onPressed: () => endRound(context, state.round),
+                              ),
                             ),
-                          ),
-                          const SizedBox(width: 5),
-                          SKIconButton(
-                            icon: const Icon(Icons.settings),
-                            onPressed: () => openDrawer(),
-                          ),
-                        ],
+                            const SizedBox(width: 5),
+                            SKIconButton(
+                              icon: const Icon(Icons.settings),
+                              onPressed: () => openDrawer(),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                );
-              },
+                    ],
+                  );
+                },
+              ),
             ),
           ),
         ]),

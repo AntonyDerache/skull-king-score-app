@@ -2,29 +2,21 @@ import 'package:cart_stepper/cart_stepper.dart';
 import 'package:flutter/material.dart';
 import 'package:skull_king_score_app/src/presentation/utils/color.dart';
 
-class SKNumberField extends StatefulWidget {
-  const SKNumberField({
+class SKNumberField extends StatelessWidget{
+   const SKNumberField({
     super.key,
     required this.maxValue,
+    required this.value,
     this.onChange,
   });
 
   final Function(String)? onChange;
   final int maxValue;
-
-  @override
-  State<SKNumberField> createState() => _SKNumberField();
-}
-
-class _SKNumberField extends State<SKNumberField> {
-  int counter = 0;
+  final int value;
 
   void onValueChange(int newValue) {
-    if (newValue > widget.maxValue) return;
-    setState(() {
-      counter = newValue;
-    });
-    widget.onChange?.call(newValue.toString());
+    if (newValue > maxValue) return;
+    onChange?.call(newValue.toString());
   }
 
   @override
@@ -41,7 +33,7 @@ class _SKNumberField extends State<SKNumberField> {
           activeBackgroundColor: Colors.transparent,
           shadowColor: Colors.transparent,
           textStyle: TextStyle(color: lightColor)),
-      value: counter,
+      value: value,
       didChangeCount: (count) => onValueChange(count),
     );
   }

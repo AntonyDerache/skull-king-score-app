@@ -8,6 +8,7 @@ import 'package:skull_king_score_app/src/presentation/bloc/game/game_bloc.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/language/language_cubit.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/language/language_state.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/player/player_cubit.dart';
+import 'package:skull_king_score_app/src/presentation/cubit/round_scores/round_scores_cubit.dart';
 import 'package:skull_king_score_app/src/presentation/utils/constants.dart';
 import 'package:skull_king_score_app/src/presentation/utils/supported_locales.dart';
 import 'package:skull_king_score_app/src/presentation/views/game/game.dart';
@@ -45,6 +46,7 @@ class _MainApp extends State<MainApp> {
       providers: [
         BlocProvider<PlayerCubit>(create: (_) => PlayerCubit()),
         BlocProvider<LanguageCubit>(create: (_) => LanguageCubit(languageCode)),
+        BlocProvider<RoundScoreCubit>(create: (_) => RoundScoreCubit()),
         BlocProvider<GameBloc>(create: (_) => GameBloc()),
       ],
       child: FutureBuilder(

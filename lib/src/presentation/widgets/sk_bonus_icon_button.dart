@@ -1,30 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_text.dart';
 
-class SKBonusIconButton extends StatefulWidget {
+class SKBonusIconButton extends StatelessWidget {
   const SKBonusIconButton({
     super.key,
     required this.icon,
     required this.maxAmount,
+    required this.value,
     this.onPressed,
-  });
+  }) : assert(value <= maxAmount);
 
   final Widget icon;
   final int maxAmount;
+  final int value;
   final Function(int)? onPressed;
 
-  @override
-  State<SKBonusIconButton> createState() => _SKBonusIconButton();
-}
-
-class _SKBonusIconButton extends State<SKBonusIconButton> {
-  int amount = 0;
-
   void iconIsClicked() {
-    setState(() {
-      amount + 1 > widget.maxAmount ? amount = 0 : amount++;
-    });
-    widget.onPressed?.call(amount);
+    onPressed?.call(value + 1 > maxAmount ? 0 : value + 1);
   }
 
   @override
@@ -43,7 +35,7 @@ class _SKBonusIconButton extends State<SKBonusIconButton> {
           ),
           alignment: Alignment.center,
           child: IconButton(
-            icon: widget.icon,
+            icon: icon,
             onPressed: () => iconIsClicked(),
           ),
         ),
@@ -67,7 +59,7 @@ class _SKBonusIconButton extends State<SKBonusIconButton> {
               ],
             ),
             child: SKText(
-              text: amount.toString(),
+              text: value.toString(),
               fontSize: 10,
               color: Colors.black,
             ),

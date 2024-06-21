@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:skull_king_score_app/src/domain/entities/bonus.dart';
+import 'package:skull_king_score_app/src/domain/entities/round_score_player.dart';
 import 'package:skull_king_score_app/src/presentation/utils/color.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_backdrop_filter.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_bonus_icon_button.dart';
@@ -14,6 +16,7 @@ class SKPlayerCard extends StatelessWidget {
     this.playerName = '',
     required this.currentRoundScore,
     required this.maxValue,
+    required this.playerRoundScore,
     this.onPiratePressed,
     this.onMermaidPressed,
     this.onSkullKingPressed,
@@ -28,6 +31,7 @@ class SKPlayerCard extends StatelessWidget {
   final String playerName;
   final int maxValue;
   final int currentRoundScore;
+  final PlayerRoundScore playerRoundScore;
 
   final Function(int)? onPiratePressed;
   final Function(int)? onMermaidPressed;
@@ -71,6 +75,7 @@ class SKPlayerCard extends StatelessWidget {
                       const SizedBox(width: 10),
                       SKNumberField(
                         maxValue: maxValue,
+                        value: playerRoundScore.bids,
                         onChange: (String value) => onBidsChanged?.call(value),
                       ),
                     ],
@@ -81,6 +86,7 @@ class SKPlayerCard extends StatelessWidget {
                       const SizedBox(width: 10),
                       SKNumberField(
                         maxValue: maxValue,
+                        value: playerRoundScore.tricksWon,
                         onChange: (String value) =>
                             onWonTricksChanged?.call(value),
                       ),
@@ -98,36 +104,48 @@ class SKPlayerCard extends StatelessWidget {
                     icon: const Image(
                         image: AssetImage('assets/icons/pirate.png')),
                     maxAmount: 5,
+                    value:
+                        playerRoundScore.bonusPoints[BonusKey.pirate]!.amount,
                     onPressed: (amount) => onPiratePressed?.call(amount),
                   ),
                   SKBonusIconButton(
                     icon: const Image(
                         image: AssetImage('assets/icons/mermaid.png')),
                     maxAmount: 2,
+                    value:
+                        playerRoundScore.bonusPoints[BonusKey.mermaid]!.amount,
                     onPressed: (amount) => onMermaidPressed?.call(amount),
                   ),
                   SKBonusIconButton(
                     icon: const Image(
                         image: AssetImage('assets/icons/skull_king.png')),
                     maxAmount: 1,
+                    value: playerRoundScore
+                        .bonusPoints[BonusKey.skullKing]!.amount,
                     onPressed: (amount) => onSkullKingPressed?.call(amount),
                   ),
                   SKBonusIconButton(
                     icon: const SKText(
                         text: '+10', color: Colors.black, fontSize: 11),
                     maxAmount: 10,
+                    value: playerRoundScore
+                        .bonusPoints[BonusKey.tenPoints]!.amount,
                     onPressed: (amount) => onTenPressed?.call(amount),
                   ),
                   SKBonusIconButton(
                     icon: const Image(
                         image: AssetImage('assets/icons/coins.png')),
                     maxAmount: 2,
+                    value:
+                        playerRoundScore.bonusPoints[BonusKey.alliance]!.amount,
                     onPressed: (amount) => onAllyPressed?.call(amount),
                   ),
                   SKBonusIconButton(
                     icon:
                         const Image(image: AssetImage('assets/icons/pari.png')),
                     maxAmount: 2,
+                    value: playerRoundScore
+                        .bonusPoints[BonusKey.rascalBet]!.amount,
                     onPressed: (amount) => onBetPressed?.call(amount),
                   ),
                 ],

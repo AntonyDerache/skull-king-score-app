@@ -27,6 +27,7 @@ class HelpModalBonusInfo extends StatelessWidget {
               image: AssetImage(iconPath),
             ),
             maxAmount: 0,
+            value: 0,
             onPressed: null,
           ),
           const SizedBox(width: 10),
