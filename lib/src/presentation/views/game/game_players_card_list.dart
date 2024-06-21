@@ -8,7 +8,7 @@ import 'package:skull_king_score_app/src/domain/usecases/calcul_round_score.dart
 import 'package:skull_king_score_app/src/presentation/cubit/round_scores/round_scores_cubit.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_player_card.dart';
 
-class GamePlayerCardList extends StatefulWidget {
+class GamePlayerCardList extends StatelessWidget {
   const GamePlayerCardList({
     super.key,
     required this.players,
@@ -20,24 +20,18 @@ class GamePlayerCardList extends StatefulWidget {
   final List<Player> players;
   final Round round;
 
-  @override
-  State<StatefulWidget> createState() => _GamePlayerCardList();
-}
-
-class _GamePlayerCardList extends State<GamePlayerCardList> {
-  void onBonusPressed(UniqueKey playerId, BonusKey bonusKey, int amount) {
+  void onBonusPressed(
+      BuildContext context, UniqueKey playerId, BonusKey bonusKey, int amount) {
     context.read<RoundScoreCubit>().onBonusPressed(playerId, bonusKey, amount);
-    setState(() {});
   }
 
-  void onBidsChanged(UniqueKey playerId, String value) {
+  void onBidsChanged(BuildContext context, UniqueKey playerId, String value) {
     context.read<RoundScoreCubit>().onBidsChanged(playerId, value);
-    setState(() {});
   }
 
-  void onWonTricksChanged(UniqueKey playerId, String value) {
+  void onWonTricksChanged(
+      BuildContext context, UniqueKey playerId, String value) {
     context.read<RoundScoreCubit>().onWonTricksChanged(playerId, value);
-    setState(() {});
   }
 
   @override
@@ -51,37 +45,38 @@ class _GamePlayerCardList extends State<GamePlayerCardList> {
               return ListView.separated(
                 separatorBuilder: (context, index) =>
                     const SizedBox(height: 15),
-                itemCount: widget.players.length,
+                itemCount: players.length,
                 physics: const ClampingScrollPhysics(),
                 shrinkWrap: true,
                 itemBuilder: (BuildContext context, int index) {
-                  final Player player = widget.players[index];
+                  final Player player = players[index];
                   final PlayerRoundScore playerRoundScore =
                       state.singleWhere((elem) => elem.playerId == player.id);
                   final int roundScore =
-                      CalculRoundScore.execute(widget.round, playerRoundScore);
+                      CalculRoundScore.execute(round, playerRoundScore);
 
                   return SKPlayerCard(
                     playerName: player.name,
-                    isScoreLeader: widget.leadPlayers.contains(player),
-                    maxValue: widget.round.getValue(),
+                    isScoreLeader: leadPlayers.contains(player),
+                    maxValue: round.getValue(),
                     playerRoundScore: playerRoundScore,
                     currentRoundScore: roundScore,
-                    onPiratePressed: (amount) =>
-                        onBonusPressed(player.id, BonusKey.pirate, amount),
-                    onMermaidPressed: (amount) =>
-                        onBonusPressed(player.id, BonusKey.mermaid, amount),
-                    onSkullKingPressed: (amount) =>
-                        onBonusPressed(player.id, BonusKey.skullKing, amount),
-                    onTenPressed: (amount) =>
-                        onBonusPressed(player.id, BonusKey.tenPoints, amount),
-                    onAllyPressed: (amount) =>
-                        onBonusPressed(player.id, BonusKey.alliance, amount),
-                    onBetPressed: (amount) =>
-                        onBonusPressed(player.id, BonusKey.rascalBet, amount),
-                    onBidsChanged: (value) => onBidsChanged(player.id, value),
+                    onPiratePressed: (amount) => onBonusPressed(
+                        context, player.id, BonusKey.pirate, amount),
+                    onMermaidPressed: (amount) => onBonusPressed(
+                        context, player.id, BonusKey.mermaid, amount),
+                    onSkullKingPressed: (amount) => onBonusPressed(
+                        context, player.id, BonusKey.skullKing, amount),
+                    onTenPressed: (amount) => onBonusPressed(
+                        context, player.id, BonusKey.tenPoints, amount),
+                    onAllyPressed: (amount) => onBonusPressed(
+                        context, player.id, BonusKey.alliance, amount),
+                    onBetPressed: (amount) => onBonusPressed(
+                        context, player.id, BonusKey.rascalBet, amount),
+                    onBidsChanged: (value) =>
+                        onBidsChanged(context, player.id, value),
                     onWonTricksChanged: (value) =>
-                        onWonTricksChanged(player.id, value),
+                        onWonTricksChanged(context, player.id, value),
                   );
                 },
               );

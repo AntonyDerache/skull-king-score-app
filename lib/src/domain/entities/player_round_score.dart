@@ -1,42 +1,47 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:skull_king_score_app/src/domain/entities/bonus.dart';
 
-class PlayerRoundScore {
-  UniqueKey playerId;
-  int bids = 0;
-  int tricksWon = 0;
-  Map<BonusKey, Bonus> bonusPoints = Map.from({
-    BonusKey.pirate: const Bonus(30),
-    BonusKey.mermaid: const Bonus(20),
-    BonusKey.skullKing: const Bonus(40),
-    BonusKey.tenPoints: const Bonus(10),
-    BonusKey.alliance: const Bonus(20),
-    BonusKey.rascalBet: const Bonus(10),
+class PlayerRoundScore extends Equatable {
+  final UniqueKey playerId;
+  final int bids;
+  final int tricksWon;
+  final Map<BonusKey, Bonus> bonusPoints;
+  final int currentScore;
+
+  const PlayerRoundScore(
+    this.playerId,
+    this.currentScore, {
+    this.bids = 0,
+    this.tricksWon = 0,
+    this.bonusPoints = const {
+      BonusKey.pirate: Bonus(30),
+      BonusKey.mermaid: Bonus(20),
+      BonusKey.skullKing: Bonus(40),
+      BonusKey.tenPoints: Bonus(10),
+      BonusKey.alliance: Bonus(20),
+      BonusKey.rascalBet: Bonus(10),
+    },
   });
-  int currentScore = 0;
 
-  PlayerRoundScore(this.playerId, this.currentScore);
-
-  void updatePlayerBonusAmount(
-    UniqueKey playerId,
-    BonusKey bonusKey,
-    int amount,
-  ) {
-    bonusPoints.update(bonusKey, (bonus) {
-      return Bonus(bonus.value, amount);
-    });
-  }
-
-  void updatePlayerBidsValue(UniqueKey playerId, int value) {
-    bids = value;
-  }
-
-  void updatePlayerWonTricksValue(UniqueKey playerId, int value) {
-    tricksWon = value;
-  }
-
-  PlayerRoundScore.init(this.playerId, this.currentScore, this.bids,
+  const PlayerRoundScore.init(this.playerId, this.currentScore, this.bids,
       this.tricksWon, this.bonusPoints);
+
+  PlayerRoundScore copyWith(
+      {UniqueKey? playerId,
+      int? currentScore,
+      int? bids,
+      int? tricksWon,
+      Map<BonusKey, Bonus>? bonusPoints}) {
+    return PlayerRoundScore(
+      playerId ?? this.playerId,
+      currentScore ?? this.currentScore,
+      bids: bids ?? this.bids,
+      tricksWon: tricksWon ?? this.tricksWon,
+      bonusPoints:
+          bonusPoints != null ? {...bonusPoints} : {...this.bonusPoints},
+    );
+  }
 
   factory PlayerRoundScore.clone(PlayerRoundScore source) {
     return PlayerRoundScore.init(
@@ -80,4 +85,13 @@ class PlayerRoundScore {
         bonusPoints,
         currentScore,
       );
+
+  @override
+  List<Object?> get props => [
+        playerId,
+        currentScore,
+        bids,
+        tricksWon,
+        bonusPoints,
+      ];
 }
