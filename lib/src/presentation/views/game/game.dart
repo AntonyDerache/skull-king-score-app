@@ -6,9 +6,9 @@ import 'package:skull_king_score_app/src/domain/entities/round_score_player.dart
 import 'package:skull_king_score_app/src/domain/usecases/get_lead_players.dart';
 import 'package:skull_king_score_app/src/domain/usecases/get_total_tricks_won.dart';
 import 'package:skull_king_score_app/src/domain/usecases/is_end_round_data_correct.dart';
-import 'package:skull_king_score_app/src/presentation/bloc/round/round_bloc.dart';
-import 'package:skull_king_score_app/src/presentation/bloc/round/round_event.dart';
-import 'package:skull_king_score_app/src/presentation/bloc/round/round_state.dart';
+import 'package:skull_king_score_app/src/presentation/bloc/game/game_bloc.dart';
+import 'package:skull_king_score_app/src/presentation/bloc/game/game_event.dart';
+import 'package:skull_king_score_app/src/presentation/bloc/game/game_state.dart';
 import 'package:skull_king_score_app/src/presentation/utils/constants.dart';
 import 'package:skull_king_score_app/src/presentation/utils/dialog_accept_term.dart';
 import 'package:skull_king_score_app/src/presentation/views/game/game_app_bar.dart';
@@ -65,9 +65,8 @@ class _Game extends State<StatefulWidget> {
   }
 
   void endRound(BuildContext context, Round round,
-      List<RoundScorePlayer> playersRoundScores) async {
-    int tricksWonInRound = GetTotalTricksWon.execute(
-        context.read<RoundBloc>().state.roundHistory[round.getValue() - 1]);
+      List<PlayerRoundScore> playersRoundScores) async {
+    int tricksWonInRound = GetTotalTricksWon.execute(playersRoundScores);
     if (IsEndRoundDataIncorrect.execute(tricksWonInRound, round)) {
       if (await isKakrenNotBeenPlayed(context, round, tricksWonInRound)) {
         return;
@@ -75,16 +74,23 @@ class _Game extends State<StatefulWidget> {
     }
 
     if (!context.mounted) return;
-    context.read<RoundBloc>().add(EndRound(playersRoundScores));
+    context.read<GameBloc>().add(GameEndRound(playersRoundScores));
     round.getValue() < 10
         ? Navigator.pushNamed(context, gameUrl)
         : Navigator.pushNamed(context, resultUrl);
   }
 
   void previousRound() {
-    if (context.read<RoundBloc>().state.round.getValue() > 1) {
-      context.read<RoundBloc>().add(PreviousRound());
+    if (context.read<GameBloc>().state.round.getValue() > 1) {
+      context.read<GameBloc>().add(GamePreviousRound());
     }
+  }
+
+  List<PlayerRoundScore> getPlayerRoundScore(
+      Round round, List<List<PlayerRoundScore>> roundHistory) {
+    return roundHistory[round.getValue() - 1]
+        .map((item) => PlayerRoundScore.clone(item))
+        .toList();
   }
 
   void openDrawer() {
@@ -106,14 +112,12 @@ class _Game extends State<StatefulWidget> {
         child: Stack(children: [
           const GameBackground(),
           SafeArea(
-            child: BlocBuilder<RoundBloc, RoundState>(
+            child: BlocBuilder<GameBloc, GameState>(
               builder: (context, state) {
                 List<Player> leadPlayers =
                     GetLeadPlayers.execute(List.from(state.playersInGame));
-                List<RoundScorePlayer> playersScores = state
-                    .roundHistory[state.round.getValue() - 1]
-                    .map((item) => RoundScorePlayer.clone(item))
-                    .toList();
+                List<PlayerRoundScore> playersScores =
+                    getPlayerRoundScore(state.round, state.roundHistory);
 
                 return Column(
                   children: [

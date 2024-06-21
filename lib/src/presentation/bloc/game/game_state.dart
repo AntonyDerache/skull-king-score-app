@@ -3,12 +3,12 @@ import 'package:skull_king_score_app/src/domain/entities/player.dart';
 import 'package:skull_king_score_app/src/domain/entities/round.dart';
 import 'package:skull_king_score_app/src/domain/entities/round_score_player.dart';
 
-class RoundState extends Equatable {
+class GameState extends Equatable {
   final Round round;
   final List<Player> playersInGame;
-  final List<List<RoundScorePlayer>> roundHistory;
+  final List<List<PlayerRoundScore>> roundHistory;
 
-  const RoundState(this.round,
+  const GameState(this.round,
       {this.playersInGame = const [], this.roundHistory = const [[]]});
 
   @override
@@ -16,12 +16,12 @@ class RoundState extends Equatable {
     return 'Current round: ${round.getValue()}';
   }
 
-  RoundState copyWith({
+  GameState copyWith({
     Round? round,
-    List<List<RoundScorePlayer>>? roundHistory,
+    List<List<PlayerRoundScore>>? roundHistory,
     List<Player>? playersInGame,
   }) {
-    return RoundState(
+    return GameState(
       round ?? this.round,
       roundHistory: roundHistory ?? this.roundHistory,
       playersInGame: playersInGame ?? this.playersInGame,

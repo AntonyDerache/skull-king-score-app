@@ -16,7 +16,7 @@ class GamePlayerCardList extends StatefulWidget {
       required this.openDrawer});
 
   final List<Player> leadPlayers;
-  final List<RoundScorePlayer> playersRoundScores;
+  final List<PlayerRoundScore> playersRoundScores;
   final List<Player> players;
   final Round round;
   final Function() openDrawer;
@@ -26,17 +26,17 @@ class GamePlayerCardList extends StatefulWidget {
 }
 
 class _GamePlayerCardList extends State<GamePlayerCardList> {
-  late List<RoundScorePlayer> roundScorePlayers;
+  late List<PlayerRoundScore> playersRoundScores;
 
   @override
   void initState() {
     super.initState();
-    roundScorePlayers = List.from(widget.playersRoundScores);
+    playersRoundScores = List.from(widget.playersRoundScores);
   }
 
   void onBonusPressed(UniqueKey playerId, BonusKey bonusKey, int amount) {
     setState(() {
-      roundScorePlayers
+      playersRoundScores
           .singleWhere((player) => player.playerId == playerId)
           .updatePlayerBonusAmount(playerId, bonusKey, amount);
     });
@@ -44,7 +44,7 @@ class _GamePlayerCardList extends State<GamePlayerCardList> {
 
   void onBidsChanged(UniqueKey playerId, String value) {
     setState(() {
-      roundScorePlayers
+      playersRoundScores
           .singleWhere((player) => player.playerId == playerId)
           .updatePlayerBidsValue(playerId, int.parse(value));
     });
@@ -52,7 +52,7 @@ class _GamePlayerCardList extends State<GamePlayerCardList> {
 
   void onWonTricksChanged(UniqueKey playerId, String value) {
     setState(() {
-      roundScorePlayers
+      playersRoundScores
           .singleWhere((player) => player.playerId == playerId)
           .updatePlayerWonTricksValue(playerId, int.parse(value));
     });
@@ -71,11 +71,10 @@ class _GamePlayerCardList extends State<GamePlayerCardList> {
             shrinkWrap: true,
             itemBuilder: (BuildContext context, int index) {
               final Player player = widget.players[index];
-              final RoundScorePlayer roundScorePlayer = widget
-                  .playersRoundScores
+              final PlayerRoundScore playerRoundScore = playersRoundScores
                   .singleWhere((elem) => elem.playerId == player.id);
               final int roundScore =
-                  CalculRoundScore.execute(widget.round, roundScorePlayer);
+                  CalculRoundScore.execute(widget.round, playerRoundScore);
 
               return SKPlayerCard(
                 playerName: player.name,

@@ -3,11 +3,11 @@ import 'package:skull_king_score_app/src/domain/entities/round.dart';
 import 'package:skull_king_score_app/src/domain/entities/round_score_player.dart';
 
 class CalculRoundScore {
-  static int execute(Round round, RoundScorePlayer roundScorePlayer) {
+  static int execute(Round round, PlayerRoundScore playerRoundScore) {
     int score = 0;
-    int bids = roundScorePlayer.bids;
-    int tricksWon = roundScorePlayer.tricksWon;
-    Map<BonusKey, Bonus> bonusPoints = roundScorePlayer.bonusPoints;
+    int bids = playerRoundScore.bids;
+    int tricksWon = playerRoundScore.tricksWon;
+    Map<BonusKey, Bonus> bonusPoints = playerRoundScore.bonusPoints;
 
     if (bids == tricksWon) {
       if (bids == 0) {

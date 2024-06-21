@@ -3,24 +3,24 @@ import 'package:skull_king_score_app/src/domain/entities/player.dart';
 import 'package:skull_king_score_app/src/domain/entities/round.dart';
 import 'package:skull_king_score_app/src/domain/entities/round_score_player.dart';
 import 'package:skull_king_score_app/src/domain/usecases/get_total_score.dart';
-import 'package:skull_king_score_app/src/presentation/bloc/round/round_event.dart';
-import 'package:skull_king_score_app/src/presentation/bloc/round/round_state.dart';
+import 'package:skull_king_score_app/src/presentation/bloc/game/game_event.dart';
+import 'package:skull_king_score_app/src/presentation/bloc/game/game_state.dart';
 
-class RoundBloc extends Bloc<RoundEvent, RoundState> {
-  RoundBloc() : super(RoundState(Round(0))) {
-    on<StartRound>(onStartRound);
-    on<EndRound>(onEndRound);
-    on<PreviousRound>(onPreviousRound);
+class GameBloc extends Bloc<GameEvent, GameState> {
+  GameBloc() : super(GameState(Round(0))) {
+    on<GameStartRound>(onStartRound);
+    on<GameEndRound>(onEndRound);
+    on<GamePreviousRound>(onPreviousRound);
   }
 
-  void onStartRound(StartRound event, Emitter<RoundState> emit) {
-    List<RoundScorePlayer> newRoundScoresPlayers = List.generate(
+  void onStartRound(GameStartRound event, Emitter<GameState> emit) {
+    List<PlayerRoundScore> newRoundScoresPlayers = List.generate(
       event.playersInGame.length,
-      (index) => RoundScorePlayer(event.playersInGame[index].id, 0),
+      (index) => PlayerRoundScore(event.playersInGame[index].id, 0),
     );
 
     emit(
-      RoundState(
+      GameState(
         Round(1),
         playersInGame: event.playersInGame,
         roundHistory: [newRoundScoresPlayers],
@@ -28,21 +28,21 @@ class RoundBloc extends Bloc<RoundEvent, RoundState> {
     );
   }
 
-  void onEndRound(EndRound event, Emitter<RoundState> emit) {
-    List<RoundScorePlayer> nextRoundScoresPlayers = List.empty(growable: true);
+  void onEndRound(GameEndRound event, Emitter<GameState> emit) {
+    List<PlayerRoundScore> nextRoundScoresPlayers = List.empty(growable: true);
     List<Player> playersInGame = List.from(state.playersInGame);
-    List<List<RoundScorePlayer>> roundHistory = List.from(state.roundHistory);
-    List<RoundScorePlayer> currentRoundScores =
+    List<List<PlayerRoundScore>> roundHistory = List.from(state.roundHistory);
+    List<PlayerRoundScore> currentRoundScores =
         roundHistory[state.round.getValue() - 1];
     currentRoundScores = event.playersScores;
 
     for (var i = 0; i < currentRoundScores.length; i++) {
-      RoundScorePlayer scorePlayer = currentRoundScores[i];
+      PlayerRoundScore scorePlayer = currentRoundScores[i];
 
       int totalComputedRoundScore =
           GetTotalScore.execute(state.round, scorePlayer);
       nextRoundScoresPlayers
-          .add(RoundScorePlayer(scorePlayer.playerId, totalComputedRoundScore));
+          .add(PlayerRoundScore(scorePlayer.playerId, totalComputedRoundScore));
 
       int playerIdx = playersInGame.indexWhere(
         (player) => player.id == scorePlayer.playerId,
@@ -61,14 +61,14 @@ class RoundBloc extends Bloc<RoundEvent, RoundState> {
     );
   }
 
-  void onPreviousRound(PreviousRound event, Emitter<RoundState> emit) {
-    List<List<RoundScorePlayer>> roundHistory = List.from(state.roundHistory);
+  void onPreviousRound(GamePreviousRound event, Emitter<GameState> emit) {
+    List<List<PlayerRoundScore>> roundHistory = List.from(state.roundHistory);
     List<Player> playersInGame = List.from(state.playersInGame);
-    List<RoundScorePlayer> scoresFromPreviousRound =
+    List<PlayerRoundScore> scoresFromPreviousRound =
         roundHistory[state.round.getValue() - 2];
 
     for (var i = 0; i < scoresFromPreviousRound.length; i++) {
-      RoundScorePlayer scorePlayer = scoresFromPreviousRound[i];
+      PlayerRoundScore scorePlayer = scoresFromPreviousRound[i];
 
       int playerIdx = playersInGame.indexWhere(
         (player) => player.id == scorePlayer.playerId,

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:skull_king_score_app/src/domain/entities/bonus.dart';
 
-// rename PlayerRoundScore
-class RoundScorePlayer {
+class PlayerRoundScore {
   UniqueKey playerId;
   int bids = 0;
   int tricksWon = 0;
@@ -16,7 +15,7 @@ class RoundScorePlayer {
   });
   int currentScore = 0;
 
-  RoundScorePlayer(this.playerId, this.currentScore);
+  PlayerRoundScore(this.playerId, this.currentScore);
 
   void updatePlayerBonusAmount(
     UniqueKey playerId,
@@ -36,11 +35,11 @@ class RoundScorePlayer {
     tricksWon = value;
   }
 
-  RoundScorePlayer.init(this.playerId, this.currentScore, this.bids,
+  PlayerRoundScore.init(this.playerId, this.currentScore, this.bids,
       this.tricksWon, this.bonusPoints);
 
-  factory RoundScorePlayer.clone(RoundScorePlayer source) {
-    return RoundScorePlayer.init(
+  factory PlayerRoundScore.clone(PlayerRoundScore source) {
+    return PlayerRoundScore.init(
       source.playerId,
       source.currentScore,
       source.bids,

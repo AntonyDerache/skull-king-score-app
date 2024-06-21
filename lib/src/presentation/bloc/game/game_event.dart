@@ -2,29 +2,29 @@ import 'package:equatable/equatable.dart';
 import 'package:skull_king_score_app/src/domain/entities/player.dart';
 import 'package:skull_king_score_app/src/domain/entities/round_score_player.dart';
 
-sealed class RoundEvent extends Equatable {
-  const RoundEvent();
+sealed class GameEvent extends Equatable {
+  const GameEvent();
 }
 
-final class StartRound extends RoundEvent {
+final class GameStartRound extends GameEvent {
   final List<Player> playersInGame;
 
-  const StartRound(this.playersInGame);
+  const GameStartRound(this.playersInGame);
 
   @override
   List<Object?> get props => [playersInGame];
 }
 
-final class EndRound extends RoundEvent {
-  final List<RoundScorePlayer> playersScores;
+final class GameEndRound extends GameEvent {
+  final List<PlayerRoundScore> playersScores;
 
-  const EndRound(this.playersScores);
+  const GameEndRound(this.playersScores);
 
   @override
   List<Object?> get props => [];
 }
 
-final class PreviousRound extends RoundEvent {
+final class GamePreviousRound extends GameEvent {
   @override
   List<Object?> get props => [];
 }

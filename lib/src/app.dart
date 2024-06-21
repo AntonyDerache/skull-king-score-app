@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:skull_king_score_app/src/presentation/bloc/round/round_bloc.dart';
+import 'package:skull_king_score_app/src/presentation/bloc/game/game_bloc.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/language/language_cubit.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/language/language_state.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/player/player_cubit.dart';
@@ -45,7 +45,7 @@ class _MainApp extends State<MainApp> {
       providers: [
         BlocProvider<PlayerCubit>(create: (_) => PlayerCubit()),
         BlocProvider<LanguageCubit>(create: (_) => LanguageCubit(languageCode)),
-        BlocProvider<RoundBloc>(create: (_) => RoundBloc()),
+        BlocProvider<GameBloc>(create: (_) => GameBloc()),
       ],
       child: FutureBuilder(
           future: _fetchLocale(),

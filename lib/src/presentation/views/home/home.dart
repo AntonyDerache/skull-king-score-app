@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:skull_king_score_app/src/presentation/bloc/round/round_bloc.dart';
-import 'package:skull_king_score_app/src/presentation/bloc/round/round_event.dart';
+import 'package:skull_king_score_app/src/presentation/bloc/game/game_bloc.dart';
+import 'package:skull_king_score_app/src/presentation/bloc/game/game_event.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/player/player_cubit.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/player/player_state.dart';
 import 'package:skull_king_score_app/src/presentation/utils/constants.dart';
@@ -24,8 +24,8 @@ class _Home extends State<Home> {
 
   void play(BuildContext context) async {
     final List<PlayerState> players = context.read<PlayerCubit>().state;
-    context.read<RoundBloc>().add(
-          StartRound(
+    context.read<GameBloc>().add(
+          GameStartRound(
             List.from(players),
           ),
         );

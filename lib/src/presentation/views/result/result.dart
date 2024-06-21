@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skull_king_score_app/src/domain/usecases/get_lead_players.dart';
 import 'package:skull_king_score_app/src/domain/usecases/get_result_list.dart';
-import 'package:skull_king_score_app/src/presentation/bloc/round/round_bloc.dart';
-import 'package:skull_king_score_app/src/presentation/bloc/round/round_event.dart';
-import 'package:skull_king_score_app/src/presentation/bloc/round/round_state.dart';
+import 'package:skull_king_score_app/src/presentation/bloc/game/game_bloc.dart';
+import 'package:skull_king_score_app/src/presentation/bloc/game/game_event.dart';
+import 'package:skull_king_score_app/src/presentation/bloc/game/game_state.dart';
 import 'package:skull_king_score_app/src/presentation/utils/constants.dart';
 import 'package:skull_king_score_app/src/presentation/views/game/game_background.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_button.dart';
@@ -21,7 +21,7 @@ class Result extends StatelessWidget {
   }
 
   void previousRound(BuildContext context) {
-    context.read<RoundBloc>().add(PreviousRound());
+    context.read<GameBloc>().add(GamePreviousRound());
   }
 
   void goHome(BuildContext context) {
@@ -59,7 +59,7 @@ class Result extends StatelessWidget {
                   ),
                   Expanded(
                     child: Center(
-                      child: BlocBuilder<RoundBloc, RoundState>(
+                      child: BlocBuilder<GameBloc, GameState>(
                         builder: (context, state) {
                           final resultPlayers =
                               GetResultList.execute(state.playersInGame);
