@@ -10,8 +10,9 @@ import 'package:skull_king_score_app/src/presentation/bloc/game/game_bloc.dart';
 import 'package:skull_king_score_app/src/presentation/bloc/game/game_event.dart';
 import 'package:skull_king_score_app/src/presentation/bloc/game/game_state.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/round_scores/round_scores_cubit.dart';
+import 'package:skull_king_score_app/src/presentation/utils/alert_enums.dart';
 import 'package:skull_king_score_app/src/presentation/utils/constants.dart';
-import 'package:skull_king_score_app/src/presentation/utils/dialog_accept_term.dart';
+import 'package:skull_king_score_app/src/presentation/utils/list_utils.dart';
 import 'package:skull_king_score_app/src/presentation/views/game/game_app_bar.dart';
 import 'package:skull_king_score_app/src/presentation/views/game/game_background.dart';
 import 'package:skull_king_score_app/src/presentation/views/game/game_players_card_list.dart';
@@ -32,7 +33,7 @@ class Game extends StatefulWidget {
 class _Game extends State<StatefulWidget> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  Future<DialogAcceptTerm?> showKrakenDialog() async {
+  Future<DialogAcceptEnum?> showKrakenAlert() async {
     return await showDialog(
       context: context,
       builder: (_) => SKAlertDialog(
@@ -45,10 +46,23 @@ class _Game extends State<StatefulWidget> {
     );
   }
 
+  Future<DialogAcceptEnum?> showHistoryBehindAlert() async {
+    return await showDialog(
+      context: context,
+      builder: (_) => SKAlertDialog(
+        title: AppLocalizations.of(context)!.historyBehindDialogTitle,
+        content: SKText(
+          text: AppLocalizations.of(context)!.historyBehindDialogContent,
+        ),
+      ),
+      barrierDismissible: true,
+    );
+  }
+
   Future<bool> isKakrenNotBeenPlayed(
       BuildContext context, Round round, int tricksWonInRound) async {
     if (round.getValue() - tricksWonInRound == 1 &&
-        await showKrakenDialog() == DialogAcceptTerm.approve) {
+        await showKrakenAlert() == DialogAcceptEnum.approve) {
       return false;
     }
     if (!context.mounted) return true;
@@ -61,6 +75,18 @@ class _Game extends State<StatefulWidget> {
   }
 
   void endRound(BuildContext context, Round round) async {
+    if (context.read<GameBloc>().state.historyStatus ==
+            GameHistorySatus.behind &&
+        ListUtils.areListsNotEquals<PlayerRoundScore>(
+          context.read<RoundScoreCubit>().state,
+          context.read<GameBloc>().state.roundHistory[round.getValue() - 1],
+        )) {
+      if (await showHistoryBehindAlert() == DialogAcceptEnum.reject) {
+        return;
+      }
+    }
+
+    if (!context.mounted) return;
     List<PlayerRoundScore> playersRoundScores =
         context.read<RoundScoreCubit>().state;
     int tricksWonInRound = GetTotalTricksWon.execute(playersRoundScores);
@@ -81,13 +107,6 @@ class _Game extends State<StatefulWidget> {
     if (context.read<GameBloc>().state.round.getValue() > 1) {
       context.read<GameBloc>().add(GamePreviousRound());
     }
-  }
-
-  List<PlayerRoundScore> getPlayerRoundScore(
-      Round round, List<List<PlayerRoundScore>> roundHistory) {
-    return roundHistory[round.getValue() - 1]
-        .map((item) => PlayerRoundScore.clone(item))
-        .toList();
   }
 
   void openDrawer() {
@@ -117,9 +136,6 @@ class _Game extends State<StatefulWidget> {
                   List<Player> leadPlayers = GetLeadPlayers.execute(
                     List.from(state.playersInGame),
                   );
-                  context.read<RoundScoreCubit>().init(
-                        getPlayerRoundScore(state.round, state.roundHistory),
-                      );
 
                   return Column(
                     children: [

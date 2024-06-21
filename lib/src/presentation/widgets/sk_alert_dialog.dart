@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:skull_king_score_app/src/presentation/utils/alert_enums.dart';
 import 'package:skull_king_score_app/src/presentation/utils/color.dart';
-import 'package:skull_king_score_app/src/presentation/utils/dialog_accept_term.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_backdrop_filter.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_text.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -15,7 +15,7 @@ class SKAlertDialog extends StatelessWidget {
   final String title;
   final Widget? content;
 
-  void dismissDialog(BuildContext context, DialogAcceptTerm key) {
+  void dismissDialog(BuildContext context, DialogAcceptEnum key) {
     Navigator.of(context).pop(key);
   }
 
@@ -30,11 +30,11 @@ class SKAlertDialog extends StatelessWidget {
         content: content,
         actions: [
           TextButton(
-            onPressed: () => dismissDialog(context, DialogAcceptTerm.reject),
+            onPressed: () => dismissDialog(context, DialogAcceptEnum.reject),
             child: SKText(text: AppLocalizations.of(context)!.no),
           ),
           TextButton(
-            onPressed: () => dismissDialog(context, DialogAcceptTerm.approve),
+            onPressed: () => dismissDialog(context, DialogAcceptEnum.approve),
             child: SKText(
                 text: AppLocalizations.of(context)!.yes,
                 color: Colors.blue.shade400),

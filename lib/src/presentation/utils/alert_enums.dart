@@ -1,0 +1,4 @@
+enum DialogAcceptEnum {
+  reject,
+  approve,
+}

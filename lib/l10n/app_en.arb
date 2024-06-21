@@ -12,6 +12,8 @@
   "invalidInput": "Invalid input. Total tricks won have to match current round.",
   "krakenDialogTitle": "Missing data",
   "krakenDialogContent": "One round is missing, does the kraken has been played during this round?",
+  "historyBehindDialogTitle": "Round modification",
+  "historyBehindDialogContent": "Changing previous round lead to reinitialisation of the next rounds you have already filled in.\n\nDo you wish to continue?",
 
   "result": "Game Result!",
   "home": "Home",

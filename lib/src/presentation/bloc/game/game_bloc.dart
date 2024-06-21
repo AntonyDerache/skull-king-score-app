@@ -48,14 +48,14 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       _updatePlayerScore(
           totalComputedRoundScore, playersInGame, scorePlayer.playerId);
     }
-    if (state.round.getValue() == roundHistory.length) {
-      roundHistory.add(nextRoundScoresPlayers);
-    } else if (state.round.getValue() < roundHistory.length) {
+    if (state.historyStatus == GameHistorySatus.behind) {
       _currentRoundIsBehindHistory(
         event.playersScores,
         roundHistory,
         nextRoundScoresPlayers,
       );
+    } else {
+      roundHistory.add(nextRoundScoresPlayers);
     }
     emit(
       state.copyWith(
@@ -80,9 +80,9 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     }
     emit(
       state.copyWith(
-        round: Round(state.round.getValue() - 1),
-        playersInGame: playersInGame,
-      ),
+          round: Round(state.round.getValue() - 1),
+          playersInGame: playersInGame,
+          historyStatus: GameHistorySatus.behind),
     );
   }
 

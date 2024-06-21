@@ -1,4 +1,0 @@
-enum DialogAcceptTerm {
-  reject,
-  approve,
-}

@@ -12,6 +12,8 @@
   "invalidInput": "Données invalide. Le nombre de plis gagnés total doit être égale à la manche en cours",
   "krakenDialogTitle": "Données manquante",
   "krakenDialogContent": "Le résultat d'un plit est manquant, est-ce que la carte Kraken a été joué durant cette manche ?",
+  "historyBehindDialogTitle": "Modification d'une manche",
+  "historyBehindDialogContent": "Modifier les résultats d'une manche précédente entraine une réinitialisation des manches suivante déjà saisie.\n\nÊtes-vous sûr de continuer ?",
 
   "result": "Resultats !",
   "home": "Home",

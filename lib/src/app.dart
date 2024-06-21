@@ -4,7 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:skull_king_score_app/src/domain/entities/player_round_score.dart';
+import 'package:skull_king_score_app/src/domain/entities/round.dart';
 import 'package:skull_king_score_app/src/presentation/bloc/game/game_bloc.dart';
+import 'package:skull_king_score_app/src/presentation/bloc/game/game_state.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/language/language_cubit.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/language/language_state.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/player/player_cubit.dart';
@@ -88,9 +91,9 @@ class _MainApp extends State<MainApp> {
                   ),
                 ),
                 routes: {
-                  baseUrl: (context) => const Home(),
-                  gameUrl: (contexnt) => const Game(),
-                  resultUrl: (contexnt) => const Result(),
+                  baseUrl: (context) => const RoundListener(child: Home()),
+                  gameUrl: (contexnt) => const RoundListener(child: Game()),
+                  resultUrl: (contexnt) => const RoundListener(child: Result()),
                 },
                 debugShowCheckedModeBanner: false,
               );
@@ -98,6 +101,35 @@ class _MainApp extends State<MainApp> {
           );
         },
       ),
+    );
+  }
+}
+
+class RoundListener extends StatelessWidget {
+  const RoundListener({
+    super.key,
+    required this.child,
+  });
+
+  final Widget child;
+
+  List<PlayerRoundScore> getPlayerRoundScore(
+      Round round, List<List<PlayerRoundScore>> roundHistory) {
+    return roundHistory[round.getValue() - 1]
+        .map((item) => PlayerRoundScore.clone(item))
+        .toList();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<GameBloc, GameState>(
+      listenWhen: (previous, current) => previous.round != current.round,
+      listener: (context, state) {
+        context.read<RoundScoreCubit>().setFrom(
+              getPlayerRoundScore(state.round, state.roundHistory),
+            );
+      },
+      child: child,
     );
   }
 }
