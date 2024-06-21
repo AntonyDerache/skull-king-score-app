@@ -19,10 +19,12 @@ class HomeBackground extends StatelessWidget {
         ),
         Container(
           decoration: const BoxDecoration(
-              image: DecorationImage(
-                  opacity: 0.15,
-                  image: AssetImage("assets/images/background.png"),
-                  fit: BoxFit.cover)),
+            image: DecorationImage(
+              opacity: 0.15,
+              image: AssetImage("assets/images/background.png"),
+              fit: BoxFit.cover,
+            ),
+          ),
         )
       ],
     );

@@ -4,8 +4,7 @@ import 'package:skull_king_score_app/src/domain/usecases/get_lead_players.dart';
 import 'package:skull_king_score_app/src/domain/usecases/get_result_list.dart';
 import 'package:skull_king_score_app/src/presentation/bloc/round/round_bloc.dart';
 import 'package:skull_king_score_app/src/presentation/bloc/round/round_event.dart';
-import 'package:skull_king_score_app/src/presentation/cubit/player/player_cubit.dart';
-import 'package:skull_king_score_app/src/presentation/cubit/player/player_state.dart';
+import 'package:skull_king_score_app/src/presentation/bloc/round/round_state.dart';
 import 'package:skull_king_score_app/src/presentation/utils/constants.dart';
 import 'package:skull_king_score_app/src/presentation/views/game/game_background.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_button.dart';
@@ -31,38 +30,43 @@ class Result extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<PlayerState> players = context.read<PlayerCubit>().state;
-    final resultPlayers = GetResultList.execute(players);
-    final leadPlayers = GetLeadPlayers.execute(players);
-
     return Scaffold(
-        resizeToAvoidBottomInset: true,
-        body: PopScope(
-          onPopInvoked: (bool invoked) {
-            if (invoked) {
-              previousRound(context);
-            }
-          },
-          child: Stack(children: [
-            const GameBackground(),
-            SafeArea(
-                child: Padding(
+      resizeToAvoidBottomInset: true,
+      body: PopScope(
+        onPopInvoked: (bool invoked) {
+          if (invoked) {
+            previousRound(context);
+          }
+        },
+        child: Stack(children: [
+          const GameBackground(),
+          SafeArea(
+            child: Padding(
               padding: const EdgeInsets.all(30),
               child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      alignment: Alignment.center,
-                      child: FittedBox(
-                          fit: BoxFit.contain,
-                          child: SKText(
-                              text: AppLocalizations.of(context)!.result,
-                              fontFamily: 'Allura',
-                              fontSize: 50)),
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    alignment: Alignment.center,
+                    child: FittedBox(
+                      fit: BoxFit.contain,
+                      child: SKText(
+                        text: AppLocalizations.of(context)!.result,
+                        fontFamily: 'Allura',
+                        fontSize: 50,
+                      ),
                     ),
-                    Expanded(
-                      child: Center(
-                        child: ListView.separated(
+                  ),
+                  Expanded(
+                    child: Center(
+                      child: BlocBuilder<RoundBloc, RoundState>(
+                        builder: (context, state) {
+                          final resultPlayers =
+                              GetResultList.execute(state.playersInGame);
+                          final leadPlayers =
+                              GetLeadPlayers.execute(state.playersInGame);
+
+                          return ListView.separated(
                             separatorBuilder: (context, index) =>
                                 const SizedBox(height: 10),
                             physics: const ClampingScrollPhysics(),
@@ -81,39 +85,50 @@ class Result extends StatelessWidget {
                                 crossAxisAlignment: WrapCrossAlignment.center,
                                 children: [
                                   SKPlayerTitle(
-                                      playerName: playerName,
-                                      isLeader: isLeader,
-                                      height: isLeader ? 42 : playerTitleHeight,
-                                      fontSize: isLeader ? 28 : 20),
+                                    playerName: playerName,
+                                    isLeader: isLeader,
+                                    height: isLeader ? 42 : playerTitleHeight,
+                                    fontSize: isLeader ? 28 : 20,
+                                  ),
                                   SKText(
-                                      text: score, fontSize: isLeader ? 28 : 20),
+                                    text: score,
+                                    fontSize: isLeader ? 28 : 20,
+                                  ),
                                 ],
                               );
-                            }),
+                            },
+                          );
+                        },
                       ),
                     ),
-                    Container(
-                      alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                        child: Row(
-                          children: [
-                            SKIconButton(
-                                icon: const Icon(Icons.arrow_back),
-                                onPressed: () => goBack(context)),
-                            const SizedBox(width: 10),
-                            Flexible(
-                              child: SKButton(
-                                  label: AppLocalizations.of(context)!.home,
-                                  onPressed: () => goHome(context)),
+                  ),
+                  Container(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                      child: Row(
+                        children: [
+                          SKIconButton(
+                            icon: const Icon(Icons.arrow_back),
+                            onPressed: () => goBack(context),
+                          ),
+                          const SizedBox(width: 10),
+                          Flexible(
+                            child: SKButton(
+                              label: AppLocalizations.of(context)!.home,
+                              onPressed: () => goHome(context),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
-                  ]),
-            ))
-          ]),
-        ));
+                  ),
+                ],
+              ),
+            ),
+          )
+        ]),
+      ),
+    );
   }
 }

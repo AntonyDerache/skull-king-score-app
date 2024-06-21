@@ -43,7 +43,6 @@ class SKButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ButtonStyle buttonStyle = defaultStyle;
-
     switch (variant) {
       case ButtonVariant.outlined:
         buttonStyle = buttonStyle.merge(outlinedButtonStyle);
@@ -51,7 +50,6 @@ class SKButton extends StatelessWidget {
       default:
         buttonStyle = buttonStyle.merge(plainButtonStyle);
     }
-
     double blurValue = variant == ButtonVariant.plain ? 8.0 : 0;
 
     final child = SKBackdropFilter(
@@ -59,15 +57,16 @@ class SKButton extends StatelessWidget {
       sigmaX: blurValue,
       sigmaY: blurValue,
       child: TextButton(
-          style: buttonStyle,
-          onPressed: () => onPressed?.call(),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SKText(text: label, fontSize: 16, fontWeight: textWeight),
-              if (icon != null) ...[const SizedBox(width: 20), Icon(icon)]
-            ],
-          )),
+        style: buttonStyle,
+        onPressed: () => onPressed?.call(),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SKText(text: label, fontSize: 16, fontWeight: textWeight),
+            if (icon != null) ...[const SizedBox(width: 20), Icon(icon)]
+          ],
+        ),
+      ),
     );
 
     return variant == ButtonVariant.plain

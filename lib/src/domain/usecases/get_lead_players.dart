@@ -1,13 +1,13 @@
-import 'package:skull_king_score_app/src/presentation/cubit/player/player_state.dart';
+import 'package:skull_king_score_app/src/domain/entities/player.dart';
 
 class GetLeadPlayers {
-  static List<PlayerState> execute(List<PlayerState> players) {
+  static List<Player> execute(List<Player> players) {
     int higherScore = players
         .reduce((currentPlayer, nextPlayer) =>
             currentPlayer.score > nextPlayer.score ? currentPlayer : nextPlayer)
         .score;
 
-    List<PlayerState> leadPlayers = List.empty(growable: true);
+    List<Player> leadPlayers = List.empty(growable: true);
 
     for (var element in players) {
       if (element.score == higherScore) {

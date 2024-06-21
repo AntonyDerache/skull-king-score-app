@@ -12,4 +12,9 @@ class Round {
   void setValue(int round) {
     _round = round;
   }
+
+  @override
+  String toString() {
+    return _round.toString();
+  }
 }

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:skull_king_score_app/src/presentation/cubit/player/player_cubit.dart';
-import 'package:skull_king_score_app/src/presentation/cubit/player/player_state.dart';
+import 'package:skull_king_score_app/src/domain/entities/player.dart';
 import 'package:skull_king_score_app/src/presentation/utils/color.dart';
 import 'package:skull_king_score_app/src/presentation/utils/constants.dart';
 import 'package:skull_king_score_app/src/presentation/views/game/game_scoreboard.dart';
@@ -10,10 +8,10 @@ import 'package:skull_king_score_app/src/presentation/widgets/sk_text.dart';
 
 class GameAppBar extends StatefulWidget {
   const GameAppBar(
-      {super.key, required this.leadPlayers, required this.numberOfPlayer});
+      {super.key, required this.leadPlayers, required this.players});
 
-  final List<PlayerState> leadPlayers;
-  final int numberOfPlayer;
+  final List<Player> leadPlayers;
+  final List<Player> players;
 
   @override
   State<StatefulWidget> createState() => _GameAppBar();
@@ -28,7 +26,7 @@ class _GameAppBar extends State<GameAppBar> {
   @override
   void initState() {
     super.initState();
-    int numberOfRow = (widget.numberOfPlayer / 2).ceil();
+    int numberOfRow = (widget.players.length / 2).ceil();
     maxHeight = (numberOfRow * playerTitleHeight) +
         (numberOfRow * scoreboardRowSpacing) +
         20;
@@ -36,8 +34,6 @@ class _GameAppBar extends State<GameAppBar> {
 
   @override
   Widget build(BuildContext context) {
-    final PlayerState firstLeaderPlayer = widget.leadPlayers[0];
-
     return InkWell(
       onTap: () => {
         setState(() {
@@ -53,25 +49,30 @@ class _GameAppBar extends State<GameAppBar> {
         duration: const Duration(milliseconds: 150),
         curve: Curves.fastOutSlowIn,
         decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                  blurRadius: 3,
-                  color: Colors.black.withOpacity(0.15),
-                  offset: const Offset(0, 7)),
-            ],
-            color: secondaryColor,
-            borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(componentsRadius),
-                bottomRight: Radius.circular(componentsRadius))),
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 3,
+              color: Colors.black.withOpacity(0.15),
+              offset: const Offset(0, 7),
+            ),
+          ],
+          color: secondaryColor,
+          borderRadius: const BorderRadius.only(
+            bottomLeft: Radius.circular(componentsRadius),
+            bottomRight: Radius.circular(componentsRadius),
+          ),
+        ),
         width: double.infinity,
         child: Padding(
           padding: const EdgeInsets.only(top: 10.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              BlocBuilder<PlayerCubit, List<PlayerState>>(
-                builder: (context, state) {
+              Builder(
+                builder: (context) {
                   if (isExpanded == false) {
+                    final Player firstLeaderPlayer = widget.leadPlayers[0];
+
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -82,7 +83,8 @@ class _GameAppBar extends State<GameAppBar> {
                     );
                   } else {
                     return ScoreBoard(
-                        players: state, leadPlayers: widget.leadPlayers);
+                        players: widget.players,
+                        leadPlayers: widget.leadPlayers);
                   }
                 },
               ),

@@ -3,11 +3,12 @@ import 'package:skull_king_score_app/src/presentation/widgets/sk_bonus_icon_butt
 import 'package:skull_king_score_app/src/presentation/widgets/sk_text.dart';
 
 class HelpModalBonusInfo extends StatelessWidget {
-  const HelpModalBonusInfo(
-      {super.key,
-      required this.title,
-      required this.description,
-      required this.iconPath});
+  const HelpModalBonusInfo({
+    super.key,
+    required this.title,
+    required this.description,
+    required this.iconPath,
+  });
 
   final String title;
   final String description;
@@ -22,11 +23,16 @@ class HelpModalBonusInfo extends StatelessWidget {
         const SizedBox(height: 5),
         Row(children: [
           SKBonusIconButton(
-              icon: Image(image: AssetImage(iconPath)),
-              maxAmount: 0,
-              onPressed: null),
+            icon: Image(
+              image: AssetImage(iconPath),
+            ),
+            maxAmount: 0,
+            onPressed: null,
+          ),
           const SizedBox(width: 10),
-          Flexible(child: SKText(text: description)),
+          Flexible(
+            child: SKText(text: description),
+          ),
         ]),
       ],
     );

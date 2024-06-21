@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skull_king_score_app/src/domain/entities/bonus.dart';
+import 'package:skull_king_score_app/src/domain/entities/player.dart';
 import 'package:skull_king_score_app/src/domain/entities/round.dart';
 import 'package:skull_king_score_app/src/domain/entities/round_score_player.dart';
 import 'package:skull_king_score_app/src/domain/usecases/calcul_round_score.dart';
 import 'package:skull_king_score_app/src/domain/usecases/is_end_round_data_correct.dart';
 import 'package:skull_king_score_app/src/presentation/bloc/round/round_bloc.dart';
 import 'package:skull_king_score_app/src/presentation/bloc/round/round_event.dart';
-import 'package:skull_king_score_app/src/presentation/cubit/player/player_state.dart';
-import 'package:skull_king_score_app/src/presentation/cubit/round/round_score_cubit.dart';
 import 'package:skull_king_score_app/src/presentation/utils/dialog_accept_term.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_alert_dialog.dart';
-import 'package:skull_king_score_app/src/presentation/widgets/sk_button.dart';
-import 'package:skull_king_score_app/src/presentation/widgets/sk_icon_button.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_player_card.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_text.dart';
 
 class GamePlayerCardList extends StatefulWidget {
@@ -22,14 +18,14 @@ class GamePlayerCardList extends StatefulWidget {
       {super.key,
       required this.players,
       required this.leadPlayers,
+      required this.playersRoundScores,
       required this.round,
-      required this.nextRound,
       required this.openDrawer});
 
-  final List<PlayerState> leadPlayers;
-  final List<PlayerState> players;
+  final List<Player> leadPlayers;
+  final List<RoundScorePlayer> playersRoundScores;
+  final List<Player> players;
   final Round round;
-  final Function(Round) nextRound;
   final Function() openDrawer;
 
   @override
@@ -37,15 +33,12 @@ class GamePlayerCardList extends StatefulWidget {
 }
 
 class _GamePlayerCardList extends State<GamePlayerCardList> {
-  List<RoundScorePlayer> roundScorePlayers = List.empty();
+  late List<RoundScorePlayer> roundScorePlayers;
 
   @override
   void initState() {
     super.initState();
-    roundScorePlayers = List.generate(
-        widget.players.length,
-        (index) => RoundScorePlayer(
-            widget.players[index].id, widget.players[index].score));
+    roundScorePlayers = List.from(widget.playersRoundScores);
   }
 
   void previousRound() {
@@ -77,34 +70,33 @@ class _GamePlayerCardList extends State<GamePlayerCardList> {
     return false;
   }
 
-  void endRound(BuildContext context) {
-    context.read<RoundScoreCubit>().endRound(roundScorePlayers, widget.round);
+  void endRound() {
     if (widget.round.getValue() < 10) {
-      context.read<RoundBloc>().add(NextRound());
+      context
+          .read<RoundBloc>()
+          // .add(EndRound(List.from(roundScorePlayers)));
+          .add(EndRound(widget.playersRoundScores));
     }
-    widget.nextRound(widget.round);
+    // widget.nextRound(widget.round);
   }
 
-  void nextRound(
-      BuildContext context, List<RoundScorePlayer> roundScorePlayers) async {
-    RoundScoreCubit roundCubit = context.read<RoundScoreCubit>();
-    int roundTricksWon = roundCubit.getRoundTicksWon(roundScorePlayers);
+  void nextRound() async {
+    // int roundTricksWon = roundCubit.getRoundTicksWon(roundScorePlayers);
 
-    if (await isDataMissing(roundTricksWon)) {
-      if (!context.mounted) return;
-      SnackBar snackbar = SnackBar(
-        showCloseIcon: true,
-        content: Text(AppLocalizations.of(context)!.invalidInput),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackbar);
-      return;
-    }
-    if (!context.mounted) return;
-    endRound(context);
+    // if (await isDataMissing(roundTricksWon)) {
+    //   if (!context.mounted) return;
+    //   SnackBar snackbar = SnackBar(
+    //     showCloseIcon: true,
+    //     content: Text(AppLocalizations.of(context)!.invalidInput),
+    //   );
+    //   ScaffoldMessenger.of(context).showSnackBar(snackbar);
+    //   return;
+    // }
+    // if (!context.mounted) return;
+    endRound();
   }
 
-  void onBonusPressed(
-      BuildContext context, UniqueKey playerId, BonusKey bonusKey, int amount) {
+  void onBonusPressed(UniqueKey playerId, BonusKey bonusKey, int amount) {
     setState(() {
       roundScorePlayers
           .singleWhere((player) => player.playerId == playerId)
@@ -112,7 +104,7 @@ class _GamePlayerCardList extends State<GamePlayerCardList> {
     });
   }
 
-  void onBidsChanged(BuildContext context, UniqueKey playerId, String value) {
+  void onBidsChanged(UniqueKey playerId, String value) {
     setState(() {
       roundScorePlayers
           .singleWhere((player) => player.playerId == playerId)
@@ -120,8 +112,7 @@ class _GamePlayerCardList extends State<GamePlayerCardList> {
     });
   }
 
-  void onWonTricksChanged(
-      BuildContext context, UniqueKey playerId, String value) {
+  void onWonTricksChanged(UniqueKey playerId, String value) {
     setState(() {
       roundScorePlayers
           .singleWhere((player) => player.playerId == playerId)
@@ -142,63 +133,40 @@ class _GamePlayerCardList extends State<GamePlayerCardList> {
         children: [
           Expanded(
             child: ListView.separated(
-                separatorBuilder: (context, index) =>
-                    const SizedBox(height: 15),
-                itemCount: widget.players.length,
-                physics: const ClampingScrollPhysics(),
-                shrinkWrap: true,
-                itemBuilder: (BuildContext context, int index) {
-                  final PlayerState player = widget.players[index];
-                  RoundScorePlayer roundScorePlayer = roundScorePlayers
-                      .singleWhere((elem) => elem.playerId == player.id);
-                  int roundScore =
-                      CalculRoundScore.execute(widget.round, roundScorePlayer);
+              separatorBuilder: (context, index) => const SizedBox(height: 15),
+              itemCount: widget.players.length,
+              physics: const ClampingScrollPhysics(),
+              shrinkWrap: true,
+              itemBuilder: (BuildContext context, int index) {
+                final Player player = widget.players[index];
+                final RoundScorePlayer roundScorePlayer = widget
+                    .playersRoundScores
+                    .singleWhere((elem) => elem.playerId == player.id);
+                final int roundScore =
+                    CalculRoundScore.execute(widget.round, roundScorePlayer);
 
-                  return SKPlayerCard(
-                      playerName: player.name,
-                      isScoreLeader: widget.leadPlayers.contains(player),
-                      maxValue: widget.round.getValue(),
-                      currentRoundScore: roundScore,
-                      onPiratePressed: (amount) => onBonusPressed(
-                          context, player.id, BonusKey.alliance, amount),
-                      onMermaidPressed: (amount) => onBonusPressed(
-                          context, player.id, BonusKey.mermaid, amount),
-                      onSkullKingPressed: (amount) => onBonusPressed(
-                          context, player.id, BonusKey.skullKing, amount),
-                      onTenPressed: (amount) => onBonusPressed(
-                          context, player.id, BonusKey.tenPoints, amount),
-                      onAllyPressed: (amount) => onBonusPressed(
-                          context, player.id, BonusKey.alliance, amount),
-                      onBetPressed: (amount) => onBonusPressed(
-                          context, player.id, BonusKey.rascalBet, amount),
-                      onBidsChanged: (value) =>
-                          onBidsChanged(context, player.id, value),
-                      onWonTricksChanged: (value) =>
-                          onWonTricksChanged(context, player.id, value));
-                }),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SKIconButton(
-                    icon: const Icon(Icons.arrow_back),
-                    onPressed: () => Navigator.pop(context)),
-                const SizedBox(width: 5),
-                Flexible(
-                  child: SKButton(
-                    label:
-                        '${AppLocalizations.of(context)!.endRound} ${widget.round.getValue()}',
-                    onPressed: () => nextRound(context, roundScorePlayers),
-                  ),
-                ),
-                const SizedBox(width: 5),
-                SKIconButton(
-                  icon: const Icon(Icons.settings),
-                  onPressed: () => widget.openDrawer(),
-                ),
-              ],
+                return SKPlayerCard(
+                  playerName: player.name,
+                  isScoreLeader: widget.leadPlayers.contains(player),
+                  maxValue: widget.round.getValue(),
+                  currentRoundScore: roundScore,
+                  onPiratePressed: (amount) =>
+                      onBonusPressed(player.id, BonusKey.pirate, amount),
+                  onMermaidPressed: (amount) =>
+                      onBonusPressed(player.id, BonusKey.mermaid, amount),
+                  onSkullKingPressed: (amount) =>
+                      onBonusPressed(player.id, BonusKey.skullKing, amount),
+                  onTenPressed: (amount) =>
+                      onBonusPressed(player.id, BonusKey.tenPoints, amount),
+                  onAllyPressed: (amount) =>
+                      onBonusPressed(player.id, BonusKey.alliance, amount),
+                  onBetPressed: (amount) =>
+                      onBonusPressed(player.id, BonusKey.rascalBet, amount),
+                  onBidsChanged: (value) => onBidsChanged(player.id, value),
+                  onWonTricksChanged: (value) =>
+                      onWonTricksChanged(player.id, value),
+                );
+              },
             ),
           ),
         ],

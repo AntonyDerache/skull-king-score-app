@@ -95,35 +95,41 @@ class SKPlayerCard extends StatelessWidget {
                 spacing: 10,
                 children: [
                   SKBonusIconButton(
-                      icon: const Image(
-                          image: AssetImage('assets/icons/pirate.png')),
-                      maxAmount: 5,
-                      onPressed: (amount) => onPiratePressed?.call(amount)),
+                    icon: const Image(
+                        image: AssetImage('assets/icons/pirate.png')),
+                    maxAmount: 5,
+                    onPressed: (amount) => onPiratePressed?.call(amount),
+                  ),
                   SKBonusIconButton(
-                      icon: const Image(
-                          image: AssetImage('assets/icons/mermaid.png')),
-                      maxAmount: 2,
-                      onPressed: (amount) => onMermaidPressed?.call(amount)),
+                    icon: const Image(
+                        image: AssetImage('assets/icons/mermaid.png')),
+                    maxAmount: 2,
+                    onPressed: (amount) => onMermaidPressed?.call(amount),
+                  ),
                   SKBonusIconButton(
-                      icon: const Image(
-                          image: AssetImage('assets/icons/skull_king.png')),
-                      maxAmount: 1,
-                      onPressed: (amount) => onSkullKingPressed?.call(amount)),
+                    icon: const Image(
+                        image: AssetImage('assets/icons/skull_king.png')),
+                    maxAmount: 1,
+                    onPressed: (amount) => onSkullKingPressed?.call(amount),
+                  ),
                   SKBonusIconButton(
-                      icon: const SKText(
-                          text: '+10', color: Colors.black, fontSize: 11),
-                      maxAmount: 10,
-                      onPressed: (amount) => onTenPressed?.call(amount)),
+                    icon: const SKText(
+                        text: '+10', color: Colors.black, fontSize: 11),
+                    maxAmount: 10,
+                    onPressed: (amount) => onTenPressed?.call(amount),
+                  ),
                   SKBonusIconButton(
-                      icon: const Image(
-                          image: AssetImage('assets/icons/coins.png')),
-                      maxAmount: 2,
-                      onPressed: (amount) => onAllyPressed?.call(amount)),
+                    icon: const Image(
+                        image: AssetImage('assets/icons/coins.png')),
+                    maxAmount: 2,
+                    onPressed: (amount) => onAllyPressed?.call(amount),
+                  ),
                   SKBonusIconButton(
-                      icon: const Image(
-                          image: AssetImage('assets/icons/pari.png')),
-                      maxAmount: 2,
-                      onPressed: (amount) => onBetPressed?.call(amount)),
+                    icon:
+                        const Image(image: AssetImage('assets/icons/pari.png')),
+                    maxAmount: 2,
+                    onPressed: (amount) => onBetPressed?.call(amount),
+                  ),
                 ],
               ),
               const SizedBox(height: 15),

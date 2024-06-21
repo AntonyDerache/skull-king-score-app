@@ -19,15 +19,17 @@ class SKPlayerTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Wrap(
-        spacing: 10,
-        crossAxisAlignment: WrapCrossAlignment.center,
-        children: [
-          if (isLeader)
-            Image(
-                height: height,
-                width: height,
-                image: const AssetImage('assets/images/logo.png')),
-          SKText(text: playerName, fontSize: fontSize)
-        ]);
+      spacing: 10,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      children: [
+        if (isLeader)
+          Image(
+            height: height,
+            width: height,
+            image: const AssetImage('assets/images/logo.png'),
+          ),
+        SKText(text: playerName, fontSize: fontSize)
+      ],
+    );
   }
 }

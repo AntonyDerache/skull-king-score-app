@@ -20,16 +20,22 @@ class SKIconButton extends StatelessWidget {
       sigmaX: 8,
       sigmaY: 8,
       child: IconButton(
-          style: IconButton.styleFrom(
-              backgroundColor: lightColor.withAlpha(60),
-              shape: const RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.all(Radius.circular(componentsRadius)))),
-          constraints:
-              const BoxConstraints(minHeight: formHeight, minWidth: formHeight),
-          icon: icon,
-          color: lightColor,
-          onPressed: () => onPressed?.call()),
+        style: IconButton.styleFrom(
+          backgroundColor: lightColor.withAlpha(60),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(componentsRadius),
+            ),
+          ),
+        ),
+        constraints: const BoxConstraints(
+          minHeight: formHeight,
+          minWidth: formHeight,
+        ),
+        icon: icon,
+        color: lightColor,
+        onPressed: () => onPressed?.call(),
+      ),
     );
   }
 }

@@ -3,10 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/player/player_state.dart';
 
 class PlayerCubit extends Cubit<List<PlayerState>> {
-  PlayerCubit() : super(List<PlayerState>.generate(2, (_) => PlayerState(UniqueKey())));
+  PlayerCubit()
+      : super(
+          List<PlayerState>.generate(
+            2,
+            (_) => PlayerState(UniqueKey()),
+          ),
+        );
 
   void addPlayer() {
-    state.add(PlayerState(UniqueKey()));
+    state.add(
+      PlayerState(UniqueKey()),
+    );
     emit([...state]);
   }
 

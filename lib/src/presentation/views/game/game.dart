@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skull_king_score_app/src/domain/entities/player.dart';
 import 'package:skull_king_score_app/src/domain/entities/round.dart';
+import 'package:skull_king_score_app/src/domain/entities/round_score_player.dart';
 import 'package:skull_king_score_app/src/domain/usecases/get_lead_players.dart';
 import 'package:skull_king_score_app/src/presentation/bloc/round/round_bloc.dart';
-import 'package:skull_king_score_app/src/presentation/cubit/player/player_cubit.dart';
-import 'package:skull_king_score_app/src/presentation/cubit/player/player_state.dart';
-import 'package:skull_king_score_app/src/presentation/cubit/round/round_score_cubit.dart';
+import 'package:skull_king_score_app/src/presentation/bloc/round/round_event.dart';
+import 'package:skull_king_score_app/src/presentation/bloc/round/round_state.dart';
 import 'package:skull_king_score_app/src/presentation/utils/constants.dart';
 import 'package:skull_king_score_app/src/presentation/views/game/game_app_bar.dart';
 import 'package:skull_king_score_app/src/presentation/views/game/game_background.dart';
 import 'package:skull_king_score_app/src/presentation/views/game/game_players_card_list.dart';
+import 'package:skull_king_score_app/src/presentation/widgets/sk_button.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_drawer/sk_drawer.dart';
+import 'package:skull_king_score_app/src/presentation/widgets/sk_icon_button.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Game extends StatefulWidget {
   const Game({super.key});
@@ -21,43 +25,18 @@ class Game extends StatefulWidget {
 
 class _Game extends State<StatefulWidget> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  Round round = Round(0);
-  List<PlayerState> players = List.empty();
-  List<PlayerState> leadPlayers = List.empty();
-  int numberOfPlayer = 0;
-
   @override
   void initState() {
     super.initState();
-    PlayerCubit playerCubit = context.read<PlayerCubit>();
-
-    players = playerCubit.state;
-    leadPlayers = GetLeadPlayers.execute(players);
-    numberOfPlayer = players.length;
-    round = context.read<RoundBloc>().state.round;
   }
 
-  void updatePlayerScore(List<PlayerState> players, Round round) {
-    for (PlayerState player in players) {
-      int playerScore = context
-          .read<RoundScoreCubit>()
-          .getCurrentPlayerRoundScore(player.id, round);
-      context.read<PlayerCubit>().updatePlayerScore(player.id, playerScore);
-    }
-  }
-
-  void nextRound(Round round) {
+  void nextRound(Round round, List<RoundScorePlayer> playersRoundScores) {
+    context.read<RoundBloc>().add(EndRound(playersRoundScores));
     if (round.getValue() < 10) {
       Navigator.pushNamed(context, gameUrl).then((value) => setState(() {}));
     } else {
-      initRound(players, Round(round.getValue() + 1));
       Navigator.pushNamed(context, resultUrl).then((value) => setState(() {}));
     }
-  }
-
-  void initRound(List<PlayerState> players, Round round) {
-    context.read<RoundScoreCubit>().initNewRound(players, round);
-    updatePlayerScore(players, round);
   }
 
   void openDrawer() {
@@ -66,7 +45,7 @@ class _Game extends State<StatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
-    initRound(players, round);
+    print("Build Game view");
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -75,24 +54,60 @@ class _Game extends State<StatefulWidget> {
       body: Stack(children: [
         const GameBackground(),
         SafeArea(
-          child: Column(
-            children: [
-              GameAppBar(
-                  leadPlayers: leadPlayers, numberOfPlayer: numberOfPlayer),
-              Expanded(
-                child: Padding(
-                  padding:
-                      const EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
-                  child: GamePlayerCardList(
-                    players: players,
-                    leadPlayers: leadPlayers,
-                    round: round,
-                    nextRound: nextRound,
-                    openDrawer: openDrawer,
+          child: BlocBuilder<RoundBloc, RoundState>(
+            builder: (context, state) {
+              List<Player> leadPlayers =
+                  GetLeadPlayers.execute(List.from(state.playersInGame));
+              List<RoundScorePlayer> playersScores = state
+                  .roundHistory[state.round.getValue() - 1]
+                  .map((item) => RoundScorePlayer.clone(item))
+                  .toList();
+
+              return Column(
+                children: [
+                  GameAppBar(
+                      leadPlayers: leadPlayers, players: state.playersInGame),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          left: 10.0, right: 10.0, top: 10.0),
+                      child: GamePlayerCardList(
+                        players: state.playersInGame,
+                        playersRoundScores: playersScores,
+                        leadPlayers: leadPlayers,
+                        round: state.round,
+                        openDrawer: openDrawer,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ],
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SKIconButton(
+                            icon: const Icon(Icons.arrow_back),
+                            onPressed: () => Navigator.pop(context)),
+                        const SizedBox(width: 5),
+                        Flexible(
+                          child: SKButton(
+                            label:
+                                '${AppLocalizations.of(context)!.endRound} ${state.round.getValue()}',
+                            onPressed: () =>
+                                nextRound(state.round, playersScores),
+                          ),
+                        ),
+                        const SizedBox(width: 5),
+                        SKIconButton(
+                          icon: const Icon(Icons.settings),
+                          onPressed: () => openDrawer(),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
         ),
       ]),

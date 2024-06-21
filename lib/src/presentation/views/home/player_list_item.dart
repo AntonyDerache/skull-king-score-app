@@ -3,12 +3,13 @@ import 'package:skull_king_score_app/src/presentation/widgets/sk_text_field.dart
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PlayerListItem extends StatelessWidget {
-  const PlayerListItem(
-      {super.key,
-      required this.animation,
-      required this.index,
-      required this.onChange,
-      required this.text});
+  const PlayerListItem({
+    super.key,
+    required this.animation,
+    required this.index,
+    required this.onChange,
+    required this.text,
+  });
 
   final String text;
   final int index;

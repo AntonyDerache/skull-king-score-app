@@ -20,36 +20,37 @@ class PlayersList extends StatefulWidget {
 class _PlayersList extends State<PlayersList> {
   final listKey = GlobalKey<AnimatedListState>();
 
-  void onPlayerNameChange(
-      BuildContext context, UniqueKey playerId, String name) {
+  void onPlayerNameChange(UniqueKey playerId, String name) {
     context.read<PlayerCubit>().updatePlayerName(playerId, name);
   }
 
-  void addPlayer(BuildContext context) {
-    PlayerCubit cubit = context.read<PlayerCubit>();
-    cubit.addPlayer();
-    listKey.currentState!.insertItem(cubit.state.length - 1,
-        duration: const Duration(milliseconds: 200));
+  void addPlayer() {
+    context.read<PlayerCubit>().addPlayer();
+    listKey.currentState!.insertItem(
+      context.read<PlayerCubit>().state.length - 1,
+      duration: const Duration(milliseconds: 200),
+    );
   }
 
-  void removePlayer(BuildContext context) {
+  void removePlayer() {
     context.read<PlayerCubit>().removePlayer();
-    final cubit = context.read<PlayerCubit>();
     listKey.currentState!.removeItem(
-        cubit.state.length,
-        (context, animation) =>
-            buildListItem(animation, cubit.state.length - 1, context),
-        duration: const Duration(milliseconds: 150));
+      context.read<PlayerCubit>().state.length,
+      (context, animation) => buildListItem(
+        animation,
+        context.read<PlayerCubit>().state.length - 1,
+      ),
+      duration: const Duration(milliseconds: 150),
+    );
   }
 
-  Widget buildListItem(
-          Animation<double> animation, int index, BuildContext context) =>
+  Widget buildListItem(Animation<double> animation, int index) =>
       PlayerListItem(
         text: widget.players[index].name,
         animation: animation,
         index: index,
         onChange: (value) =>
-            onPlayerNameChange(context, widget.players[index].id, value),
+            onPlayerNameChange(widget.players[index].id, value),
       );
 
   @override
@@ -68,7 +69,7 @@ class _PlayersList extends State<PlayersList> {
             initialItemCount: widget.players.length,
             itemBuilder:
                 (BuildContext context, int index, Animation<double> animation) {
-              return buildListItem(animation, index, context);
+              return buildListItem(animation, index);
             },
           ),
         )

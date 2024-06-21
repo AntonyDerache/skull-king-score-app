@@ -1,25 +1,19 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:skull_king_score_app/src/domain/entities/player.dart';
 
-class PlayerState extends Equatable {
-  final UniqueKey id;
-  final String name;
-  final int score;
+class PlayerState extends Player {
+  const PlayerState(super.id, {super.name = "", super.score = 0});
 
-  const PlayerState(this.id, {this.name = "", this.score = 0});
-
+  @override
   PlayerState copyWith({
     UniqueKey? id,
     String? name,
     int? score,
   }) {
     return PlayerState(
-      id ?? this.id,
-      name: name ?? this.name,
-      score: score ?? this.score,
+      id ?? super.id,
+      name: name ?? super.name,
+      score: score ?? super.score,
     );
   }
-
-  @override
-  List<Object?> get props => [id, name, score];
 }

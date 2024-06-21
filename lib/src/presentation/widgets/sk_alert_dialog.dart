@@ -30,11 +30,15 @@ class SKAlertDialog extends StatelessWidget {
         content: content,
         actions: [
           TextButton(
-              onPressed: () => dismissDialog(context, DialogAcceptTerm.reject),
-              child: SKText(text: AppLocalizations.of(context)!.no)),
+            onPressed: () => dismissDialog(context, DialogAcceptTerm.reject),
+            child: SKText(text: AppLocalizations.of(context)!.no),
+          ),
           TextButton(
-              onPressed: () => dismissDialog(context, DialogAcceptTerm.approve),
-              child: SKText(text: AppLocalizations.of(context)!.yes, color: Colors.blue.shade400)),
+            onPressed: () => dismissDialog(context, DialogAcceptTerm.approve),
+            child: SKText(
+                text: AppLocalizations.of(context)!.yes,
+                color: Colors.blue.shade400),
+          ),
         ],
       ),
     );

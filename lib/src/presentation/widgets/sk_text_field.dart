@@ -3,11 +3,12 @@ import 'package:skull_king_score_app/src/presentation/utils/constants.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_backdrop_filter.dart';
 
 class SKTextInput extends StatefulWidget {
-  const SKTextInput(
-      {super.key,
-      this.placeholder = "Enter...",
-      this.text = "",
-      this.onChange});
+  const SKTextInput({
+    super.key,
+    this.placeholder = "Enter...",
+    this.text = "",
+    this.onChange,
+  });
 
   final String placeholder;
   final String text;

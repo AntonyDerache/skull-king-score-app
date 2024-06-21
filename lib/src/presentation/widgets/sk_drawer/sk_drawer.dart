@@ -30,17 +30,19 @@ class SKDrawer extends StatelessWidget {
     bool isAtRoot = ModalRoute.of(context)?.settings.name == baseUrl;
 
     return SKBackdropFilter(
-        sigmaX: 10,
-        sigmaY: 10,
-        child: Drawer(
-          backgroundColor: secondaryColor.withAlpha(150),
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: ListView(padding: EdgeInsets.zero, children: [
+      sigmaX: 10,
+      sigmaY: 10,
+      child: Drawer(
+        backgroundColor: secondaryColor.withAlpha(150),
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: ListView(
+                  padding: EdgeInsets.zero,
+                  children: [
                     DrawerHeader(
                       padding: const EdgeInsets.all(30),
                       child: FittedBox(
@@ -94,59 +96,62 @@ class SKDrawer extends StatelessWidget {
                             fontSize: 18),
                         onTap: () => goToHome(context),
                       ),
-                  ]),
+                  ],
                 ),
-                Container(
-                  height: 48,
-                  width: 48,
-                  color: Colors.transparent,
-                  child: BlocBuilder<LanguageCubit, LanguageState>(
-                    builder: (context, state) {
-                      const iconSize = 24.0;
+              ),
+              Container(
+                height: 48,
+                width: 48,
+                color: Colors.transparent,
+                child: BlocBuilder<LanguageCubit, LanguageState>(
+                  builder: (context, state) {
+                    const iconSize = 24.0;
 
-                      return DropdownButtonFormField(
-                          dropdownColor: secondaryColor,
-                          elevation: 0,
-                          iconSize: 0.0,
-                          decoration: const InputDecoration(
-                              enabledBorder: InputBorder.none,
-                              border: InputBorder.none),
-                          selectedItemBuilder: (context) {
-                            return supportedLocales.map(
-                              (LanguageState language) {
-                                return Image(
-                                  width: iconSize,
-                                  height: iconSize,
-                                  image: AssetImage(language.flagPath ?? ''),
-                                );
-                              },
-                            ).toList();
+                    return DropdownButtonFormField(
+                      dropdownColor: secondaryColor,
+                      elevation: 0,
+                      iconSize: 0.0,
+                      decoration: const InputDecoration(
+                          enabledBorder: InputBorder.none,
+                          border: InputBorder.none),
+                      selectedItemBuilder: (context) {
+                        return supportedLocales.map(
+                          (LanguageState language) {
+                            return Image(
+                              width: iconSize,
+                              height: iconSize,
+                              image: AssetImage(language.flagPath ?? ''),
+                            );
                           },
-                          items: supportedLocales.map(
-                            (LanguageState language) {
-                              return DropdownMenuItem<String>(
-                                value: language.locale.languageCode,
-                                alignment: Alignment.center,
-                                child: IconButton(
-                                    icon: Image(
-                                      width: iconSize,
-                                      height: iconSize,
-                                      image:
-                                          AssetImage(language.flagPath ?? ''),
-                                    ),
-                                    onPressed: null),
-                              );
-                            },
-                          ).toList(),
-                          onChanged: (String? value) =>
-                              changeLanguage(context, value),
-                          value: state.locale.languageCode);
-                    },
-                  ),
+                        ).toList();
+                      },
+                      items: supportedLocales.map(
+                        (LanguageState language) {
+                          return DropdownMenuItem<String>(
+                            value: language.locale.languageCode,
+                            alignment: Alignment.center,
+                            child: IconButton(
+                              icon: Image(
+                                width: iconSize,
+                                height: iconSize,
+                                image: AssetImage(language.flagPath ?? ''),
+                              ),
+                              onPressed: null,
+                            ),
+                          );
+                        },
+                      ).toList(),
+                      onChanged: (String? value) =>
+                          changeLanguage(context, value),
+                      value: state.locale.languageCode,
+                    );
+                  },
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

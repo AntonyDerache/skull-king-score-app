@@ -4,7 +4,6 @@ import 'package:skull_king_score_app/src/presentation/bloc/round/round_bloc.dart
 import 'package:skull_king_score_app/src/presentation/bloc/round/round_event.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/player/player_cubit.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/player/player_state.dart';
-import 'package:skull_king_score_app/src/presentation/cubit/round/round_score_cubit.dart';
 import 'package:skull_king_score_app/src/presentation/utils/constants.dart';
 import 'package:skull_king_score_app/src/presentation/views/home/home_background.dart';
 import 'package:skull_king_score_app/src/presentation/views/home/players_list.dart';
@@ -24,8 +23,12 @@ class _Home extends State<Home> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   void play(BuildContext context) async {
-    context.read<RoundBloc>().add(StartRound());
-    context.read<RoundScoreCubit>().reset();
+    final List<PlayerState> players = context.read<PlayerCubit>().state;
+    context.read<RoundBloc>().add(
+          StartRound(
+            List.from(players),
+          ),
+        );
     Navigator.pushNamed(context, gameUrl);
   }
 
@@ -82,7 +85,7 @@ class _Home extends State<Home> {
                   Expanded(
                     child: BlocBuilder<PlayerCubit, List<PlayerState>>(
                       builder: (context, state) {
-                        return PlayersList(players: state);
+                        return PlayersList(players: List.from(state));
                       },
                     ),
                   ),
