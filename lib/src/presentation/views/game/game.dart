@@ -33,9 +33,15 @@ class _Game extends State<StatefulWidget> {
   void nextRound(Round round, List<RoundScorePlayer> playersRoundScores) {
     context.read<RoundBloc>().add(EndRound(playersRoundScores));
     if (round.getValue() < 10) {
-      Navigator.pushNamed(context, gameUrl).then((value) => setState(() {}));
+      Navigator.pushNamed(context, gameUrl);
     } else {
-      Navigator.pushNamed(context, resultUrl).then((value) => setState(() {}));
+      Navigator.pushNamed(context, resultUrl);
+    }
+  }
+
+  void previousRound() {
+    if (context.read<RoundBloc>().state.round.getValue() > 1) {
+      context.read<RoundBloc>().add(PreviousRound());
     }
   }
 
@@ -45,72 +51,77 @@ class _Game extends State<StatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print("Build Game view");
-
     return Scaffold(
       resizeToAvoidBottomInset: true,
       key: _scaffoldKey,
       drawer: const SKDrawer(),
-      body: Stack(children: [
-        const GameBackground(),
-        SafeArea(
-          child: BlocBuilder<RoundBloc, RoundState>(
-            builder: (context, state) {
-              List<Player> leadPlayers =
-                  GetLeadPlayers.execute(List.from(state.playersInGame));
-              List<RoundScorePlayer> playersScores = state
-                  .roundHistory[state.round.getValue() - 1]
-                  .map((item) => RoundScorePlayer.clone(item))
-                  .toList();
+      body: PopScope(
+        onPopInvoked: (bool invoked) {
+          if (invoked) {
+            previousRound();
+          }
+        },
+        child: Stack(children: [
+          const GameBackground(),
+          SafeArea(
+            child: BlocBuilder<RoundBloc, RoundState>(
+              builder: (context, state) {
+                List<Player> leadPlayers =
+                    GetLeadPlayers.execute(List.from(state.playersInGame));
+                List<RoundScorePlayer> playersScores = state
+                    .roundHistory[state.round.getValue() - 1]
+                    .map((item) => RoundScorePlayer.clone(item))
+                    .toList();
 
-              return Column(
-                children: [
-                  GameAppBar(
-                      leadPlayers: leadPlayers, players: state.playersInGame),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 10.0, right: 10.0, top: 10.0),
-                      child: GamePlayerCardList(
-                        players: state.playersInGame,
-                        playersRoundScores: playersScores,
-                        leadPlayers: leadPlayers,
-                        round: state.round,
-                        openDrawer: openDrawer,
+                return Column(
+                  children: [
+                    GameAppBar(
+                        leadPlayers: leadPlayers, players: state.playersInGame),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 10.0, right: 10.0, top: 10.0),
+                        child: GamePlayerCardList(
+                          players: state.playersInGame,
+                          playersRoundScores: playersScores,
+                          leadPlayers: leadPlayers,
+                          round: state.round,
+                          openDrawer: openDrawer,
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SKIconButton(
-                            icon: const Icon(Icons.arrow_back),
-                            onPressed: () => Navigator.pop(context)),
-                        const SizedBox(width: 5),
-                        Flexible(
-                          child: SKButton(
-                            label:
-                                '${AppLocalizations.of(context)!.endRound} ${state.round.getValue()}',
-                            onPressed: () =>
-                                nextRound(state.round, playersScores),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SKIconButton(
+                              icon: const Icon(Icons.arrow_back),
+                              onPressed: () => Navigator.pop(context)),
+                          const SizedBox(width: 5),
+                          Flexible(
+                            child: SKButton(
+                              label:
+                                  '${AppLocalizations.of(context)!.endRound} ${state.round.getValue()}',
+                              onPressed: () =>
+                                  nextRound(state.round, playersScores),
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 5),
-                        SKIconButton(
-                          icon: const Icon(Icons.settings),
-                          onPressed: () => openDrawer(),
-                        ),
-                      ],
+                          const SizedBox(width: 5),
+                          SKIconButton(
+                            icon: const Icon(Icons.settings),
+                            onPressed: () => openDrawer(),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              );
-            },
+                  ],
+                );
+              },
+            ),
           ),
-        ),
-      ]),
+        ]),
+      ),
     );
   }
 }

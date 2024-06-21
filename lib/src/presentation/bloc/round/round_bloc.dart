@@ -19,9 +19,13 @@ class RoundBloc extends Bloc<RoundEvent, RoundState> {
       (index) => RoundScorePlayer(event.playersInGame[index].id, 0),
     );
 
-    emit(RoundState(Round(1),
+    emit(
+      RoundState(
+        Round(1),
         playersInGame: event.playersInGame,
-        roundHistory: [newRoundScoresPlayers]));
+        roundHistory: [newRoundScoresPlayers],
+      ),
+    );
   }
 
   void onEndRound(EndRound event, Emitter<RoundState> emit) {
@@ -58,6 +62,27 @@ class RoundBloc extends Bloc<RoundEvent, RoundState> {
   }
 
   void onPreviousRound(PreviousRound event, Emitter<RoundState> emit) {
-    emit(RoundState(Round(state.round.getValue() - 1)));
+    List<List<RoundScorePlayer>> roundHistory = List.from(state.roundHistory);
+    List<Player> playersInGame = List.from(state.playersInGame);
+    List<RoundScorePlayer> scoresFromPreviousRound =
+        roundHistory[state.round.getValue() - 2];
+
+    for (var i = 0; i < scoresFromPreviousRound.length; i++) {
+      RoundScorePlayer scorePlayer = scoresFromPreviousRound[i];
+
+      int playerIdx = playersInGame.indexWhere(
+        (player) => player.id == scorePlayer.playerId,
+      );
+      playersInGame[playerIdx] = playersInGame[playerIdx].copyWith(
+        score: scorePlayer.currentScore,
+      );
+    }
+
+    emit(
+      state.copyWith(
+        round: Round(state.round.getValue() - 1),
+        playersInGame: playersInGame,
+      ),
+    );
   }
 }

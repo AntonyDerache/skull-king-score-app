@@ -41,10 +41,6 @@ class _GamePlayerCardList extends State<GamePlayerCardList> {
     roundScorePlayers = List.from(widget.playersRoundScores);
   }
 
-  void previousRound() {
-    context.read<RoundBloc>().add(PreviousRound());
-  }
-
   Future<bool> isKakrenBeenPlayed() async {
     DialogAcceptTerm? result = await showDialog(
         context: context,
@@ -122,55 +118,48 @@ class _GamePlayerCardList extends State<GamePlayerCardList> {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      onPopInvoked: (bool invoked) {
-        if (invoked) {
-          previousRound();
-        }
-      },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: ListView.separated(
-              separatorBuilder: (context, index) => const SizedBox(height: 15),
-              itemCount: widget.players.length,
-              physics: const ClampingScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (BuildContext context, int index) {
-                final Player player = widget.players[index];
-                final RoundScorePlayer roundScorePlayer = widget
-                    .playersRoundScores
-                    .singleWhere((elem) => elem.playerId == player.id);
-                final int roundScore =
-                    CalculRoundScore.execute(widget.round, roundScorePlayer);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: ListView.separated(
+            separatorBuilder: (context, index) => const SizedBox(height: 15),
+            itemCount: widget.players.length,
+            physics: const ClampingScrollPhysics(),
+            shrinkWrap: true,
+            itemBuilder: (BuildContext context, int index) {
+              final Player player = widget.players[index];
+              final RoundScorePlayer roundScorePlayer = widget
+                  .playersRoundScores
+                  .singleWhere((elem) => elem.playerId == player.id);
+              final int roundScore =
+                  CalculRoundScore.execute(widget.round, roundScorePlayer);
 
-                return SKPlayerCard(
-                  playerName: player.name,
-                  isScoreLeader: widget.leadPlayers.contains(player),
-                  maxValue: widget.round.getValue(),
-                  currentRoundScore: roundScore,
-                  onPiratePressed: (amount) =>
-                      onBonusPressed(player.id, BonusKey.pirate, amount),
-                  onMermaidPressed: (amount) =>
-                      onBonusPressed(player.id, BonusKey.mermaid, amount),
-                  onSkullKingPressed: (amount) =>
-                      onBonusPressed(player.id, BonusKey.skullKing, amount),
-                  onTenPressed: (amount) =>
-                      onBonusPressed(player.id, BonusKey.tenPoints, amount),
-                  onAllyPressed: (amount) =>
-                      onBonusPressed(player.id, BonusKey.alliance, amount),
-                  onBetPressed: (amount) =>
-                      onBonusPressed(player.id, BonusKey.rascalBet, amount),
-                  onBidsChanged: (value) => onBidsChanged(player.id, value),
-                  onWonTricksChanged: (value) =>
-                      onWonTricksChanged(player.id, value),
-                );
-              },
-            ),
+              return SKPlayerCard(
+                playerName: player.name,
+                isScoreLeader: widget.leadPlayers.contains(player),
+                maxValue: widget.round.getValue(),
+                currentRoundScore: roundScore,
+                onPiratePressed: (amount) =>
+                    onBonusPressed(player.id, BonusKey.pirate, amount),
+                onMermaidPressed: (amount) =>
+                    onBonusPressed(player.id, BonusKey.mermaid, amount),
+                onSkullKingPressed: (amount) =>
+                    onBonusPressed(player.id, BonusKey.skullKing, amount),
+                onTenPressed: (amount) =>
+                    onBonusPressed(player.id, BonusKey.tenPoints, amount),
+                onAllyPressed: (amount) =>
+                    onBonusPressed(player.id, BonusKey.alliance, amount),
+                onBetPressed: (amount) =>
+                    onBonusPressed(player.id, BonusKey.rascalBet, amount),
+                onBidsChanged: (value) => onBidsChanged(player.id, value),
+                onWonTricksChanged: (value) =>
+                    onWonTricksChanged(player.id, value),
+              );
+            },
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
