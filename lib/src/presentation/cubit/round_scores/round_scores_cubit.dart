@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skull_king_score_app/src/domain/entities/bonus.dart';
-import 'package:skull_king_score_app/src/domain/entities/round_score_player.dart';
+import 'package:skull_king_score_app/src/domain/entities/player_round_score.dart';
 
 class RoundScoreCubit extends Cubit<List<PlayerRoundScore>> {
   RoundScoreCubit() : super(List.empty());

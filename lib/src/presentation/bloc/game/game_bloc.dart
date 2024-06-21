@@ -2,10 +2,11 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:skull_king_score_app/src/domain/entities/player.dart';
 import 'package:skull_king_score_app/src/domain/entities/round.dart';
-import 'package:skull_king_score_app/src/domain/entities/round_score_player.dart';
+import 'package:skull_king_score_app/src/domain/entities/player_round_score.dart';
 import 'package:skull_king_score_app/src/domain/usecases/get_total_score.dart';
 import 'package:skull_king_score_app/src/presentation/bloc/game/game_event.dart';
 import 'package:skull_king_score_app/src/presentation/bloc/game/game_state.dart';
+import 'package:skull_king_score_app/src/presentation/utils/list_utils.dart';
 
 class GameBloc extends Bloc<GameEvent, GameState> {
   GameBloc() : super(GameState(Round(0))) {
@@ -49,12 +50,12 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     }
     if (state.round.getValue() == roundHistory.length) {
       roundHistory.add(nextRoundScoresPlayers);
-    } else if (state.round.getValue() < roundHistory.length &&
-        _isNextRoundScoresAreEqual(
-          event.playersScores,
-          state.roundHistory[state.round.getValue() - 1],
-        )) {
-      // _updatePlayerScore();
+    } else if (state.round.getValue() < roundHistory.length) {
+      _currentRoundIsBehindHistory(
+        event.playersScores,
+        roundHistory,
+        nextRoundScoresPlayers,
+      );
     }
     emit(
       state.copyWith(
@@ -98,12 +99,17 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     );
   }
 
-  bool _isNextRoundScoresAreEqual(
-    List<PlayerRoundScore> nextRoundScores,
-    List<PlayerRoundScore> existingNextRoundScores,
+  void _currentRoundIsBehindHistory(
+    List<PlayerRoundScore> eventPlayersScores,
+    List<List<PlayerRoundScore>> roundHistory,
+    List<PlayerRoundScore> nextRoundScoresPlayers,
   ) {
-    print("$nextRoundScores -- $existingNextRoundScores");
-    print(listEquals(nextRoundScores, existingNextRoundScores));
-    return true;
+    if (ListUtils.areListsNotEquals<PlayerRoundScore>(
+      eventPlayersScores,
+      state.roundHistory[state.round.getValue() - 1],
+    )) {
+      roundHistory.removeRange(state.round.getValue(), roundHistory.length);
+      roundHistory.add(nextRoundScoresPlayers);
+    }
   }
 }

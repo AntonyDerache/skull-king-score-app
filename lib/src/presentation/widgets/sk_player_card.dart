@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:skull_king_score_app/src/domain/entities/bonus.dart';
-import 'package:skull_king_score_app/src/domain/entities/round_score_player.dart';
+import 'package:skull_king_score_app/src/domain/entities/player_round_score.dart';
 import 'package:skull_king_score_app/src/presentation/utils/color.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_backdrop_filter.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_bonus_icon_button.dart';

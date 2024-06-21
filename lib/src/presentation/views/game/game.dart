@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skull_king_score_app/src/domain/entities/player.dart';
 import 'package:skull_king_score_app/src/domain/entities/round.dart';
-import 'package:skull_king_score_app/src/domain/entities/round_score_player.dart';
+import 'package:skull_king_score_app/src/domain/entities/player_round_score.dart';
 import 'package:skull_king_score_app/src/domain/usecases/get_lead_players.dart';
 import 'package:skull_king_score_app/src/domain/usecases/get_total_tricks_won.dart';
 import 'package:skull_king_score_app/src/domain/usecases/is_end_round_data_correct.dart';
