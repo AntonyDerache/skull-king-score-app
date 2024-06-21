@@ -4,17 +4,22 @@ import 'package:skull_king_score_app/src/domain/entities/player.dart';
 import 'package:skull_king_score_app/src/domain/entities/round.dart';
 import 'package:skull_king_score_app/src/domain/entities/round_score_player.dart';
 import 'package:skull_king_score_app/src/domain/usecases/get_lead_players.dart';
+import 'package:skull_king_score_app/src/domain/usecases/get_total_tricks_won.dart';
+import 'package:skull_king_score_app/src/domain/usecases/is_end_round_data_correct.dart';
 import 'package:skull_king_score_app/src/presentation/bloc/round/round_bloc.dart';
 import 'package:skull_king_score_app/src/presentation/bloc/round/round_event.dart';
 import 'package:skull_king_score_app/src/presentation/bloc/round/round_state.dart';
 import 'package:skull_king_score_app/src/presentation/utils/constants.dart';
+import 'package:skull_king_score_app/src/presentation/utils/dialog_accept_term.dart';
 import 'package:skull_king_score_app/src/presentation/views/game/game_app_bar.dart';
 import 'package:skull_king_score_app/src/presentation/views/game/game_background.dart';
 import 'package:skull_king_score_app/src/presentation/views/game/game_players_card_list.dart';
+import 'package:skull_king_score_app/src/presentation/widgets/sk_alert_dialog.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_button.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_drawer/sk_drawer.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_icon_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:skull_king_score_app/src/presentation/widgets/sk_text.dart';
 
 class Game extends StatefulWidget {
   const Game({super.key});
@@ -25,18 +30,55 @@ class Game extends StatefulWidget {
 
 class _Game extends State<StatefulWidget> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   void initState() {
     super.initState();
   }
 
-  void nextRound(Round round, List<RoundScorePlayer> playersRoundScores) {
-    context.read<RoundBloc>().add(EndRound(playersRoundScores));
-    if (round.getValue() < 10) {
-      Navigator.pushNamed(context, gameUrl);
-    } else {
-      Navigator.pushNamed(context, resultUrl);
+  Future<DialogAcceptTerm?> showKrakenDialog() async {
+    return await showDialog(
+      context: context,
+      builder: (_) => SKAlertDialog(
+        title: AppLocalizations.of(context)!.krakenDialogTitle,
+        content: SKText(
+          text: AppLocalizations.of(context)!.krakenDialogContent,
+        ),
+      ),
+      barrierDismissible: true,
+    );
+  }
+
+  Future<bool> isKakrenNotBeenPlayed(
+      BuildContext context, Round round, int tricksWonInRound) async {
+    if (round.getValue() - tricksWonInRound == 1 &&
+        await showKrakenDialog() == DialogAcceptTerm.approve) {
+      return false;
     }
+    if (!context.mounted) return true;
+    SnackBar snackbar = SnackBar(
+      showCloseIcon: true,
+      content: Text(AppLocalizations.of(context)!.invalidInput),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackbar);
+    return true;
+  }
+
+  void endRound(BuildContext context, Round round,
+      List<RoundScorePlayer> playersRoundScores) async {
+    int tricksWonInRound = GetTotalTricksWon.execute(
+        context.read<RoundBloc>().state.roundHistory[round.getValue() - 1]);
+    if (IsEndRoundDataIncorrect.execute(tricksWonInRound, round)) {
+      if (await isKakrenNotBeenPlayed(context, round, tricksWonInRound)) {
+        return;
+      }
+    }
+
+    if (!context.mounted) return;
+    context.read<RoundBloc>().add(EndRound(playersRoundScores));
+    round.getValue() < 10
+        ? Navigator.pushNamed(context, gameUrl)
+        : Navigator.pushNamed(context, resultUrl);
   }
 
   void previousRound() {
@@ -104,7 +146,7 @@ class _Game extends State<StatefulWidget> {
                               label:
                                   '${AppLocalizations.of(context)!.endRound} ${state.round.getValue()}',
                               onPressed: () =>
-                                  nextRound(state.round, playersScores),
+                                  endRound(context, state.round, playersScores),
                             ),
                           ),
                           const SizedBox(width: 5),

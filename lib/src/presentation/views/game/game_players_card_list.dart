@@ -1,17 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skull_king_score_app/src/domain/entities/bonus.dart';
 import 'package:skull_king_score_app/src/domain/entities/player.dart';
 import 'package:skull_king_score_app/src/domain/entities/round.dart';
 import 'package:skull_king_score_app/src/domain/entities/round_score_player.dart';
 import 'package:skull_king_score_app/src/domain/usecases/calcul_round_score.dart';
-import 'package:skull_king_score_app/src/domain/usecases/is_end_round_data_correct.dart';
-import 'package:skull_king_score_app/src/presentation/bloc/round/round_bloc.dart';
-import 'package:skull_king_score_app/src/presentation/bloc/round/round_event.dart';
-import 'package:skull_king_score_app/src/presentation/utils/dialog_accept_term.dart';
-import 'package:skull_king_score_app/src/presentation/widgets/sk_alert_dialog.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_player_card.dart';
-import 'package:skull_king_score_app/src/presentation/widgets/sk_text.dart';
 
 class GamePlayerCardList extends StatefulWidget {
   const GamePlayerCardList(
@@ -39,57 +32,6 @@ class _GamePlayerCardList extends State<GamePlayerCardList> {
   void initState() {
     super.initState();
     roundScorePlayers = List.from(widget.playersRoundScores);
-  }
-
-  Future<bool> isKakrenBeenPlayed() async {
-    DialogAcceptTerm? result = await showDialog(
-        context: context,
-        builder: (_) => const SKAlertDialog(
-            title: 'Missing round',
-            content: SKText(
-                text:
-                    "One round is missing does the kraken has been played during this round?")),
-        barrierDismissible: true);
-    if (result != DialogAcceptTerm.approve) {
-      return true;
-    }
-    return false;
-  }
-
-  Future<bool> isDataMissing(int roundTricksWon) async {
-    if (IsEndRoundDataCorrect.execute(roundTricksWon, widget.round)) {
-      if (widget.round.getValue() - roundTricksWon == 1) {
-        return await isKakrenBeenPlayed();
-      }
-      return true;
-    }
-    return false;
-  }
-
-  void endRound() {
-    if (widget.round.getValue() < 10) {
-      context
-          .read<RoundBloc>()
-          // .add(EndRound(List.from(roundScorePlayers)));
-          .add(EndRound(widget.playersRoundScores));
-    }
-    // widget.nextRound(widget.round);
-  }
-
-  void nextRound() async {
-    // int roundTricksWon = roundCubit.getRoundTicksWon(roundScorePlayers);
-
-    // if (await isDataMissing(roundTricksWon)) {
-    //   if (!context.mounted) return;
-    //   SnackBar snackbar = SnackBar(
-    //     showCloseIcon: true,
-    //     content: Text(AppLocalizations.of(context)!.invalidInput),
-    //   );
-    //   ScaffoldMessenger.of(context).showSnackBar(snackbar);
-    //   return;
-    // }
-    // if (!context.mounted) return;
-    endRound();
   }
 
   void onBonusPressed(UniqueKey playerId, BonusKey bonusKey, int amount) {

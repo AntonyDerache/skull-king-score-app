@@ -10,6 +10,8 @@
   "roundScore": "Round score:",
   "endRound": "End round",
   "invalidInput": "Invalid input. Total tricks won have to match current round.",
+  "krakenDialogTitle": "Missing data",
+  "krakenDialogContent": "One round is missing, does the kraken has been played during this round?",
 
   "result": "Game Result!",
   "home": "Home",
