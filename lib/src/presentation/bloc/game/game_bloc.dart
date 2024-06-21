@@ -32,12 +32,10 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     List<PlayerRoundScore> nextRoundScoresPlayers = List.empty(growable: true);
     List<Player> playersInGame = List.from(state.playersInGame);
     List<List<PlayerRoundScore>> roundHistory = List.from(state.roundHistory);
-    List<PlayerRoundScore> currentRoundScores =
-        roundHistory[state.round.getValue() - 1];
-    currentRoundScores = event.playersScores;
 
-    for (var i = 0; i < currentRoundScores.length; i++) {
-      PlayerRoundScore scorePlayer = currentRoundScores[i];
+    roundHistory[state.round.getValue() - 1] = event.playersScores;
+    for (var i = 0; i < event.playersScores.length; i++) {
+      PlayerRoundScore scorePlayer = event.playersScores[i];
 
       int totalComputedRoundScore =
           GetTotalScore.execute(state.round, scorePlayer);
@@ -51,7 +49,9 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         score: totalComputedRoundScore,
       );
     }
-    roundHistory.add(nextRoundScoresPlayers);
+    if (state.round.getValue() == roundHistory.length) {
+      roundHistory.add(nextRoundScoresPlayers);
+    }
     emit(
       state.copyWith(
         round: Round(state.round.getValue() + 1),

@@ -48,50 +48,54 @@ class _MainApp extends State<MainApp> {
         BlocProvider<GameBloc>(create: (_) => GameBloc()),
       ],
       child: FutureBuilder(
-          future: _fetchLocale(),
-          builder: (context, snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.done:
-                if (snapshot.data != null &&
-                    snapshot.data!.languageCode == 'fr') {
-                  context
-                      .read<LanguageCubit>()
-                      .toggleNewLanguage(snapshot.data!.languageCode);
-                }
-                break;
-              default:
-                break;
-            }
-            return BlocBuilder<LanguageCubit, LanguageState>(
-              builder: (context, state) {
-                return MaterialApp(
-                  title: 'Skull King Score Counter',
-                  initialRoute: '/',
-                  locale: state.locale,
-                  localizationsDelegates: const [
-                    AppLocalizations.delegate,
-                    GlobalMaterialLocalizations.delegate,
-                    GlobalWidgetsLocalizations.delegate,
-                    GlobalCupertinoLocalizations.delegate,
-                  ],
-                  supportedLocales:
-                      supportedLocales.map((language) => language.locale),
-                  theme: ThemeData(
-                      appBarTheme: const AppBarTheme(
-                          systemOverlayStyle: SystemUiOverlayStyle(
-                              statusBarColor: Colors.transparent,
-                              statusBarBrightness: Brightness.light,
-                              statusBarIconBrightness: Brightness.light))),
-                  routes: {
-                    baseUrl: (context) => const Home(),
-                    gameUrl: (contexnt) => const Game(),
-                    resultUrl: (contexnt) => const Result(),
-                  },
-                  debugShowCheckedModeBanner: false,
-                );
-              },
-            );
-          }),
+        future: _fetchLocale(),
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.done:
+              if (snapshot.data != null &&
+                  snapshot.data!.languageCode == 'fr') {
+                context
+                    .read<LanguageCubit>()
+                    .toggleNewLanguage(snapshot.data!.languageCode);
+              }
+              break;
+            default:
+              break;
+          }
+          return BlocBuilder<LanguageCubit, LanguageState>(
+            builder: (context, state) {
+              return MaterialApp(
+                title: 'Skull King Score Counter',
+                initialRoute: '/',
+                locale: state.locale,
+                localizationsDelegates: const [
+                  AppLocalizations.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales:
+                    supportedLocales.map((language) => language.locale),
+                theme: ThemeData(
+                  appBarTheme: const AppBarTheme(
+                    systemOverlayStyle: SystemUiOverlayStyle(
+                      statusBarColor: Colors.transparent,
+                      statusBarBrightness: Brightness.light,
+                      statusBarIconBrightness: Brightness.light,
+                    ),
+                  ),
+                ),
+                routes: {
+                  baseUrl: (context) => const Home(),
+                  gameUrl: (contexnt) => const Game(),
+                  resultUrl: (contexnt) => const Result(),
+                },
+                debugShowCheckedModeBanner: false,
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }
