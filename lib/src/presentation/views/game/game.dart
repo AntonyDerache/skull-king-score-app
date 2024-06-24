@@ -13,15 +13,15 @@ import 'package:skull_king_score_app/src/presentation/cubit/round_scores/round_s
 import 'package:skull_king_score_app/src/presentation/utils/alert_enums.dart';
 import 'package:skull_king_score_app/src/presentation/utils/constants.dart';
 import 'package:skull_king_score_app/src/presentation/utils/list_utils.dart';
+import 'package:skull_king_score_app/src/presentation/utils/show_alert.dart';
+import 'package:skull_king_score_app/src/presentation/utils/show_snackbar.dart';
 import 'package:skull_king_score_app/src/presentation/views/game/game_app_bar.dart';
 import 'package:skull_king_score_app/src/presentation/views/game/game_background.dart';
 import 'package:skull_king_score_app/src/presentation/views/game/game_players_card_list.dart';
-import 'package:skull_king_score_app/src/presentation/widgets/sk_alert_dialog.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_button.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_drawer/sk_drawer.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_icon_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:skull_king_score_app/src/presentation/widgets/sk_text.dart';
 
 class Game extends StatefulWidget {
   const Game({super.key});
@@ -33,67 +33,21 @@ class Game extends StatefulWidget {
 class _Game extends State<StatefulWidget> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  Future<DialogAcceptEnum?> showKrakenAlert() async {
-    return await showDialog(
-      context: context,
-      builder: (_) => SKAlertDialog(
-        title: AppLocalizations.of(context)!.krakenDialogTitle,
-        content: SKText(
-          text: AppLocalizations.of(context)!.krakenDialogContent,
-        ),
-      ),
-      barrierDismissible: true,
-    );
-  }
-
-  Future<DialogAcceptEnum?> showHistoryBehindAlert() async {
-    return await showDialog(
-      context: context,
-      builder: (_) => SKAlertDialog(
-        title: AppLocalizations.of(context)!.historyBehindDialogTitle,
-        content: SKText(
-          text: AppLocalizations.of(context)!.historyBehindDialogContent,
-        ),
-      ),
-      barrierDismissible: true,
-    );
-  }
-
-  Future<bool> isKakrenNotBeenPlayed(
-      BuildContext context, Round round, int tricksWonInRound) async {
-    if (round.getValue() - tricksWonInRound == 1 &&
-        await showKrakenAlert() == DialogAcceptEnum.approve) {
-      return false;
-    }
-    if (!context.mounted) return true;
-    SnackBar snackbar = SnackBar(
-      showCloseIcon: true,
-      content: Text(AppLocalizations.of(context)!.invalidInput),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackbar);
-    return true;
-  }
-
   void endRound(BuildContext context, Round round) async {
-    if (context.read<GameBloc>().state.historyStatus ==
-            GameHistorySatus.behind &&
-        ListUtils.areListsNotEquals<PlayerRoundScore>(
-          context.read<RoundScoreCubit>().state,
-          context.read<GameBloc>().state.roundHistory[round.getValue() - 1],
-        )) {
-      if (await showHistoryBehindAlert() == DialogAcceptEnum.reject) {
-        return;
-      }
+    if (await checkIfHistoryBehindAndReturnIfUserReject(context, round)) {
+      return;
     }
 
     if (!context.mounted) return;
     List<PlayerRoundScore> playersRoundScores =
         context.read<RoundScoreCubit>().state;
     int tricksWonInRound = GetTotalTricksWon.execute(playersRoundScores);
-    if (IsEndRoundDataIncorrect.execute(tricksWonInRound, round)) {
-      if (await isKakrenNotBeenPlayed(context, round, tricksWonInRound)) {
-        return;
-      }
+    if (await checkIfRoundDataIsIncorrectAndReturnIfUserReject(
+      context,
+      round,
+      tricksWonInRound,
+    )) {
+      return;
     }
 
     if (!context.mounted) return;
@@ -111,6 +65,49 @@ class _Game extends State<StatefulWidget> {
 
   void openDrawer() {
     _scaffoldKey.currentState?.openDrawer();
+  }
+
+  Future<bool> checkIfHistoryBehindAndReturnIfUserReject(
+      BuildContext context, Round round) async {
+    return isHistoryBehindAndDataNotSame(round) &&
+        await showAlert(
+              context,
+              AppLocalizations.of(context)!.historyBehindDialogTitle,
+              AppLocalizations.of(context)!.historyBehindDialogContent,
+            ) ==
+            DialogAcceptEnum.reject;
+  }
+
+  Future<bool> checkIfRoundDataIsIncorrectAndReturnIfUserReject(
+      BuildContext context, Round round, int tricksWonInRound) async {
+    if (IsEndRoundDataIncorrect.execute(tricksWonInRound, round)) {
+      if (await isKakrenNotBeenPlayed(context, round, tricksWonInRound)) {
+        if (!context.mounted) return true;
+        showSnackbar(context, AppLocalizations.of(context)!.invalidInput);
+        return true;
+      }
+    }
+    return false;
+  }
+
+  Future<bool> isKakrenNotBeenPlayed(
+      BuildContext context, Round round, int tricksWonInRound) async {
+    return round.getValue() - tricksWonInRound == 1 &&
+        await showAlert(
+              context,
+              AppLocalizations.of(context)!.krakenDialogTitle,
+              AppLocalizations.of(context)!.krakenDialogContent,
+            ) ==
+            DialogAcceptEnum.reject;
+  }
+
+  bool isHistoryBehindAndDataNotSame(Round round) {
+    return context.read<GameBloc>().state.historyStatus ==
+            GameHistorySatus.behind &&
+        ListUtils.areListsNotEquals<PlayerRoundScore>(
+          context.read<RoundScoreCubit>().state,
+          context.read<GameBloc>().state.roundHistory[round.getValue() - 1],
+        );
   }
 
   @override
