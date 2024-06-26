@@ -19,6 +19,10 @@ class SKBonusIconButton extends StatelessWidget {
     onPressed?.call(value + 1 > maxAmount ? 0 : value + 1);
   }
 
+  void resetIcon() {
+    onPressed?.call(0);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -28,15 +32,23 @@ class SKBonusIconButton extends StatelessWidget {
           height: 36,
           width: 36,
           decoration: const BoxDecoration(
-            color: Colors.white,
             borderRadius: BorderRadius.all(
               Radius.circular(10),
             ),
           ),
-          alignment: Alignment.center,
-          child: IconButton(
-            icon: icon,
-            onPressed: () => iconIsClicked(),
+          clipBehavior: Clip.hardEdge,
+          child: Material(
+            child: InkWell(
+              child: Center(
+                child: Ink(
+                  width: 24,
+                  height: 24,
+                  child: Center(child: icon),
+                ),
+              ),
+              onTap: () => iconIsClicked(),
+              onLongPress: () => resetIcon(),
+            ),
           ),
         ),
         Positioned(

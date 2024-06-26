@@ -34,7 +34,7 @@
   "rascal_bet": "Rascal Bet",
   "rascal_bet_description": "Add Rascal Bet when a player win a bid using the Pirate Rascal and bet on his win",
   "global": "Global",
-  "globalHowToUse": "In the case where you add more bonus than wished on a bonus, you can reset it to 0 by overflowing their max value (max value of +10 bonus is 10 times)",
+  "globalHowToUse": "In the case where you add too much specific bonus than intended, you can reset it to 0 either with a long press on the icon or overflowing their max value (max value of +10 bonus is 10 times)",
   "allyHowToUse": "If an alliance between 2 players comes to be invalid, then you have to reset the ally bonus icon to 0 (or 1 in the case of a player is allied with 2 different players)",
   "pariRascalHowToUse": "If a player lose his bid, points from rascal bet automatically turns as minus points",
 
