@@ -24,8 +24,9 @@ class SKButton extends StatelessWidget {
   final FontWeight textWeight;
 
   final ButtonStyle defaultStyle = TextButton.styleFrom(
-    shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(componentsRadius))),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10),
+    ),
     padding: const EdgeInsets.symmetric(horizontal: 24),
     minimumSize: const Size.fromHeight(formHeight),
   );

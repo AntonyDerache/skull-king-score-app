@@ -7,12 +7,12 @@ class HelpModalBonusInfo extends StatelessWidget {
     super.key,
     required this.title,
     required this.description,
-    required this.iconPath,
+    required this.icon,
   });
 
   final String title;
   final String description;
-  final String iconPath;
+  final Widget icon;
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +23,7 @@ class HelpModalBonusInfo extends StatelessWidget {
         const SizedBox(height: 5),
         Row(children: [
           SKBonusIconButton(
-            icon: Image(
-              image: AssetImage(iconPath),
-            ),
+            icon: icon,
             maxAmount: 0,
             value: 0,
             onPressed: null,

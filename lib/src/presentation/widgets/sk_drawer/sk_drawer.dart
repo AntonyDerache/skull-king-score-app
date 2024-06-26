@@ -42,6 +42,7 @@ class SKDrawer extends StatelessWidget {
               Expanded(
                 child: ListView(
                   padding: EdgeInsets.zero,
+                  clipBehavior: Clip.hardEdge,
                   children: [
                     DrawerHeader(
                       padding: const EdgeInsets.all(30),
@@ -53,10 +54,13 @@ class SKDrawer extends StatelessWidget {
                         ),
                       ),
                     ),
-                    ListTile(
-                      title: SKText(
-                          text: AppLocalizations.of(context)!.help,
-                          fontSize: 18),
+                    InkWell(
+                      borderRadius: BorderRadius.circular(10),
+                      child: ListTile(
+                        title: SKText(
+                            text: AppLocalizations.of(context)!.help,
+                            fontSize: 18),
+                      ),
                       onTap: () {
                         showModalBottomSheet(
                           useSafeArea: true,
@@ -69,31 +73,37 @@ class SKDrawer extends StatelessWidget {
                         );
                       },
                     ),
-                    ListTile(
-                      title: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SKText(
-                              text: AppLocalizations.of(context)!.rules,
-                              fontSize: 18),
-                          const SizedBox(width: 10),
-                          const Icon(Icons.open_in_browser,
-                              color: lightColor, size: 20),
-                        ],
+                    InkWell(
+                      borderRadius: BorderRadius.circular(10),
+                      child: ListTile(
+                        title: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SKText(
+                                text: AppLocalizations.of(context)!.rules,
+                                fontSize: 18),
+                            const SizedBox(width: 10),
+                            const Icon(Icons.open_in_browser,
+                                color: lightColor, size: 20),
+                          ],
+                        ),
                       ),
                       onTap: () => openRules(context),
                     ),
-                    ListTile(
-                      title: SKText(
-                          text: AppLocalizations.of(context)!.stats,
-                          fontSize: 18),
-                      onTap: null,
-                    ),
+                    // ListTile(
+                    //   title: SKText(
+                    //       text: AppLocalizations.of(context)!.stats,
+                    //       fontSize: 18),
+                    //   onTap: null,
+                    // ),
                     if (!isAtRoot)
-                      ListTile(
-                        title: SKText(
-                            text: AppLocalizations.of(context)!.goHome,
-                            fontSize: 18),
+                      InkWell(
+                        borderRadius: BorderRadius.circular(10),
+                        child: ListTile(
+                          title: SKText(
+                              text: AppLocalizations.of(context)!.goHome,
+                              fontSize: 18),
+                        ),
                         onTap: () => goToHome(context),
                       ),
                   ],

@@ -51,7 +51,7 @@ class SKPlayerCard extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(color: lightColor),
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
+          borderRadius: BorderRadius.circular(10),
         ),
         child: Padding(
           padding: const EdgeInsets.only(

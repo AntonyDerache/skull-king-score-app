@@ -53,42 +53,53 @@ class HelpModalView extends StatelessWidget {
                         title: AppLocalizations.of(context)!.mermaid,
                         description:
                             AppLocalizations.of(context)!.mermaid_description,
-                        iconPath: 'assets/icons/mermaid.png',
+                        icon: const Image(
+                          image: AssetImage('assets/icons/mermaid.png'),
+                        ),
                       ),
                       const SizedBox(height: 15),
                       HelpModalBonusInfo(
                         title: AppLocalizations.of(context)!.pirate,
                         description:
                             AppLocalizations.of(context)!.pirate_descrption,
-                        iconPath: 'assets/icons/pirate.png',
+                        icon: const Image(
+                          image: AssetImage('assets/icons/pirate.png'),
+                        ),
                       ),
                       const SizedBox(height: 15),
                       HelpModalBonusInfo(
                         title: AppLocalizations.of(context)!.skull_king,
                         description: AppLocalizations.of(context)!
                             .skull_king_description,
-                        iconPath: 'assets/icons/skull_king.png',
+                        icon: const Image(
+                          image: AssetImage('assets/icons/skull_king.png'),
+                        ),
                       ),
                       const SizedBox(height: 15),
                       HelpModalBonusInfo(
                         title: AppLocalizations.of(context)!.ten_point,
                         description:
                             AppLocalizations.of(context)!.ten_point_description,
-                        iconPath: 'assets/icons/number_10.png',
+                        icon: const SKText(
+                            text: '+10', color: Colors.black, fontSize: 11),
                       ),
                       const SizedBox(height: 15),
                       HelpModalBonusInfo(
                         title: AppLocalizations.of(context)!.alliance,
                         description:
                             AppLocalizations.of(context)!.alliance_description,
-                        iconPath: 'assets/icons/coins.png',
+                        icon: const Image(
+                          image: AssetImage('assets/icons/coins.png'),
+                        ),
                       ),
                       const SizedBox(height: 15),
                       HelpModalBonusInfo(
                         title: AppLocalizations.of(context)!.rascal_bet,
                         description: AppLocalizations.of(context)!
                             .rascal_bet_description,
-                        iconPath: 'assets/icons/pari.png',
+                        icon: const Image(
+                          image: AssetImage('assets/icons/pari.png'),
+                        ),
                       ),
                     ],
                   ),

@@ -31,10 +31,8 @@ class SKBonusIconButton extends StatelessWidget {
         Container(
           height: 36,
           width: 36,
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(
-              Radius.circular(10),
-            ),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
           ),
           clipBehavior: Clip.hardEdge,
           child: Material(
@@ -60,7 +58,7 @@ class SKBonusIconButton extends StatelessWidget {
             alignment: Alignment.center,
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: const BorderRadius.all(Radius.circular(100)),
+              borderRadius: BorderRadius.circular(100),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.5),
