@@ -22,4 +22,15 @@ class Player extends Equatable {
 
   @override
   List<Object?> get props => [id, name, score];
+
+  @override
+  bool operator ==(Object other) {
+    return other is Player &&
+        id == other.id &&
+        score == other.score &&
+        name == other.name;
+  }
+
+  @override
+  int get hashCode => Object.hash(id, name, score);
 }

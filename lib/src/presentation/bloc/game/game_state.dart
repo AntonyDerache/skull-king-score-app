@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:skull_king_score_app/src/domain/entities/player.dart';
 import 'package:skull_king_score_app/src/domain/entities/round.dart';
 import 'package:skull_king_score_app/src/domain/entities/player_round_score.dart';
@@ -11,10 +12,12 @@ class GameState extends Equatable {
   final List<List<PlayerRoundScore>> roundHistory;
   final GameHistorySatus historyStatus;
 
-  const GameState(this.round,
-      {this.playersInGame = const [],
-      this.roundHistory = const [[]],
-      this.historyStatus = GameHistorySatus.normal});
+  const GameState(
+    this.round, {
+    this.playersInGame = const [],
+    this.roundHistory = const [[]],
+    this.historyStatus = GameHistorySatus.normal,
+  });
 
   @override
   String toString() {
@@ -42,4 +45,21 @@ class GameState extends Equatable {
         playersInGame,
         historyStatus,
       ];
+
+  @override
+  bool operator ==(Object other) {
+    return other is GameState &&
+        round == other.round &&
+        listEquals(playersInGame, other.playersInGame) &&
+        listEquals(roundHistory, other.roundHistory) &&
+        historyStatus == other.historyStatus;
+  }
+
+  @override
+  int get hashCode => Object.hash(
+        round,
+        playersInGame,
+        roundHistory,
+        historyStatus,
+      );
 }

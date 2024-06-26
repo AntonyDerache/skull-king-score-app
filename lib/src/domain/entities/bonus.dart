@@ -15,4 +15,12 @@ class Bonus extends Equatable {
 
   @override
   List<Object?> get props => [value, amount];
+
+  @override
+  bool operator ==(Object other) {
+    return other is Bonus && value == other.value && amount == other.amount;
+  }
+
+  @override
+  int get hashCode => Object.hash(value, amount);
 }

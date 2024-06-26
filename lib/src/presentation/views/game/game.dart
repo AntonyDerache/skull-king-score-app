@@ -80,7 +80,9 @@ class _Game extends State<StatefulWidget> {
 
   Future<bool> checkIfRoundDataIsIncorrectAndReturnIfUserReject(
       BuildContext context, Round round, int tricksWonInRound) async {
-    if (IsEndRoundDataIncorrect.execute(tricksWonInRound, round)) {
+    IncorrectDataResult incorrectRsult =
+        IsEndRoundDataIncorrect.execute(tricksWonInRound, round);
+    if (incorrectRsult == IncorrectDataResult.inferior) {
       if (await isKakrenNotBeenPlayed(context, round, tricksWonInRound)) {
         if (!context.mounted) return true;
         showSnackbar(context, AppLocalizations.of(context)!.invalidInput);

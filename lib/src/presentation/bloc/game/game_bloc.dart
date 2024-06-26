@@ -9,7 +9,7 @@ import 'package:skull_king_score_app/src/presentation/bloc/game/game_state.dart'
 import 'package:skull_king_score_app/src/presentation/utils/list_utils.dart';
 
 class GameBloc extends Bloc<GameEvent, GameState> {
-  GameBloc() : super(GameState(Round(0))) {
+  GameBloc() : super(const GameState(Round(0))) {
     on<GameStartRound>(onStartRound);
     on<GameEndRound>(onEndRound);
     on<GamePreviousRound>(onPreviousRound);
@@ -23,7 +23,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
 
     emit(
       GameState(
-        Round(1),
+        const Round(1),
         playersInGame: event.playersInGame,
         roundHistory: [newRoundScoresPlayers],
       ),
@@ -62,6 +62,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         round: Round(state.round.getValue() + 1),
         roundHistory: roundHistory,
         playersInGame: playersInGame,
+        historyStatus: GameHistorySatus.normal,
       ),
     );
   }
@@ -74,15 +75,15 @@ class GameBloc extends Bloc<GameEvent, GameState> {
 
     for (var i = 0; i < scoresFromPreviousRound.length; i++) {
       PlayerRoundScore scorePlayer = scoresFromPreviousRound[i];
-
       _updatePlayerScore(
           scorePlayer.currentScore, playersInGame, scorePlayer.playerId);
     }
     emit(
       state.copyWith(
-          round: Round(state.round.getValue() - 1),
-          playersInGame: playersInGame,
-          historyStatus: GameHistorySatus.behind),
+        round: Round(state.round.getValue() - 1),
+        playersInGame: playersInGame,
+        historyStatus: GameHistorySatus.behind,
+      ),
     );
   }
 

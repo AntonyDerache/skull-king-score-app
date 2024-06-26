@@ -1,20 +1,27 @@
-class Round {
-  int _round = 0;
+import 'package:equatable/equatable.dart';
 
-  Round(int round) {
-    _round = round;
-  }
+class Round extends Equatable {
+  final int round;
+
+  const Round(this.round);
 
   int getValue() {
-    return _round;
-  }
-
-  void setValue(int round) {
-    _round = round;
+    return round;
   }
 
   @override
   String toString() {
-    return _round.toString();
+    return round.toString();
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is Round && round == other.round;
+  }
+
+  @override
+  int get hashCode => Object.hash(round, null);
+
+  @override
+  List<Object?> get props => [round];
 }
