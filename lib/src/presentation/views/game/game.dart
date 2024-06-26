@@ -88,6 +88,10 @@ class _Game extends State<StatefulWidget> {
         showSnackbar(context, AppLocalizations.of(context)!.invalidInput);
         return true;
       }
+    } else if (incorrectRsult == IncorrectDataResult.superior) {
+      showSnackbar(context,
+          '${AppLocalizations.of(context)!.tooMuchRoundRegistered} ($tricksWonInRound/${round.getValue()}).');
+      return true;
     }
     return false;
   }

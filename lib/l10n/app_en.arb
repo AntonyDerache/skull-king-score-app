@@ -10,6 +10,7 @@
   "roundScore": "Round score:",
   "endRound": "End round",
   "invalidInput": "Invalid input. Total tricks won have to match current round.",
+  "tooMuchRoundRegistered": "Total tricks won should not be superior to current round",
   "krakenDialogTitle": "Missing data",
   "krakenDialogContent": "One round is missing, does the kraken has been played during this round?",
   "historyBehindDialogTitle": "Round modification",
