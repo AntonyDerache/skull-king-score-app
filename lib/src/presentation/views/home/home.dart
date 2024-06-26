@@ -25,7 +25,7 @@ class _Home extends State<Home> {
   void play(BuildContext context) async {
     final List<PlayerState> players = context.read<PlayerCubit>().state;
     context.read<GameBloc>().add(
-          GameStartRound(
+          GameStarted(
             List.from(players),
           ),
         );

@@ -23,12 +23,12 @@ void main() {
 
     group('onStartRound', () {
       // GIVEN
-      GameState expectState = mockGameStartRound.copyWith();
+      GameState expectState = mockGameStarted.copyWith();
       blocTest<GameBloc, GameState>(
         "emit state [round 1, players, roundHistory] for a new game",
         build: () => GameBloc(),
         // WHEN
-        act: (bloc) => bloc.add(GameStartRound(List.from(mockPlayers))),
+        act: (bloc) => bloc.add(GameStarted(List.from(mockPlayers))),
         // THEN
         expect: () => [
           isA<GameState>()
@@ -48,9 +48,9 @@ void main() {
         "emit state from round 1 to round 2",
         // GIVEN
         build: () => GameBloc(),
-        seed: () => mockGameStartRound,
+        seed: () => mockGameStarted,
         // WHEN
-        act: (bloc) => bloc.add(GameEndRound(List.from(mockEndRoundScore1))),
+        act: (bloc) => bloc.add(GameRoundEnded(List.from(mockEndRoundScore1))),
         // THEN
         expect: () => [
           isA<GameState>()
@@ -70,7 +70,7 @@ void main() {
         build: () => GameBloc(),
         seed: () => mockGameStateRound2,
         // WHEN
-        act: (bloc) => bloc.add(GameEndRound(List.from(mockEndRoundScore2))),
+        act: (bloc) => bloc.add(GameRoundEnded(List.from(mockEndRoundScore2))),
         // THEN
         expect: () => [
           isA<GameState>()
@@ -93,7 +93,7 @@ void main() {
         act: (bloc) {
           bloc.add(GamePreviousRound());
           bloc.add(GamePreviousRound());
-          bloc.add(GameEndRound(List.from(mockEndRoundScore1_2)));
+          bloc.add(GameRoundEnded(List.from(mockEndRoundScore1_2)));
         },
         skip: 2,
         // THEN

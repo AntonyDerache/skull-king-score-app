@@ -51,7 +51,7 @@ class _Game extends State<StatefulWidget> {
     }
 
     if (!context.mounted) return;
-    context.read<GameBloc>().add(GameEndRound(playersRoundScores));
+    context.read<GameBloc>().add(GameRoundEnded(playersRoundScores));
     round.getValue() < 10
         ? Navigator.pushNamed(context, gameUrl).then((_) => setState(() => {}))
         : Navigator.pushNamed(context, resultUrl);

@@ -12,7 +12,7 @@ List<PlayerRoundScore> mockNewRoundScoresPlayers = List.generate(
   (index) => PlayerRoundScore(mockPlayers[index].id, 0),
 );
 
-GameState mockGameStartRound = GameState(
+GameState mockGameStarted = GameState(
   const Round(1),
   playersInGame: mockPlayers,
   roundHistory: [mockNewRoundScoresPlayers],

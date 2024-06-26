@@ -10,12 +10,12 @@ import 'package:skull_king_score_app/src/presentation/utils/list_utils.dart';
 
 class GameBloc extends Bloc<GameEvent, GameState> {
   GameBloc() : super(const GameState(Round(0))) {
-    on<GameStartRound>(onStartRound);
-    on<GameEndRound>(onEndRound);
+    on<GameStarted>(onStartRound);
+    on<GameRoundEnded>(onEndRound);
     on<GamePreviousRound>(onPreviousRound);
   }
 
-  void onStartRound(GameStartRound event, Emitter<GameState> emit) {
+  void onStartRound(GameStarted event, Emitter<GameState> emit) {
     List<PlayerRoundScore> newRoundScoresPlayers = List.generate(
       event.playersInGame.length,
       (index) => PlayerRoundScore(event.playersInGame[index].id, 0),
@@ -30,7 +30,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     );
   }
 
-  void onEndRound(GameEndRound event, Emitter<GameState> emit) {
+  void onEndRound(GameRoundEnded event, Emitter<GameState> emit) {
     List<PlayerRoundScore> nextRoundScoresPlayers = List.empty(growable: true);
     List<Player> playersInGame = List.from(state.playersInGame);
     List<List<PlayerRoundScore>> roundHistory = List.from(state.roundHistory);

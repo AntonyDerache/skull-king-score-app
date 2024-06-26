@@ -6,19 +6,19 @@ sealed class GameEvent extends Equatable {
   const GameEvent();
 }
 
-final class GameStartRound extends GameEvent {
+final class GameStarted extends GameEvent {
   final List<Player> playersInGame;
 
-  const GameStartRound(this.playersInGame);
+  const GameStarted(this.playersInGame);
 
   @override
   List<Object?> get props => [playersInGame];
 }
 
-final class GameEndRound extends GameEvent {
+final class GameRoundEnded extends GameEvent {
   final List<PlayerRoundScore> playersScores;
 
-  const GameEndRound(this.playersScores);
+  const GameRoundEnded(this.playersScores);
 
   @override
   List<Object?> get props => [];
