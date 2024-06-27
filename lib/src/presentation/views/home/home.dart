@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skull_king_score_app/src/domain/entities/player.dart';
+import 'package:skull_king_score_app/src/domain/usecases/count_number_of_players_with_empty_name.dart';
 import 'package:skull_king_score_app/src/presentation/bloc/game/game_bloc.dart';
 import 'package:skull_king_score_app/src/presentation/bloc/game/game_event.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/player/player_cubit.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/player/player_state.dart';
+import 'package:skull_king_score_app/src/presentation/utils/alert_enums.dart';
 import 'package:skull_king_score_app/src/presentation/utils/constants.dart';
+import 'package:skull_king_score_app/src/presentation/utils/show_alert.dart';
+import 'package:skull_king_score_app/src/presentation/utils/show_snackbar.dart';
 import 'package:skull_king_score_app/src/presentation/views/home/home_background.dart';
 import 'package:skull_king_score_app/src/presentation/views/home/players_list.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_button.dart';
@@ -23,7 +28,27 @@ class _Home extends State<Home> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   void play(BuildContext context) async {
-    final List<PlayerState> players = context.read<PlayerCubit>().state;
+    List<PlayerState> players = List.from(context.read<PlayerCubit>().state);
+    int numberOfPlayersName =
+        CountNumberOfPlayersWithFilledName.execute(players);
+    if (numberOfPlayersName < 2) {
+      showSnackbar(context, "Please fill at least 2 players names");
+      return;
+    } else if (numberOfPlayersName < players.length) {
+      // if (await showAlert(context, "Missing players names",
+      //         "At least one player has no name. Do you wish to continue?") ==
+      //     DialogAcceptEnum.approve) {
+      //   List<Player> playersWithoutName =
+      //       players.where((player) => player.name.isEmpty).toList();
+      //   if (!context.mounted) return;
+      //   context.read<PlayerCubit>().removePlayersById(
+      //       playersWithoutName.map((player) => player.id).toList());
+      //   players = List.from(context.read<PlayerCubit>().state);
+      // } else {
+      //   return;
+      // }
+    }
+    if (!context.mounted) return;
     context.read<GameBloc>().add(
           GameStarted(
             List.from(players),
