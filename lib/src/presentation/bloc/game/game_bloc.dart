@@ -13,6 +13,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     on<GameStarted>(onStartRound);
     on<GameRoundEnded>(onEndRound);
     on<GamePreviousRound>(onPreviousRound);
+    on<GameQuitted>(onGameQuitted);
   }
 
   void onStartRound(GameStarted event, Emitter<GameState> emit) {
@@ -26,6 +27,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         const Round(1),
         playersInGame: event.playersInGame,
         roundHistory: [newRoundScoresPlayers],
+        historyStatus: GameHistorySatus.normal,
       ),
     );
   }
@@ -83,6 +85,17 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         round: Round(state.round.getValue() - 1),
         playersInGame: playersInGame,
         historyStatus: GameHistorySatus.behind,
+      ),
+    );
+  }
+
+  void onGameQuitted(GameQuitted event, Emitter<GameState> emit) {
+    emit(
+      state.copyWith(
+        round: const Round(0),
+        playersInGame: const [],
+        roundHistory: const [[]],
+        historyStatus: GameHistorySatus.normal,
       ),
     );
   }

@@ -16,7 +16,7 @@ void main() {
       // WHEN
       List<Player> leadPlayers = GetLeadPlayers.execute(players);
       // THEN
-      expect(listEquals(leadPlayers, expectedLeadPlayers), true);
+      expect(leadPlayers, equals(expectedLeadPlayers));
     });
 
     test('Get multiple lead players', () {
@@ -30,7 +30,17 @@ void main() {
       // WHEN
       List<Player> leadPlayers = GetLeadPlayers.execute(players);
       // THEN
-      expect(listEquals(leadPlayers, expectedLeadPlayers), true);
+      expect(leadPlayers, equals(expectedLeadPlayers));
+    });
+
+    test('Get no lead players if no players', () {
+      // GIVEN
+      List<Player> players = [];
+      List<Player> expectedLeadPlayers = [];
+      // WHEN
+      List<Player> leadPlayers = GetLeadPlayers.execute(players);
+      // THEN
+      expect(leadPlayers, equals(expectedLeadPlayers));
     });
   });
 }

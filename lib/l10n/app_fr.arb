@@ -15,6 +15,9 @@
   "krakenDialogContent": "Le résultat d'un plit est manquant, est-ce que la carte Kraken a été joué durant cette manche ?",
   "historyBehindDialogTitle": "Modification d'une manche",
   "historyBehindDialogContent": "Modifier les résultats d'une manche précédente entraine une réinitialisation des manches suivante déjà saisie.\n\nÊtes-vous sûr de continuer ?",
+  "notEnoughPlayersNames": "Minimum 2 joueurs doivent avoir un nom renseigné.",
+  "missingPlayerNameTitle": "Noms de joueur manquant",
+  "missingPlayerNameContent": "Au moins 1 joueur ne possède pas de nom. Souhaitez vous continuer ?\n\nLe joueur vide sera retiré.",
 
   "result": "Resultats !",
   "home": "Home",

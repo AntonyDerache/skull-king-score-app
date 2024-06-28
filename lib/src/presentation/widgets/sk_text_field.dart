@@ -33,11 +33,19 @@ class _SKTextInput extends State<SKTextInput> {
     super.dispose();
   }
 
+  void replaceControllerTextIfPropsDifferent() {
+    if (widget.text != _controller.text) {
+      _controller.text = widget.text;
+    }
+  }
+
   final TextStyle textStyle =
       const TextStyle(color: Colors.white, decorationThickness: 0);
 
   @override
   Widget build(BuildContext context) {
+    replaceControllerTextIfPropsDifferent();
+
     final InputDecoration defaultDecoration = InputDecoration(
         filled: true,
         fillColor: Colors.white.withAlpha(80),

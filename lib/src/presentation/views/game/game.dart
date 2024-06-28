@@ -53,13 +53,15 @@ class _Game extends State<StatefulWidget> {
     if (!context.mounted) return;
     context.read<GameBloc>().add(GameRoundEnded(playersRoundScores));
     round.getValue() < 10
-        ? Navigator.pushNamed(context, gameUrl).then((_) => setState(() => {}))
+        ? Navigator.pushNamed(context, gameUrl).then((_) => setState(() {}))
         : Navigator.pushNamed(context, resultUrl);
   }
 
   void previousRound() {
     if (context.read<GameBloc>().state.round.getValue() > 1) {
       context.read<GameBloc>().add(GamePreviousRound());
+    } else {
+      context.read<GameBloc>().add(GameQuitted());
     }
   }
 
@@ -135,6 +137,9 @@ class _Game extends State<StatefulWidget> {
               padding:
                   const EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
               child: BlocBuilder<GameBloc, GameState>(
+                buildWhen: (previous, current) {
+                  return current.round.getValue() >= 1;
+                },
                 builder: (context, state) {
                   List<Player> leadPlayers = GetLeadPlayers.execute(
                     List.from(state.playersInGame),

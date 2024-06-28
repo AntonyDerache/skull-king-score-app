@@ -2,6 +2,7 @@ import 'package:skull_king_score_app/src/domain/entities/player.dart';
 
 class GetLeadPlayers {
   static List<Player> execute(List<Player> players) {
+    if (players.isEmpty) return [];
     int higherScore = players
         .reduce((currentPlayer, nextPlayer) =>
             currentPlayer.score > nextPlayer.score ? currentPlayer : nextPlayer)

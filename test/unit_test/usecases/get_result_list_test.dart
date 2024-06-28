@@ -17,7 +17,7 @@ void main() {
       // WHEN
       List<Player> resultList = GetResultList.execute(players);
       // THEN
-      expect(listEquals(resultList, expectedOrder), true);
+      expect(resultList, equals(expectedOrder));
     });
 
     test('Get result list with equality', () {
@@ -32,7 +32,7 @@ void main() {
       // WHEN
       List<Player> resultList = GetResultList.execute(players);
       // THEN
-      expect(listEquals(resultList, expectedOrder), true);
+      expect(resultList, equals(expectedOrder));
     });
   });
 }

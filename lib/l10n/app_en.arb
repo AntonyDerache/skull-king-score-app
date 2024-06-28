@@ -15,6 +15,9 @@
   "krakenDialogContent": "One round is missing, does the kraken has been played during this round?",
   "historyBehindDialogTitle": "Round modification",
   "historyBehindDialogContent": "Changing previous round lead to reinitialisation of the next rounds you have already filled in.\n\nDo you wish to continue?",
+  "notEnoughPlayersNames": "Please fill at least 2 players names",
+  "missingPlayerNameTitle": "Missing players names",
+  "missingPlayerNameContent": "At least one player has no name. Do you wish to continue?\n\nThe empty player will be removed.",
 
   "result": "Game Result!",
   "home": "Home",

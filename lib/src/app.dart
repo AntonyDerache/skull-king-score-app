@@ -13,6 +13,7 @@ import 'package:skull_king_score_app/src/presentation/cubit/language/language_st
 import 'package:skull_king_score_app/src/presentation/cubit/player/player_cubit.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/round_scores/round_scores_cubit.dart';
 import 'package:skull_king_score_app/src/presentation/utils/constants.dart';
+import 'package:skull_king_score_app/src/presentation/utils/get_player_round_score.dart';
 import 'package:skull_king_score_app/src/presentation/utils/supported_locales.dart';
 import 'package:skull_king_score_app/src/presentation/views/game/game.dart';
 import 'package:skull_king_score_app/src/presentation/views/home/home.dart';
@@ -69,67 +70,49 @@ class _MainApp extends State<MainApp> {
           }
           return BlocBuilder<LanguageCubit, LanguageState>(
             builder: (context, state) {
-              return MaterialApp(
-                title: 'Skull King Score Counter',
-                initialRoute: '/',
-                locale: state.locale,
-                localizationsDelegates: const [
-                  AppLocalizations.delegate,
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
-                ],
-                supportedLocales:
-                    supportedLocales.map((language) => language.locale),
-                theme: ThemeData(
-                  appBarTheme: const AppBarTheme(
-                    systemOverlayStyle: SystemUiOverlayStyle(
-                      statusBarColor: Colors.transparent,
-                      statusBarBrightness: Brightness.light,
-                      statusBarIconBrightness: Brightness.light,
+              return BlocListener<GameBloc, GameState>(
+                listenWhen: (previous, current) =>
+                    previous.round != current.round,
+                listener: (context, state) {
+                  if (state.round.getValue() > 0) {
+                    context.read<RoundScoreCubit>().setFrom(
+                          getPlayerRoundScore(state.round, state.roundHistory),
+                        );
+                  }
+                },
+                child: MaterialApp(
+                  title: 'Skull King Score Counter',
+                  initialRoute: '/',
+                  locale: state.locale,
+                  localizationsDelegates: const [
+                    AppLocalizations.delegate,
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate,
+                    GlobalCupertinoLocalizations.delegate,
+                  ],
+                  supportedLocales:
+                      supportedLocales.map((language) => language.locale),
+                  theme: ThemeData(
+                    appBarTheme: const AppBarTheme(
+                      systemOverlayStyle: SystemUiOverlayStyle(
+                        statusBarColor: Colors.transparent,
+                        statusBarBrightness: Brightness.light,
+                        statusBarIconBrightness: Brightness.light,
+                      ),
                     ),
                   ),
+                  routes: {
+                    baseUrl: (context) => const Home(),
+                    gameUrl: (contexnt) => const Game(),
+                    resultUrl: (contexnt) => const Result(),
+                  },
+                  debugShowCheckedModeBanner: false,
                 ),
-                routes: {
-                  baseUrl: (context) => const RoundListener(child: Home()),
-                  gameUrl: (contexnt) => const RoundListener(child: Game()),
-                  resultUrl: (contexnt) => const RoundListener(child: Result()),
-                },
-                debugShowCheckedModeBanner: false,
               );
             },
           );
         },
       ),
-    );
-  }
-}
-
-class RoundListener extends StatelessWidget {
-  const RoundListener({
-    super.key,
-    required this.child,
-  });
-
-  final Widget child;
-
-  List<PlayerRoundScore> getPlayerRoundScore(
-      Round round, List<List<PlayerRoundScore>> roundHistory) {
-    return roundHistory[round.getValue() - 1]
-        .map((item) => PlayerRoundScore.clone(item))
-        .toList();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocListener<GameBloc, GameState>(
-      listenWhen: (previous, current) => previous.round != current.round,
-      listener: (context, state) {
-        context.read<RoundScoreCubit>().setFrom(
-              getPlayerRoundScore(state.round, state.roundHistory),
-            );
-      },
-      child: child,
     );
   }
 }

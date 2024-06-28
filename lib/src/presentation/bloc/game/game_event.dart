@@ -28,3 +28,8 @@ final class GamePreviousRound extends GameEvent {
   @override
   List<Object?> get props => [];
 }
+
+final class GameQuitted extends GameEvent {
+  @override
+  List<Object?> get props => [];
+}
