@@ -6,8 +6,8 @@ import 'package:skull_king_score_app/src/presentation/bloc/game/game_state.dart'
 import 'game_bloc_mocks.dart';
 
 List<Player> mockPlayersRound1 = [
-  Player(mockPlayers[0].id, score: 20),
-  Player(mockPlayers[1].id, score: -10),
+  mockPlayers[0].copyWith(score: 20),
+  mockPlayers[1].copyWith(score: -10),
 ];
 
 List<PlayerRoundScore> mockEndRoundScore1 = [

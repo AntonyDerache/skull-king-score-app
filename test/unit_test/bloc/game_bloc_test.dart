@@ -8,7 +8,7 @@ import 'package:skull_king_score_app/src/presentation/bloc/game/game_state.dart'
 import '../../mocks/game_bloc_mocks.dart';
 import '../../mocks/game_round_1_1_mocks.dart';
 import '../../mocks/game_round_1_2_mocks.dart';
-import '../../mocks/game_round_2_mocks copy.dart';
+import '../../mocks/game_round_2_mocks.dart';
 
 void main() {
   group(GameBloc, () {

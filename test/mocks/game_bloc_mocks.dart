@@ -5,7 +5,10 @@ import 'package:skull_king_score_app/src/domain/entities/player_round_score.dart
 import 'package:skull_king_score_app/src/domain/entities/round.dart';
 import 'package:skull_king_score_app/src/presentation/bloc/game/game_state.dart';
 
-List<Player> mockPlayers = List.generate(2, (_) => Player(UniqueKey()));
+List<Player> mockPlayers = [
+  Player(UniqueKey(), name: "Toto"),
+  Player(UniqueKey(), name: "Titi"),
+];
 
 List<PlayerRoundScore> mockNewRoundScoresPlayers = List.generate(
   mockPlayers.length,

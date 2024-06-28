@@ -7,8 +7,14 @@ import 'package:skull_king_score_app/src/presentation/widgets/sk_player_title.da
 import 'package:skull_king_score_app/src/presentation/widgets/sk_text.dart';
 
 class GameAppBar extends StatefulWidget {
-  const GameAppBar(
-      {super.key, required this.leadPlayers, required this.players});
+  GameAppBar({
+    super.key,
+    required this.leadPlayers,
+    required this.players,
+  }) : assert(
+          leadPlayers.isNotEmpty,
+          players.isNotEmpty,
+        );
 
   final List<Player> leadPlayers;
   final List<Player> players;
@@ -35,6 +41,7 @@ class _GameAppBar extends State<GameAppBar> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      key: const ValueKey("score_app_bar"),
       onTap: () => {
         setState(() {
           isExpanded = !isExpanded;
@@ -74,6 +81,7 @@ class _GameAppBar extends State<GameAppBar> {
                     final Player firstLeaderPlayer = widget.leadPlayers[0];
 
                     return Row(
+                      key: const ValueKey("scoreboard_unexpanded"),
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SKPlayerTitle(

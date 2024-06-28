@@ -4,8 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:skull_king_score_app/src/domain/entities/player_round_score.dart';
-import 'package:skull_king_score_app/src/domain/entities/round.dart';
 import 'package:skull_king_score_app/src/presentation/bloc/game/game_bloc.dart';
 import 'package:skull_king_score_app/src/presentation/bloc/game/game_state.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/language/language_cubit.dart';
@@ -103,8 +101,8 @@ class _MainApp extends State<MainApp> {
                   ),
                   routes: {
                     baseUrl: (context) => const Home(),
-                    gameUrl: (contexnt) => const Game(),
-                    resultUrl: (contexnt) => const Result(),
+                    gameUrl: (context) => const Game(),
+                    resultUrl: (context) => const Result(),
                   },
                   debugShowCheckedModeBanner: false,
                 ),

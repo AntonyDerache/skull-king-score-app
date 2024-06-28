@@ -5,8 +5,14 @@ import 'package:skull_king_score_app/src/presentation/widgets/sk_player_title.da
 import 'package:skull_king_score_app/src/presentation/widgets/sk_text.dart';
 
 class ScoreBoard extends StatelessWidget {
-  const ScoreBoard(
-      {super.key, required this.players, required this.leadPlayers});
+  ScoreBoard({
+    super.key,
+    required this.players,
+    required this.leadPlayers,
+  }) : assert(
+          players.isNotEmpty,
+          leadPlayers.isNotEmpty,
+        );
 
   final List<Player> players;
   final List<Player> leadPlayers;
@@ -14,6 +20,7 @@ class ScoreBoard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
+        key: const ValueKey("scoreboard_expanded"),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             childAspectRatio: 10,

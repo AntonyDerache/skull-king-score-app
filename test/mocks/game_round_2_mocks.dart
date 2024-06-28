@@ -7,8 +7,8 @@ import 'game_bloc_mocks.dart';
 import 'game_round_1_1_mocks.dart';
 
 List<Player> mockPlayersRound2 = [
-  Player(mockPlayers[0].id, score: 0),
-  Player(mockPlayers[1].id, score: 40),
+  mockPlayers[0].copyWith(score: 0),
+  mockPlayers[1].copyWith(score: 40),
 ];
 
 List<PlayerRoundScore> mockEndRoundScore2 = [
