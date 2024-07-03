@@ -3,7 +3,7 @@ import 'package:skull_king_score_app/src/domain/entities/player_round_score.dart
 import 'package:skull_king_score_app/src/domain/entities/round.dart';
 import 'package:skull_king_score_app/src/presentation/bloc/game/game_state.dart';
 
-import 'game_bloc_mocks.dart';
+import 'game_bloc_data_mocks.dart';
 
 List<Player> mockPlayersRound1 = [
   mockPlayers[0].copyWith(score: 20),

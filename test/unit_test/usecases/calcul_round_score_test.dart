@@ -5,7 +5,7 @@ import 'package:skull_king_score_app/src/domain/entities/player_round_score.dart
 import 'package:skull_king_score_app/src/domain/entities/round.dart';
 import 'package:skull_king_score_app/src/domain/usecases/calcul_round_score.dart';
 
-import '../../mocks/game_bloc_mocks.dart';
+import '../../mocks/game_bloc_data_mocks.dart';
 
 void main() {
   group(CalculRoundScore, () {

@@ -10,6 +10,7 @@ class HelpModalView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FractionallySizedBox(
+      key: const ValueKey("drawer_help_modal"),
       heightFactor: .8,
       child: Padding(
         padding: const EdgeInsets.all(20),
@@ -27,6 +28,7 @@ class HelpModalView extends StatelessWidget {
                     Container(
                       alignment: Alignment.topLeft,
                       child: IconButton(
+                        key: const ValueKey("drawer_help_modal_back_btn"),
                         color: lightColor,
                         icon: const Icon(Icons.arrow_back),
                         onPressed: () => Navigator.pop(context),

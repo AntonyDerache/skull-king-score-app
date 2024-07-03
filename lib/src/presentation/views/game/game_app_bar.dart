@@ -45,8 +45,6 @@ class _GameAppBar extends State<GameAppBar> {
       onTap: () => {
         setState(() {
           isExpanded = !isExpanded;
-        }),
-        setState(() {
           containerHeight = isExpanded ? maxHeight : height;
         }),
       },
@@ -72,8 +70,7 @@ class _GameAppBar extends State<GameAppBar> {
         width: double.infinity,
         child: Padding(
           padding: const EdgeInsets.only(top: 10.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: ListView(
             children: [
               Builder(
                 builder: (context) {
@@ -85,14 +82,22 @@ class _GameAppBar extends State<GameAppBar> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SKPlayerTitle(
-                            playerName: firstLeaderPlayer.name, isLeader: true),
-                        SKText(text: ': ${firstLeaderPlayer.score}'),
+                          key: const ValueKey("lead_player"),
+                          playerName: firstLeaderPlayer.name,
+                          isLeader: true,
+                        ),
+                        SKText(
+                          key: const ValueKey('lead_player_score'),
+                          text: ': ${firstLeaderPlayer.score}',
+                        ),
                       ],
                     );
                   } else {
                     return ScoreBoard(
-                        players: widget.players,
-                        leadPlayers: widget.leadPlayers);
+                      key: const ValueKey("scoreboard"),
+                      players: widget.players,
+                      leadPlayers: widget.leadPlayers,
+                    );
                   }
                 },
               ),

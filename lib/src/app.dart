@@ -80,7 +80,7 @@ class _MainApp extends State<MainApp> {
                 },
                 child: MaterialApp(
                   title: 'Skull King Score Counter',
-                  initialRoute: '/',
+                  initialRoute: baseUrl,
                   locale: state.locale,
                   localizationsDelegates: const [
                     AppLocalizations.delegate,

@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:skull_king_score_app/src/domain/entities/player_round_score.dart';
 import 'package:skull_king_score_app/src/domain/usecases/get_total_tricks_won.dart';
 
-import '../../mocks/game_bloc_mocks.dart';
+import '../../mocks/game_bloc_data_mocks.dart';
 
 void main() {
   group(GetTotalTricksWon, () {

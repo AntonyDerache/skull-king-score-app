@@ -103,6 +103,7 @@ class _Home extends State<Home> {
                       Container(
                         alignment: Alignment.topRight,
                         child: IconButton(
+                          key: const ValueKey("open_drawer_home_btn"),
                           iconSize: 28,
                           icon: const Icon(Icons.settings, color: Colors.white),
                           onPressed: () => openDrawer(),
@@ -116,7 +117,7 @@ class _Home extends State<Home> {
                     child: Padding(
                       padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                       child: SKButton(
-                        key: const ValueKey('test'),
+                        key: const ValueKey('start_btn'),
                         label: AppLocalizations.of(context)!.start,
                         textWeight: FontWeight.bold,
                         onPressed: () => play(context),

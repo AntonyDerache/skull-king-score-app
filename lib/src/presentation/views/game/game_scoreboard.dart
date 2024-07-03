@@ -20,24 +20,26 @@ class ScoreBoard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-        key: const ValueKey("scoreboard_expanded"),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 10,
-            mainAxisSpacing: scoreboardRowSpacing),
-        itemCount: players.length,
-        shrinkWrap: true,
-        itemBuilder: (BuildContext context, int index) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SKPlayerTitle(
-                playerName: players[index].name,
-                isLeader: leadPlayers.contains(players[index]),
-              ),
-              SKText(text: ': ${players[index].score.toString()}'),
-            ],
-          );
-        });
+      key: const ValueKey("scoreboard_expanded"),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 10,
+          mainAxisSpacing: scoreboardRowSpacing),
+      itemCount: players.length,
+      shrinkWrap: true,
+      itemBuilder: (BuildContext context, int index) {
+        return Row(
+          key: const ValueKey("scoreboard_grid_item"),
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SKPlayerTitle(
+              playerName: players[index].name,
+              isLeader: leadPlayers.contains(players[index]),
+            ),
+            SKText(text: ': ${players[index].score.toString()}'),
+          ],
+        );
+      },
+    );
   }
 }

@@ -8,11 +8,13 @@ class SKTextInput extends StatefulWidget {
     this.placeholder = "Enter...",
     this.text = "",
     this.onChange,
+    this.testKey,
   });
 
   final String placeholder;
   final String text;
   final Function(String)? onChange;
+  final String? testKey;
 
   @override
   State<SKTextInput> createState() => _SKTextInput();

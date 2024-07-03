@@ -33,6 +33,7 @@ class SKDrawer extends StatelessWidget {
       sigmaX: 10,
       sigmaY: 10,
       child: Drawer(
+        key: const ValueKey("drawer"),
         backgroundColor: secondaryColor.withAlpha(150),
         child: Padding(
           padding: const EdgeInsets.all(15.0),
@@ -55,11 +56,13 @@ class SKDrawer extends StatelessWidget {
                       ),
                     ),
                     InkWell(
+                      key: const ValueKey("drawer_help_btn"),
                       borderRadius: BorderRadius.circular(10),
                       child: ListTile(
                         title: SKText(
-                            text: AppLocalizations.of(context)!.help,
-                            fontSize: 18),
+                          text: AppLocalizations.of(context)!.help,
+                          fontSize: 18,
+                        ),
                       ),
                       onTap: () {
                         showModalBottomSheet(
@@ -74,6 +77,7 @@ class SKDrawer extends StatelessWidget {
                       },
                     ),
                     InkWell(
+                      key: const ValueKey("drawer_rules_btn"),
                       borderRadius: BorderRadius.circular(10),
                       child: ListTile(
                         title: Row(
@@ -90,14 +94,9 @@ class SKDrawer extends StatelessWidget {
                       ),
                       onTap: () => openRules(context),
                     ),
-                    // ListTile(
-                    //   title: SKText(
-                    //       text: AppLocalizations.of(context)!.stats,
-                    //       fontSize: 18),
-                    //   onTap: null,
-                    // ),
                     if (!isAtRoot)
                       InkWell(
+                        key: const ValueKey("drawer_home_btn"),
                         borderRadius: BorderRadius.circular(10),
                         child: ListTile(
                           title: SKText(
@@ -118,6 +117,7 @@ class SKDrawer extends StatelessWidget {
                     const iconSize = 24.0;
 
                     return DropdownButtonFormField(
+                      key: const ValueKey("language_dropdown"),
                       dropdownColor: secondaryColor,
                       elevation: 0,
                       iconSize: 0.0,
@@ -138,6 +138,8 @@ class SKDrawer extends StatelessWidget {
                       items: supportedLocales.map(
                         (LanguageState language) {
                           return DropdownMenuItem<String>(
+                            key: ValueKey(
+                                "language_dropdown_item_${language.locale.languageCode}"),
                             value: language.locale.languageCode,
                             alignment: Alignment.center,
                             child: IconButton(

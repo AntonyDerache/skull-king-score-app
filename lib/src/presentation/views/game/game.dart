@@ -148,8 +148,9 @@ class _Game extends State<StatefulWidget> {
                   return Column(
                     children: [
                       GameAppBar(
-                          leadPlayers: leadPlayers,
-                          players: state.playersInGame),
+                        leadPlayers: leadPlayers,
+                        players: state.playersInGame,
+                      ),
                       Expanded(
                         child: GamePlayerCardList(
                           players: state.playersInGame,
@@ -163,11 +164,14 @@ class _Game extends State<StatefulWidget> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             SKIconButton(
-                                icon: const Icon(Icons.arrow_back),
-                                onPressed: () => Navigator.pop(context)),
+                              key: const ValueKey("game_back_btn"),
+                              icon: const Icon(Icons.arrow_back),
+                              onPressed: () => Navigator.pop(context),
+                            ),
                             const SizedBox(width: 5),
                             Flexible(
                               child: SKButton(
+                                key: const ValueKey("game_end_round_btn"),
                                 label:
                                     '${AppLocalizations.of(context)!.endRound} ${state.round.getValue()}',
                                 onPressed: () => endRound(context, state.round),
@@ -175,6 +179,7 @@ class _Game extends State<StatefulWidget> {
                             ),
                             const SizedBox(width: 5),
                             SKIconButton(
+                              key: const ValueKey("open_drawer_game_btn"),
                               icon: const Icon(Icons.settings),
                               onPressed: () => openDrawer(),
                             ),

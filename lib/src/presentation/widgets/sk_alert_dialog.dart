@@ -30,14 +30,19 @@ class SKAlertDialog extends StatelessWidget {
         content: content,
         actions: [
           TextButton(
+            key: const ValueKey("alert_dialog_no"),
             onPressed: () => dismissDialog(context, DialogAcceptEnum.reject),
-            child: SKText(text: AppLocalizations.of(context)!.no),
+            child: SKText(
+              text: AppLocalizations.of(context)!.no,
+            ),
           ),
           TextButton(
             onPressed: () => dismissDialog(context, DialogAcceptEnum.approve),
             child: SKText(
-                text: AppLocalizations.of(context)!.yes,
-                color: Colors.blue.shade400),
+              key: const ValueKey("alert_dialog_yes"),
+              text: AppLocalizations.of(context)!.yes,
+              color: Colors.blue.shade400,
+            ),
           ),
         ],
       ),

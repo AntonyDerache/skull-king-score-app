@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:skull_king_score_app/src/presentation/cubit/language/language_state.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:skull_king_score_app/src/presentation/utils/constants.dart';
 
-Widget createWidgetUnderTest(Widget homeWidget) {
+Widget createWidgetUnderTest(Widget homeWidget,
+    {String? initialRoute = baseUrl}) {
   return MaterialApp(
     title: 'Skull King Score Counter',
+    initialRoute: initialRoute,
     locale: const EnglishLanguageState().locale,
     localizationsDelegates: const [
       AppLocalizations.delegate,
@@ -13,6 +16,6 @@ Widget createWidgetUnderTest(Widget homeWidget) {
       GlobalWidgetsLocalizations.delegate,
       GlobalCupertinoLocalizations.delegate,
     ],
-    home: homeWidget,
+    routes: {initialRoute!: (context) => homeWidget},
   );
 }

@@ -56,7 +56,7 @@ class GamePlayerCardList extends StatelessWidget {
                       CalculRoundScore.execute(round, playerRoundScore);
 
                   return SKPlayerCard(
-                    playerName: player.name,
+                    player: player,
                     isScoreLeader: leadPlayers.contains(player),
                     maxValue: round.getValue(),
                     playerRoundScore: playerRoundScore,

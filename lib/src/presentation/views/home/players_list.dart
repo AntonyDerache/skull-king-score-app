@@ -56,7 +56,7 @@ class _PlayersList extends State<PlayersList> {
       axis: Axis.vertical,
       sizeFactor: animation,
       child: PlayerListItem(
-        text: player.name,
+        player: player,
         onChange: (value) => onPlayerNameChange(player.id, value),
       ),
     );

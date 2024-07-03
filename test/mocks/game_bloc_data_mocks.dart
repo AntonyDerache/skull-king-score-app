@@ -39,3 +39,12 @@ Map<BonusKey, Bonus> mockBonusMapWithOnePirate = {
   BonusKey.alliance: const Bonus(20),
   BonusKey.rascalBet: const Bonus(10),
 };
+
+Map<BonusKey, Bonus> mockBonusMapWithOneOfEach = {
+  BonusKey.pirate: const Bonus(30, 1),
+  BonusKey.mermaid: const Bonus(20, 1),
+  BonusKey.skullKing: const Bonus(40, 1),
+  BonusKey.tenPoints: const Bonus(10, 1),
+  BonusKey.alliance: const Bonus(20, 1),
+  BonusKey.rascalBet: const Bonus(10, 1),
+};

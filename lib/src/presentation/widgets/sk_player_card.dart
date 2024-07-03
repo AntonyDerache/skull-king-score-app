@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:skull_king_score_app/src/domain/entities/bonus.dart';
+import 'package:skull_king_score_app/src/domain/entities/player.dart';
 import 'package:skull_king_score_app/src/domain/entities/player_round_score.dart';
 import 'package:skull_king_score_app/src/presentation/utils/color.dart';
 import 'package:skull_king_score_app/src/presentation/widgets/sk_backdrop_filter.dart';
@@ -13,7 +14,7 @@ class SKPlayerCard extends StatelessWidget {
   const SKPlayerCard({
     super.key,
     this.isScoreLeader = false,
-    this.playerName = '',
+    required this.player,
     required this.currentRoundScore,
     required this.maxValue,
     required this.playerRoundScore,
@@ -28,7 +29,7 @@ class SKPlayerCard extends StatelessWidget {
   });
 
   final bool isScoreLeader;
-  final String playerName;
+  final Player player;
   final int maxValue;
   final int currentRoundScore;
   final PlayerRoundScore playerRoundScore;
@@ -62,7 +63,8 @@ class SKPlayerCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SKPlayerTitle(playerName: playerName, isLeader: isScoreLeader)
+                  SKPlayerTitle(
+                      playerName: player.name, isLeader: isScoreLeader)
                 ],
               ),
               const SizedBox(height: 15),
@@ -74,6 +76,7 @@ class SKPlayerCard extends StatelessWidget {
                       SKText(text: AppLocalizations.of(context)!.bids),
                       const SizedBox(width: 10),
                       SKNumberField(
+                        key: ValueKey('${player.id}_bids_btn'),
                         maxValue: maxValue,
                         value: playerRoundScore.bids,
                         onChange: (String value) => onBidsChanged?.call(value),
@@ -85,6 +88,7 @@ class SKPlayerCard extends StatelessWidget {
                       SKText(text: AppLocalizations.of(context)!.tricks),
                       const SizedBox(width: 10),
                       SKNumberField(
+                        key: ValueKey('${player.id}_tricks_btn'),
                         maxValue: maxValue,
                         value: playerRoundScore.tricksWon,
                         onChange: (String value) =>
@@ -101,6 +105,7 @@ class SKPlayerCard extends StatelessWidget {
                 spacing: 10,
                 children: [
                   SKBonusIconButton(
+                    key: ValueKey('${player.id}_pirate_bonus_icon'),
                     icon: const Image(
                         image: AssetImage('assets/icons/pirate.png')),
                     maxAmount: 5,
@@ -109,6 +114,7 @@ class SKPlayerCard extends StatelessWidget {
                     onPressed: (amount) => onPiratePressed?.call(amount),
                   ),
                   SKBonusIconButton(
+                    key: ValueKey('${player.id}_mermaid_bonus_icon'),
                     icon: const Image(
                         image: AssetImage('assets/icons/mermaid.png')),
                     maxAmount: 2,
@@ -117,6 +123,7 @@ class SKPlayerCard extends StatelessWidget {
                     onPressed: (amount) => onMermaidPressed?.call(amount),
                   ),
                   SKBonusIconButton(
+                    key: ValueKey('${player.id}_skull_king_bonus_icon'),
                     icon: const Image(
                         image: AssetImage('assets/icons/skull_king.png')),
                     maxAmount: 1,
@@ -125,6 +132,7 @@ class SKPlayerCard extends StatelessWidget {
                     onPressed: (amount) => onSkullKingPressed?.call(amount),
                   ),
                   SKBonusIconButton(
+                    key: ValueKey('${player.id}_ten_bonus_icon'),
                     icon: const SKText(
                         text: '+10', color: Colors.black, fontSize: 11),
                     maxAmount: 10,
@@ -133,6 +141,7 @@ class SKPlayerCard extends StatelessWidget {
                     onPressed: (amount) => onTenPressed?.call(amount),
                   ),
                   SKBonusIconButton(
+                    key: ValueKey('${player.id}_alliance_bonus_icon'),
                     icon: const Image(
                         image: AssetImage('assets/icons/coins.png')),
                     maxAmount: 2,
@@ -141,6 +150,7 @@ class SKPlayerCard extends StatelessWidget {
                     onPressed: (amount) => onAllyPressed?.call(amount),
                   ),
                   SKBonusIconButton(
+                    key: ValueKey('${player.id}_bet_bonus_icon'),
                     icon:
                         const Image(image: AssetImage('assets/icons/pari.png')),
                     maxAmount: 2,
@@ -154,10 +164,19 @@ class SKPlayerCard extends StatelessWidget {
               Row(
                 children: [
                   SKText(text: AppLocalizations.of(context)!.roundScore),
-                  currentRoundScore > 0
-                      ? SKText(
-                          text: ' +$currentRoundScore', color: Colors.green)
-                      : SKText(text: ' $currentRoundScore', color: Colors.red)
+                  Builder(
+                    builder: (context) {
+                      Color color =
+                          currentRoundScore > 0 ? Colors.green : Colors.red;
+                      String text = currentRoundScore > 0
+                          ? ' +$currentRoundScore'
+                          : ' $currentRoundScore';
+                      return SKText(
+                          key: ValueKey("${player.id}_score_preview"),
+                          text: text,
+                          color: color);
+                    },
+                  )
                 ],
               )
             ],

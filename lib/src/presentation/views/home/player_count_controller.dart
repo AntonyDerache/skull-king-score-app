@@ -20,6 +20,7 @@ class PlayerCountController extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         IconButton(
+          key: const ValueKey('btn_remove_player'),
           icon: const Icon(Icons.remove),
           iconSize: 32,
           color: Colors.white,

@@ -85,12 +85,14 @@ class Result extends StatelessWidget {
                                 crossAxisAlignment: WrapCrossAlignment.center,
                                 children: [
                                   SKPlayerTitle(
+                                    key: ValueKey('player_name_$index'),
                                     playerName: playerName,
                                     isLeader: isLeader,
                                     height: isLeader ? 42 : playerTitleHeight,
                                     fontSize: isLeader ? 28 : 20,
                                   ),
                                   SKText(
+                                    key: ValueKey('player_score_$index'),
                                     text: score,
                                     fontSize: isLeader ? 28 : 20,
                                   ),

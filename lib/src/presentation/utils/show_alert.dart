@@ -11,6 +11,7 @@ Future<DialogAcceptEnum?> showAlert(
   return await showDialog(
     context: context,
     builder: (_) => SKAlertDialog(
+      key: const ValueKey("alert_dialog"),
       title: title,
       content: SKText(
         text: content,
