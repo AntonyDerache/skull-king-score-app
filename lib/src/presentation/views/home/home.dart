@@ -89,14 +89,14 @@ class _Home extends State<Home> {
                           Container(
                               alignment: Alignment.topCenter,
                               child: const Image(
-                                height: 130,
-                                width: 130,
+                                height: 150,
+                                width: 150,
                                 opacity: AlwaysStoppedAnimation<double>(0.4),
                                 image:
                                     AssetImage('assets/images/logo_saturé.png'),
                               )),
                           Container(
-                            height: 150,
+                            height: 175,
                             alignment: Alignment.center,
                             child: const FittedBox(
                               fit: BoxFit.contain,

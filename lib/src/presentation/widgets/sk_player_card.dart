@@ -56,7 +56,7 @@ class SKPlayerCard extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.only(
-              top: 10, left: 20.0, right: 20.0, bottom: 15.0),
+              top: 10, left: 15.0, right: 15.0, bottom: 15.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -102,7 +102,8 @@ class SKPlayerCard extends StatelessWidget {
               SKText(text: AppLocalizations.of(context)!.bonusPoints),
               const SizedBox(height: 5),
               Wrap(
-                spacing: 10,
+                spacing: 7,
+                runSpacing: 7,
                 children: [
                   SKBonusIconButton(
                     key: ValueKey('${player.id}_pirate_bonus_icon'),
@@ -134,7 +135,7 @@ class SKPlayerCard extends StatelessWidget {
                   SKBonusIconButton(
                     key: ValueKey('${player.id}_ten_bonus_icon'),
                     icon: const SKText(
-                        text: '+10', color: Colors.black, fontSize: 11),
+                        text: '+10', color: Colors.black, fontSize: 14),
                     maxAmount: 10,
                     value: playerRoundScore
                         .bonusPoints[BonusKey.tenPoints]!.amount,

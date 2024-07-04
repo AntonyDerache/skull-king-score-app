@@ -83,7 +83,7 @@ class HelpModalView extends StatelessWidget {
                         description:
                             AppLocalizations.of(context)!.ten_point_description,
                         icon: const SKText(
-                            text: '+10', color: Colors.black, fontSize: 11),
+                            text: '+10', color: Colors.black, fontSize: 14),
                       ),
                       const SizedBox(height: 15),
                       HelpModalBonusInfo(

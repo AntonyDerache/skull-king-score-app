@@ -24,6 +24,7 @@ class SKNumberField extends StatelessWidget{
     return CartStepperInt(
       axis: Axis.vertical,
       alwaysExpanded: true,
+      size: 40,
       style: const CartStepperStyle(
           backgroundColor: Colors.transparent,
           activeForegroundColor: lightColor,

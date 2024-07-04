@@ -29,8 +29,8 @@ class SKBonusIconButton extends StatelessWidget {
       clipBehavior: Clip.none,
       children: [
         Container(
-          height: 36,
-          width: 36,
+          height: 44,
+          width: 44,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -39,8 +39,8 @@ class SKBonusIconButton extends StatelessWidget {
             child: InkWell(
               child: Center(
                 child: Ink(
-                  width: 24,
-                  height: 24,
+                  width: 30,
+                  height: 30,
                   child: Center(child: icon),
                 ),
               ),

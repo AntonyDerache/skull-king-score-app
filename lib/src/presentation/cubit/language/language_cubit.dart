@@ -35,7 +35,7 @@ class LanguageCubit extends Cubit<LanguageState> {
     } else {
       url = Uri.parse(urlEnRules);
     }
-    if (await canLaunchUrl(url) && !await launchUrl(url)) {
+    if (!await launchUrl(url)) {
       throw Exception('Could not launch $url');
     }
   }
