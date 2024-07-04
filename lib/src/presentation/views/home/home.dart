@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:skull_king_score_app/src/domain/entities/player.dart';
 import 'package:skull_king_score_app/src/domain/usecases/count_number_of_players_with_empty_name.dart';
 import 'package:skull_king_score_app/src/presentation/bloc/game/game_bloc.dart';
@@ -78,44 +79,53 @@ class _Home extends State<Home> {
               padding: const EdgeInsets.all(20),
               child: Column(
                 children: [
-                  Stack(
-                    children: [
-                      Container(
-                          alignment: Alignment.topCenter,
-                          child: const Image(
+                  KeyboardVisibilityBuilder(
+                    builder: (context, isKeyboardVisible) {
+                      if (isKeyboardVisible) {
+                        return const SizedBox.shrink();
+                      }
+                      return Stack(
+                        children: [
+                          Container(
+                              alignment: Alignment.topCenter,
+                              child: const Image(
+                                height: 130,
+                                width: 130,
+                                opacity: AlwaysStoppedAnimation<double>(0.4),
+                                image:
+                                    AssetImage('assets/images/logo_saturé.png'),
+                              )),
+                          Container(
                             height: 150,
-                            width: 150,
-                            opacity: AlwaysStoppedAnimation<double>(0.4),
-                            image: AssetImage('assets/images/logo_saturé.png'),
-                          )),
-                      Container(
-                        height: 175,
-                        alignment: Alignment.center,
-                        child: const FittedBox(
-                          fit: BoxFit.contain,
-                          child: SKText(
-                              text: 'Skull King',
-                              fontFamily: 'Allura',
-                              fontSize: 82,
-                              color: Colors.white),
-                        ),
-                      ),
-                      Container(
-                        alignment: Alignment.topRight,
-                        child: IconButton(
-                          key: const ValueKey("open_drawer_home_btn"),
-                          iconSize: 28,
-                          icon: const Icon(Icons.settings, color: Colors.white),
-                          onPressed: () => openDrawer(),
-                        ),
-                      ),
-                    ],
+                            alignment: Alignment.center,
+                            child: const FittedBox(
+                              fit: BoxFit.contain,
+                              child: SKText(
+                                  text: 'Skull King',
+                                  fontFamily: 'Allura',
+                                  fontSize: 82,
+                                  color: Colors.white),
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.topRight,
+                            child: IconButton(
+                              key: const ValueKey("open_drawer_home_btn"),
+                              iconSize: 28,
+                              icon: const Icon(Icons.settings,
+                                  color: Colors.white),
+                              onPressed: () => openDrawer(),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
                   ),
                   const PlayersList(),
                   Container(
                     alignment: Alignment.bottomCenter,
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                      padding: const EdgeInsets.only(top: 4, bottom: 4),
                       child: SKButton(
                         key: const ValueKey('start_btn'),
                         label: AppLocalizations.of(context)!.start,
@@ -124,7 +134,7 @@ class _Home extends State<Home> {
                       ),
                     ),
                   ),
-                  const SKText(text: '@copyright Antony', fontSize: 9),
+                  const SKText(text: '@copyright Antony', fontSize: 6)
                 ],
               ),
             ),
