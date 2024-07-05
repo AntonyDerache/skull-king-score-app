@@ -133,63 +133,70 @@ class _Game extends State<StatefulWidget> {
         child: Stack(children: [
           const GameBackground(),
           SafeArea(
-            child: Padding(
-              padding:
-                  const EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
-              child: BlocBuilder<GameBloc, GameState>(
-                buildWhen: (previous, current) {
-                  return current.round.getValue() >= 1;
-                },
-                builder: (context, state) {
-                  List<Player> leadPlayers = GetLeadPlayers.execute(
-                    List.from(state.playersInGame),
-                  );
-
-                  return Column(
-                    children: [
-                      GameAppBar(
-                        leadPlayers: leadPlayers,
-                        players: state.playersInGame,
-                      ),
-                      Expanded(
-                        child: GamePlayerCardList(
-                          players: state.playersInGame,
-                          leadPlayers: leadPlayers,
-                          round: state.round,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: BlocBuilder<GameBloc, GameState>(
+              buildWhen: (previous, current) {
+                return current.round.getValue() >= 1;
+              },
+              builder: (context, state) {
+                List<Player> leadPlayers = GetLeadPlayers.execute(
+                  List.from(state.playersInGame),
+                );
+                return Column(
+                  children: [
+                    GameAppBar(
+                      leadPlayers: leadPlayers,
+                      players: state.playersInGame,
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                        child: Column(
                           children: [
-                            SKIconButton(
-                              key: const ValueKey("game_back_btn"),
-                              icon: const Icon(Icons.arrow_back),
-                              onPressed: () => Navigator.pop(context),
-                            ),
-                            const SizedBox(width: 5),
-                            Flexible(
-                              child: SKButton(
-                                key: const ValueKey("game_end_round_btn"),
-                                label:
-                                    '${AppLocalizations.of(context)!.endRound} ${state.round.getValue()}',
-                                onPressed: () => endRound(context, state.round),
+                            Expanded(
+                              child: GamePlayerCardList(
+                                players: state.playersInGame,
+                                leadPlayers: leadPlayers,
+                                round: state.round,
                               ),
                             ),
-                            const SizedBox(width: 5),
-                            SKIconButton(
-                              key: const ValueKey("open_drawer_game_btn"),
-                              icon: const Icon(Icons.settings),
-                              onPressed: () => openDrawer(),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  SKIconButton(
+                                    key: const ValueKey("game_back_btn"),
+                                    icon: const Icon(Icons.arrow_back),
+                                    onPressed: () => Navigator.pop(context),
+                                  ),
+                                  const SizedBox(width: 5),
+                                  Flexible(
+                                    child: SKButton(
+                                      key: const ValueKey("game_end_round_btn"),
+                                      label:
+                                          '${AppLocalizations.of(context)!.endRound} ${state.round.getValue()}',
+                                      onPressed: () =>
+                                          endRound(context, state.round),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 5),
+                                  SKIconButton(
+                                    key: const ValueKey("open_drawer_game_btn"),
+                                    icon: const Icon(Icons.settings),
+                                    onPressed: () => openDrawer(),
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
                       ),
-                    ],
-                  );
-                },
-              ),
+                    ),
+                  ],
+                );
+              },
             ),
           ),
         ]),
