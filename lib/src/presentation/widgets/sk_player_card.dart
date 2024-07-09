@@ -64,7 +64,9 @@ class SKPlayerCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SKPlayerTitle(
-                      playerName: player.name, isLeader: isScoreLeader)
+                    playerName: player.name,
+                    isLeader: isScoreLeader,
+                  )
                 ],
               ),
               const SizedBox(height: 15),

@@ -19,7 +19,7 @@
   "missingPlayerNameTitle": "Missing players names",
   "missingPlayerNameContent": "At least one player has no name. Do you wish to continue?\n\nThe empty player will be removed.",
 
-  "result": "Game Result!",
+  "result": "Game Results!",
   "home": "Home",
 
   "help": "Help",
@@ -33,9 +33,9 @@
   "ten_point": "+10",
   "ten_point_description": "Add Ten points for any 14 cards the current bids' winner gained",
   "alliance": "Alliance",
-  "alliance_description": "Add an Alliance for players who both won their respective bids",
+  "alliance_description": "Add an Alliance for both players who won their respective bids",
   "rascal_bet": "Rascal Bet",
-  "rascal_bet_description": "Add Rascal Bet when a player win a bid using the Pirate Rascal and bet on his win",
+  "rascal_bet_description": "If a player win a bid with a Rascal Pirate Bet, he can bet 0 (0), 10 (1) or 20 (2) points",
   "global": "Global",
   "globalHowToUse": "In the case where you add too much specific bonus than intended, you can reset it to 0 either with a long press on the icon or overflowing their max value (max value of +10 bonus is 10 times)",
   "allyHowToUse": "If an alliance between 2 players comes to be invalid, then you have to reset the ally bonus icon to 0 (or 1 in the case of a player is allied with 2 different players)",

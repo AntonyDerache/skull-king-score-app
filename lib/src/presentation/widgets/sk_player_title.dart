@@ -28,7 +28,11 @@ class SKPlayerTitle extends StatelessWidget {
             width: height,
             image: const AssetImage('assets/images/logo.png'),
           ),
-        SKText(text: playerName, fontSize: fontSize)
+        SKText(
+          text: playerName,
+          fontSize: fontSize,
+          fontWeight: FontWeight.bold,
+        )
       ],
     );
   }

@@ -108,7 +108,7 @@ class HelpModalView extends StatelessWidget {
                 ),
                 Container(
                   alignment: Alignment.centerLeft,
-                  padding: const EdgeInsets.symmetric(vertical: 25),
+                  padding: const EdgeInsets.only(top: 35, bottom: 25),
                   child: SKText(
                     text: AppLocalizations.of(context)!.help,
                     fontSize: 20,
@@ -121,7 +121,7 @@ class HelpModalView extends StatelessWidget {
                     children: [
                       Container(
                         alignment: Alignment.centerLeft,
-                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        padding: const EdgeInsets.only(bottom: 10.0),
                         child: SKText(
                           text: AppLocalizations.of(context)!.global,
                           fontWeight: FontWeight.bold,
@@ -130,7 +130,8 @@ class HelpModalView extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(left: 10.0),
                         child: SKText(
-                            text: AppLocalizations.of(context)!.globalHowToUse),
+                          text: AppLocalizations.of(context)!.globalHowToUse,
+                        ),
                       ),
                       Container(
                         alignment: Alignment.centerLeft,
