@@ -2,10 +2,6 @@
 
 Skull King Score is a mobile application to guide players counting their score while playing board game _Skull King_ through an entire game.
 
-## ⚙️ Work in progress
-
-This project is still on development and will soon be available.
-
 ## 🚀 Features
 
 - Keep track of player's score for each round
